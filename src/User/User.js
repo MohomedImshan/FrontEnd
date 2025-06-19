@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
+import Header from '../Header/Header'
 
 function User() {
     const [users,setUsers] = useState([])
@@ -17,6 +18,7 @@ function User() {
     },[])
   return (
     <div>
+        <Header />
       <div className='home'>
             <table className='table table-striped'>
                 <thead>
