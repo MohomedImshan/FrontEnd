@@ -1,3 +1,5 @@
+
+
 import User from './User/User';
 import './App.css';
 import {BrowserRouter,Routes,Route} from "react-router-dom"
@@ -26,6 +28,13 @@ function App() {
 
           <Route path="/RequestForm" element={<RequestForm />} />
           <Route path="/Notification" element={<Notification />} />
+
+
+      
+        
+          <Route path="/RequestForm" element={<RequestForm />} />
+          <Route path="/Notification" element={<Notification />} />
+
 
         </Routes>
       </BrowserRouter>
