@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
-import Header from '../index/header'
+import Header from '../Header/Header'
 
 import { Link } from 'react-router-dom'
 
@@ -28,7 +28,8 @@ function Notification(){
 
     return (
         <div>
-
+            < Header/>
+        <div>
           <h1 className='text-center'>Request Notifications</h1>
           <div className='table-notification'>
             <table className='table table-striped table-hover table-bordered'>
@@ -59,7 +60,7 @@ function Notification(){
                             <button className="btn btn-sm btn-outline-info">View</button>
                         </td>
                         <td>
-                            <button className="btn btn-sm btn-outline-primary">Pending</button>
+                            <button className="btn btn-sm btn-outline-primary" formAction=''>Pending</button>
                             <button className="btn btn-sm btn-outline-success me-2">Approve</button>
                             <button className="btn btn-sm btn-ouline-danger">Reject</button>
                         </td>
@@ -73,16 +74,8 @@ function Notification(){
             </table>
           </div>
         </div> 
+        </div>
    );
-}
-
-export default Notification;
-
-
-          <h1 className='text-center'>Requet Notifications</h1>
-          
-        </div> 
-    );
 }
 
 export default Notification;
