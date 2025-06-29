@@ -4,50 +4,70 @@ import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {Modal , Button ,Form} from 'react-bootstrap'
 
-function RequestForm(){
+function RequestForm() {
+  const [formData, setFormData] = useState({
+    department: '',
+    machine_code: '',
+    type: '',
+    description: '',
+    employee_name: ''
+  });
 
-    return(
-        <div>
-            <div>
-                <Header />
-            </div>
-            <h1>Request Form </h1>
-            <div class="container text-center">
-                <form class="row g-3">
-                    <div class="col-md-6">
-                        <label for="inputEmail4" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="inputEmail4"></input>
-                    </div>
-                    <div class="col-md-6">
-                        <label for="inputCity" class="form-label">City</label>
-                        <input type="text" class="form-control" id="inputCity"></input>
-                     </div>
-                    <div class="col-md-4">
-                        <label for="inputState" class="form-label">State</label>
-                        <select id="inputState" class="form-select">
-                            <option selected>Choose...</option>
-                            <option>...</option>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="inputZip" class="form-label">Zip</label>
-                        <input type="text" class="form-control" id="inputZip">
-                    </div>
-  <div class="col-12">
-    <div class="form-check">
-      <input class="form-check-input" type="checkbox" id="gridCheck">
-      <label class="form-check-label" for="gridCheck">
-        Check me out
-      </label>
-    </div>
-  </div>
-  <div class="col-12">
-    <button type="submit" class="btn btn-primary">Sign in</button>
-  </div>
-</form>
-            </div>
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await axios.post('http://localhost:8800/api/requests', formData);
+    setFormData({ department: '', machine_code: '', type: '', description: '', employee_name: '' });
+    window.dispatchEvent(new Event('request-submitted'));
+  };
+
+  return (
+    <div>
+        < Header/>
+    <div className="border shadow bg-light rounded mx-auto my-4 p-2 w-50 h-auto" >
+      <h2 className="mb-4">Request Form for get Spare Parts</h2>
+      <form onSubmit={handleSubmit}>
+
+        <div className="mb-3">
+          <label class="col-form-label">Department</label>
+          <input className="form-control" required
+            value={formData.department}
+            onChange={e => setFormData({ ...formData, department: e.target.value })} />
         </div>
-    )
+
+        <div className="mb-3">
+          <label>Machine Code</label>
+          <input className="form-control " required
+            value={formData.machine_code}
+            onChange={e => setFormData({ ...formData, machine_code: e.target.value })} />
+        </div>
+
+        <div className="mb-3">
+          <label>Type</label>
+          <input className="form-control" required
+            value={formData.type}
+            onChange={e => setFormData({ ...formData, type: e.target.value })} />
+        </div>
+
+        <div className="mb-3">
+          <label>Description</label>
+          <textarea className="form-control" required
+            value={formData.description}
+            onChange={e => setFormData({ ...formData, description: e.target.value })} />
+        </div>
+
+        <div className="mb-3">
+          <label>Employee Name</label>
+          <input className="form-control" required
+            value={formData.employee_name}
+            onChange={e => setFormData({ ...formData, employee_name: e.target.value })} />
+        </div>
+
+        <button type="submit" className="btn btn-sm btn-outline-primary mb-2">Submit</button>
+      </form>
+    </div>
+    </div>
+  );
 }
 
-export default RequestForm
+export default RequestForm;
+    
