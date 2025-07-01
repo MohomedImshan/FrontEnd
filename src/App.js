@@ -7,7 +7,7 @@ import TechnicianDashboard from './Position/TechnicianDashboard';
 import AssistantEngineerDashBoard from './Position/AssistantEngineerDashBoard';
 import Register from './api/Register';
 import Login from './api/Login';
-
+import SpareParts from './Position/SpareParts';
 //requestform
 import RequestForm from './Request/RequestForm';
 import Notification from './Request/Notification';
@@ -44,7 +44,7 @@ function App() {
          
           <Route path="/RequestForm" element={<RequestForm />} />
           <Route path="/Notification" element={<Notification />} />
-
+          <Route path="/SpareParts" element={<SpareParts />} />
          
 
         {userPosition === 'Engineer' &&(
