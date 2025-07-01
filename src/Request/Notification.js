@@ -1,9 +1,9 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
-import Header from '../index/header'
+import Header from '../Header/Header.js'
 
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 
 function Notification(){
 
@@ -28,7 +28,7 @@ function Notification(){
 
     return (
         <div>
-
+            <Header />
           <h1 className='text-center'>Request Notifications</h1>
           <div className='table-notification'>
             <table className='table table-striped table-hover table-bordered'>
@@ -74,15 +74,6 @@ function Notification(){
           </div>
         </div> 
    );
-}
-
-export default Notification;
-
-
-          <h1 className='text-center'>Requet Notifications</h1>
-          
-        </div> 
-    );
 }
 
 export default Notification;

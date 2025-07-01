@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import validation from './RegisterValidation'
+import RegisterValidation from './RegisterValidation'
 import './index.css'
 
 function Register() {
@@ -25,16 +25,14 @@ function Register() {
     const handleSubmit = (event)=>{
         event.preventDefault()
 
-        const validationErrors = validation(values)
+        const validationErrors = RegisterValidation(values)
         setErrors(validationErrors)
         if(Object.keys(validationErrors).length === 0){
-            axios.post("http://localhost:8801/api/register",values)
+            axios.post("http://localhost:8800/api/register",values)
             .then(res=>{
-                if(res.data.message === "Email is already registered"){
-                    setErrors({email:res.data.message})
-                }else{
+                
                     navigate('/')
-                }
+                
             })
             .catch(err=>console.log(err))
         }
@@ -67,7 +65,7 @@ function Register() {
                     <select className="form-select" name='position' value={values.position} onChange={handleInput} aria-label="Default select example">
                         <option>Open this select menu</option>
                         <option value="Engineer">Engineer</option>
-                        <option value="Assistant_Engineer">Assistant Engineer</option>
+                        <option value="Assistant-Engineer">Assistant Engineer</option>
                         <option value="Technician">Technician</option>
                     </select>
                 </div>

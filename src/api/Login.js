@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Login = ({onLogin}) => {
 
@@ -63,6 +63,7 @@ const Login = ({onLogin}) => {
           </div>
 
           <button onClick={handleLogin} className='btn btn-success' disabled={!email||!password}>Login</button>
+          <p>Didn't have an Account:<button className='btn btn-light'><Link to={"/Register"}>Register</Link></button></p>
         </form>
 
       </div>
