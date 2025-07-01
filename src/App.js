@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import EngineerDashboard from './Position/EngineerDashboard';
 import Register from './api/Register';
 import Login from './api/Login';
-
+import SpareParts from './Position/SpareParts';
 //requestform
 import RequestForm from './Request/RequestForm';
 import Notification from './Request/Notification';
@@ -34,7 +34,7 @@ function App() {
         
           <Route path="/RequestForm" element={<RequestForm />} />
           <Route path="/Notification" element={<Notification />} />
-
+          <Route path="/SpareParts" element={<SpareParts />} />
 
         </Routes>
       </BrowserRouter>
