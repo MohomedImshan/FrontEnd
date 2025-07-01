@@ -24,6 +24,8 @@ function Notification(){
     //Load data on component mount
     useEffect(() => {
         fetchRequests();
+        window.addEventListener('request-submitted', fetchRequests);
+    return () => window.removeEventListener('request-submitted', fetchRequests);
     }, []);
 
     return (
