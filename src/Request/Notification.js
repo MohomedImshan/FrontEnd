@@ -1,16 +1,16 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 
-import Header from '../Header/Header.js'
+import Header from '../Header/Header'
 
-// import { Link } from 'react-router-dom'
+//import { Link } from 'react-router-dom'
 
 function Notification() {
     const [requests, setRequests] = useState([]);
 
     const fetchRequests = async () => {
         try {
-            const res = await axios.get('http://localhost:8800/api/requests');
+            const res = await axios.get('http://localhost:8800/api/Notification');
             setRequests(res.data.requests || []);
         } catch (err) {
             console.log(err);
@@ -23,7 +23,7 @@ function Notification() {
 
     return (
         <div>
-
+            <Header />
           <h1 className='text-center'>Request Notifications</h1>
           <div className='table-notification'>
             <table className='table table-striped table-hover table-bordered'>

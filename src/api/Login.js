@@ -12,7 +12,7 @@ const Login = ({onLogin}) => {
   const handleLogin = async (event)=>{
     event.preventDefault()
     try{
-      const res = await axios.post('http://localhost:8800/api/login',{email,password})
+      const res = await axios.post('http://localhost:8800/login',{email,password})
       const {position} = res.data
       onLogin(position)
 

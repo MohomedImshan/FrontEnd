@@ -7,11 +7,12 @@ import TechnicianDashboard from './Position/TechnicianDashboard';
 import AssistantEngineerDashBoard from './Position/AssistantEngineerDashBoard';
 import Register from './api/Register';
 import Login from './api/Login';
-import SpareParts from './Position/SpareParts';
+import SpareParts from './Spare-Parts/SpareParts';
 //requestform
 import RequestForm from './Request/RequestForm';
 import Notification from './Request/Notification';
 import { useEffect, useState } from 'react';
+import AddEmployee from './api/AddEmployee';
 
 
 function App() {
@@ -40,11 +41,12 @@ function App() {
           <Route path="/User" element={<User />} />
 
           <Route path="/" element={<Login onLogin={handleLogin} />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/Register" element={<Register />} />
          
           <Route path="/RequestForm" element={<RequestForm />} />
           <Route path="/Notification" element={<Notification />} />
           <Route path="/SpareParts" element={<SpareParts />} />
+          <Route path="/Add-Employee" element={<AddEmployee />}></Route>
          
 
         {userPosition === 'Engineer' &&(

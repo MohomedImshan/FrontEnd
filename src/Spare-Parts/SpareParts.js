@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import Header from '../Header/Header';
 
 const SpareParts = () => {
     const [spareParts, setSpareParts] = useState([]);
@@ -13,7 +14,7 @@ const SpareParts = () => {
 
     const fetchSpareParts = async () => {
         try {
-            const res = await axios.get('http://localhost:8801/api/spareparts');
+            const res = await axios.get('http://localhost:8800/api/spareparts');
             setSpareParts(res.data);
         } catch (err) {
             console.error('Error fetching spare parts:', err);
@@ -32,9 +33,9 @@ const SpareParts = () => {
         e.preventDefault();
         try {
             if (editingId) {
-                await axios.put(`http://localhost:8801/api/spareparts/${editingId}`, formData);
+                await axios.put(`http://localhost:8800/api/spareparts/${editingId}`, formData);
             } else {
-                await axios.post('http://localhost:8801/api/spareparts', formData);
+                await axios.post('http://localhost:8800/api/spareparts', formData);
             }
             fetchSpareParts();
             setFormData({ department: '', type: '', item_name: '', quantity: '' });
@@ -46,7 +47,7 @@ const SpareParts = () => {
 
     const handleDelete = async id => {
         try {
-            await axios.delete(`http://localhost:8801/api/spareparts/${id}`);
+            await axios.delete(`http://localhost:8800/api/spareparts/${id}`);
             fetchSpareParts();
         } catch (err) {
             console.error('Error deleting spare part:', err);
@@ -60,6 +61,8 @@ const SpareParts = () => {
 
     return (
         <div style={{ padding: '20px' }}>
+
+            <Header />
             <h2>Spare Parts</h2>
 
             <form onSubmit={handleSubmit}>
