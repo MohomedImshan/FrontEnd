@@ -1,8 +1,9 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-
 import Header from '../Header/Header'
+import { Link } from 'react-router-dom'
 
+<<<<<<< Updated upstream
 import { Link } from 'react-router-dom'
 
 function Notification(){
@@ -19,6 +20,22 @@ function Notification(){
             console.log(err)
         }
         
+=======
+function Notification(){
+
+    //Table data state to store fetched requests
+    const [requests,setRequests] = useState([]);
+
+    //Fetch all requets from backend
+    const fetchRequests = async () => {
+        try{
+            const res = await axios.get('http://localhost:8800/api/notification')
+            /*setRequests(res.data.requests || [])*/
+            .then(res => setRequests(res.data))
+        }catch(err){
+            console.log(err)
+        }  
+>>>>>>> Stashed changes
     };
 
     //Load data on component mount
@@ -26,7 +43,11 @@ function Notification(){
         fetchRequests();
         window.addEventListener('request-submitted', fetchRequests);
     return () => window.removeEventListener('request-submitted', fetchRequests);
+<<<<<<< Updated upstream
     }, []);
+=======
+    }, [])
+>>>>>>> Stashed changes
 
     return (
         <div>
