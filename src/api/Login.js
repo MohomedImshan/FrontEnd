@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Login = ({onLogin}) => {
 
@@ -12,7 +12,7 @@ const Login = ({onLogin}) => {
   const handleLogin = async (event)=>{
     event.preventDefault()
     try{
-      const res = await axios.post('http://localhost:8800/api/login',{email,password})
+      const res = await axios.post('http://localhost:8800/login',{email,password})
       const {position} = res.data
       onLogin(position)
 
@@ -63,6 +63,7 @@ const Login = ({onLogin}) => {
           </div>
 
           <button onClick={handleLogin} className='btn btn-success' disabled={!email||!password}>Login</button>
+          <p>Didn't have an Account:<button className='btn btn-light'><Link to={"/Register"}>Register</Link></button></p>
         </form>
 
       </div>

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import {Link,useNavigate} from 'react-router-dom'
+import '../Header/header.css'
 
 
 function Header() {
@@ -73,15 +74,13 @@ function Header() {
                 <Link className="nav-link " to={`/Requests/${userId}`} >Requests</Link>
             </li>
             <li>
-                <form className="form-inline my-2 my-lg-0 justify-item-right ">
+                 <form className="form-inline my-2 my-lg-0 justify-item-right ">
                     <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-
-                    
-            </form>
+                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>    
+                </form> 
             </li>
             <li className='btn-logout nav-item '>
-                <button className='btn btn-outline-danger my-2 my-sm-0'
+                <button className='logout-btn btn btn-outline-danger my-2 my-sm-0'
                 onClick={handleLogout}
                 >LogOut</button>
             </li>

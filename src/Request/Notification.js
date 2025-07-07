@@ -15,6 +15,7 @@ function Notification() {
     }
   };
 
+
   // Load data on component mount and on 'request-submitted' event
   useEffect(() => {
     fetchRequests();
@@ -81,14 +82,17 @@ export default Notification;
 import React, { useEffect, useState } from 'react'
 import Header from '../Header/Header'
 import { Link } from 'react-router-dom'
+=======
+import Header from '../Header/Header'
 
-function Notification(){
+//import { Link } from 'react-router-dom'
 
-    //Table data state to store fetched requests
-    const [requests,setRequests] = useState([]);
 
-    //Fetch all requets from backend
+function Notification() {
+    const [requests, setRequests] = useState([]);
+
     const fetchRequests = async () => {
+
         try{
             const res = await axios.get('http://localhost:8801/api/requests/addrRequest');
             setRequests(res.data.requests || [])
@@ -110,9 +114,16 @@ function Notification(){
         }catch(err){
             console.log(err)
         }  
+
+        try {
+            const res = await axios.get('http://localhost:8800/api/Notification');
+            setRequests(res.data.requests || []);
+        } catch (err) {
+            console.log(err);
+        }
+
     };
 
-    //Load data on component mount
     useEffect(() => {
         fetchRequests();
         window.addEventListener('request-submitted', fetchRequests);
@@ -123,9 +134,10 @@ function Notification(){
 
 
     return (
+        
         <div>
-            < Header/>
-        <div>
+            <Header />
+
           <h1 className='text-center'>Request Notifications</h1>
           <div className='table-notification'>
             <table className='table table-striped table-hover table-bordered'>
@@ -169,11 +181,11 @@ function Notification(){
             </tbody>
             </table>
           </div>
-        </div> 
+       
         </div>
    );
 }
-}
+
 export default Notification;
 
 */
