@@ -3,9 +3,6 @@ import React, { useEffect, useState } from 'react'
 import Header from '../Header/Header'
 import { Link } from 'react-router-dom'
 
-<<<<<<< Updated upstream
-import { Link } from 'react-router-dom'
-
 function Notification(){
 
     //Table data state to store fetched requests
@@ -19,8 +16,7 @@ function Notification(){
         }catch(err){
             console.log(err)
         }
-        
-=======
+
 function Notification(){
 
     //Table data state to store fetched requests
@@ -35,7 +31,6 @@ function Notification(){
         }catch(err){
             console.log(err)
         }  
->>>>>>> Stashed changes
     };
 
     //Load data on component mount
@@ -43,11 +38,10 @@ function Notification(){
         fetchRequests();
         window.addEventListener('request-submitted', fetchRequests);
     return () => window.removeEventListener('request-submitted', fetchRequests);
-<<<<<<< Updated upstream
     }, []);
-=======
-    }, [])
->>>>>>> Stashed changes
+
+    }
+
 
     return (
         <div>
@@ -100,6 +94,6 @@ function Notification(){
         </div>
    );
 }
-
+}
 export default Notification;
 
