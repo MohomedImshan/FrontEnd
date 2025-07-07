@@ -30,12 +30,6 @@ function App() {
           <Route path="/Notification" element={<Notification />} />
 
 
-      
-        
-          <Route path="/RequestForm" element={<RequestForm />} />
-          <Route path="/Notification" element={<Notification />} />
-
-
         </Routes>
       </BrowserRouter>
     </div>

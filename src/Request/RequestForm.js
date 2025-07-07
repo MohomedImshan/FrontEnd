@@ -3,18 +3,6 @@ import Header from '../Header/Header.js'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {Modal , Button ,Form} from 'react-bootstrap'
-try {
-  await axios.post('http://localhost:8801/api/requests/addRequest', );
-} catch (err) {
-  console.error("Axios error:", err.message);
-  if (err.response) {
-    console.log("Server response error:", err.response.data);
-  } else if (err.request) {
-    console.log("No response received:", err.request);
-  } else {
-    console.log("Setup error:", err.message);
-  }
-}
 
 function RequestForm() {
   const [formData, setFormData] = useState({
@@ -27,10 +15,15 @@ function RequestForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post('http://localhost:8800/api/requests', formData);
+    try {
+    const response = await axios.post('http://localhost:8801/api/requests/addRequest', formData);
     setFormData({ department: '', machine_code: '', type: '', description: '', employee_name: '' });
     window.dispatchEvent(new Event('request-submitted'));
-  };
+
+    console.log('Success:', response.data);
+  } catch (error) {
+    console.error('Axios error:', error);
+  }};
 
       return (
         <div>
