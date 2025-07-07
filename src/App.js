@@ -43,10 +43,11 @@ function App() {
           <Route path="/" element={<Login onLogin={handleLogin} />} />
           <Route path="/Register" element={<Register />} />
          
-          <Route path="/RequestForm" element={<RequestForm />} />
+          <Route path="/Requests" element={<RequestForm />} />
           <Route path="/Notification" element={<Notification />} />
           <Route path="/SpareParts" element={<SpareParts />} />
           <Route path="/Add-Employee" element={<AddEmployee />}></Route>
+          {/* <Route path="/Requests" element={<Request />} ></Route> */}
          
 
         {userPosition === 'Engineer' &&(

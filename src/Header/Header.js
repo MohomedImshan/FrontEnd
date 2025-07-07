@@ -68,10 +68,10 @@ function Header() {
             </li>)}
             {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
             <li className="nav-item">
-                <Link className="nav-link" to="/Notifications">Notification</Link>
+                <Link className="nav-link" to="/Notification">Notification</Link>
             </li>)}
             <li className="nav-item">
-                <Link className="nav-link " to={`/Requests/${userId}`} >Requests</Link>
+                <Link className="nav-link " to="/Requests" >Requests</Link>
             </li>
             <li>
                  <form className="form-inline my-2 my-lg-0 justify-item-right ">

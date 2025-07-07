@@ -29,9 +29,10 @@ function Register() {
         console.log("Form submitted ",values)
         const validationErrors = RegisterValidation(values)
         setErrors(validationErrors)
+        console.log("Form submitted ",validationErrors)
         setServerError('')
         if(Object.keys(validationErrors).length === 0 ){
-            axios.post("http://localhost:8800/register",values)
+            axios.post("http://localhost:8800/Register",values)
             .then(res =>{
                 navigate('/')
             })
