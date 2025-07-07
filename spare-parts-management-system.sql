@@ -3,7 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
+
 -- Generation Time: Jul 02, 2025 at 05:43 PM
+
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -24,6 +26,7 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+
 -- Table structure for table `spare_parts_tbl`
 --
 
@@ -38,6 +41,7 @@ CREATE TABLE `spare_parts_tbl` (
 -- --------------------------------------------------------
 
 --
+
 -- Table structure for table `users`
 --
 
@@ -46,6 +50,13 @@ CREATE TABLE `users` (
   `userName` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
   `password` varchar(255) NOT NULL,
+
+  `position` varchar(20) NOT NULL DEFAULT 'Technician',
+  `status` varchar(20) NOT NULL DEFAULT 'pending'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+
   `position` varchar(50) NOT NULL DEFAULT 'Technician',
   `status` varchar(50) NOT NULL DEFAULT 'Disabled'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
@@ -58,16 +69,18 @@ INSERT INTO `users` (`empNum`, `userName`, `email`, `password`, `position`, `sta
 (1, 'Engineer1', 'eng1@gmail.com', '$2b$10$KewVMOxChFTyClDndhARjOpqPJLhe0zYtwpeR.Tyqnh7tvs81pri.', 'Engineer', 'Disabled');
 
 --
+
 -- Indexes for dumped tables
 --
 
---
+
 -- Indexes for table `spare_parts_tbl`
 --
 ALTER TABLE `spare_parts_tbl`
   ADD PRIMARY KEY (`id`);
 
 --
+
 -- Indexes for table `users`
 --
 ALTER TABLE `users`
@@ -77,7 +90,12 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for dumped tables
 --
 
+
+-- AUTO_INCREMENT for table `users`
 --
+ALTER TABLE `users`
+  MODIFY `empNum` int(11) NOT NULL AUTO_INCREMENT;
+
 -- AUTO_INCREMENT for table `spare_parts_tbl`
 --
 ALTER TABLE `spare_parts_tbl`
@@ -88,8 +106,25 @@ ALTER TABLE `spare_parts_tbl`
 --
 ALTER TABLE `users`
   MODIFY `empNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
+
+/*Request Table-----------------*/
+
+CREATE TABLE requests (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  department VARCHAR(100),
+  machine_code VARCHAR(50),
+  type VARCHAR(100),
+  description TEXT,
+  employee_name VARCHAR(100),
+  date_time DATETIME DEFAULT CURRENT_TIMESTAMP,
+  status VARCHAR(50) DEFAULT 'Pending',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
+);
+
