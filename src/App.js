@@ -8,7 +8,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import EngineerDashboard from './Position/EngineerDashboard';
 import Register from './api/Register';
 import Login from './api/Login';
-import SpareParts from './Position/SpareParts';
+import SpareParts from './SpareParts/SpareParts';
 //requestform
 import RequestForm from './Request/RequestForm';
 import Notification from './Request/Notification';
