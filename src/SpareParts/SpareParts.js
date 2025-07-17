@@ -4,8 +4,12 @@ import './SpareParts.css';
 
 
 
+
+
 const SpareParts = () => {
     const [spareParts, setSpareParts] = useState([]);
+    const [showModal, setShowModal] = useState(false);
+
     const [formData, setFormData] = useState({
         department: '',
         type: '',
@@ -64,6 +68,57 @@ const SpareParts = () => {
     return (
         <div style={{ padding: '20px' }}>
             <h2>Spare Parts</h2>
+             <button className="add-button" onClick={() => setShowModal(true)}>
+    Add Spare Part
+  </button>
+
+  {showModal && (
+    <div className="modal-overlay">
+      <div className="modal">
+        <h2>Add Spare Part</h2>
+        <form>
+          <label>Department:</label>
+             <input 
+                name = "department" 
+                value ={formData.department} 
+                onChange = {handleChange} 
+                type="text" 
+                placeholder="Enter department" 
+            />
+          <label>Type:</label>
+            <input
+                name="type"
+                value={formData.type}
+                onChange={handleChange}
+                placeholder="Enter type"
+            />
+
+         <label>Item Name:</label>
+             <input
+                name="item_name"
+                value={formData.item_name}
+                onChange={handleChange}
+                placeholder="Enter item name"
+             />
+
+          <label>Quantity:</label>
+             <input 
+                name ="quantity"
+                type="number" 
+                placeholder="Enter quantity"
+                value = {formData.quantity}
+             />
+
+          {/* Add more fields if needed */}
+
+          <div className="modal-buttons">
+            <button type="submit">{editingId ? "Update" : "Save"}</button>
+            <button type="button" onClick={() => setShowModal(false)}>Cancel</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  )}
 
             <form onSubmit={handleSubmit}>
                 <input name="department" placeholder="Department" value={formData.department} onChange={handleChange} />
