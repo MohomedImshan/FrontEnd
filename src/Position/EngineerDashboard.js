@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import Header from '../Header/Header';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { Modal,Form,Button } from 'react-bootstrap';
 
-function EngineerDashboard() {
+function EngineerDashboard({empNum,onLogout}) {
   const [user, setUser] = useState(null);
+  const [showModal,setShowModal]= useState(false)
+
+
+  const [editName,setEditName] = useState('')
+  const [editEmail,setEditEmail] = useState('')
+  const [editPosition,setEditPosition] = useState('')
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const res = await axios.get(`http://localhost:8800/Engineer`);
+        const storedempNum = localStorage.getItem('empNum')
+        //const position = localStorage.getItem('position')
+        //console.log(empNum)
+        const res = await axios.get(`http://localhost:8800/Engineer/${storedempNum}`);
         // Show only the first user for now
         setUser(res.data.users?.[0] || null);
       } catch (err) {
@@ -18,6 +28,20 @@ function EngineerDashboard() {
     };
     fetchUser();
   }, []);
+  const handleAccept = async ()=>{
+    try{
+      const updatedUser = {
+        userName : editName || user.userName, 
+        email:editEmail || user.email,
+        position:editPosition || user.position
+      }
+      await axios.put(`http://localhost:8800/Engineer/${user.empNum}`,updatedUser)
+      setUser((prevUser)=>({...prevUser,...updatedUser}))
+      setShowModal(false)
+    }catch(err){
+      console.error('Failed to update user:',err)
+    }
+  }
 
   return (
     <div className="min-h-screen bg-white text-black">
@@ -26,9 +50,54 @@ function EngineerDashboard() {
 
       {/* Add Button */}
       <div className="px-8 mt-4">
-        <Link className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" to="/Register">
+        {/* <button className='btn btn-success'> <Link className="bg-green-600 text-white px-4 py-2 padding-10 rounded hover:bg-green-700" to="/Register">
           Add Employee
         </Link>
+        </button> */}
+          <button className='btn btn-success'onClick={()=>{
+            if(user){
+              setEditName(user.userName)
+              setEditEmail(user.email)
+              setEditPosition(user.position)
+
+            
+            setShowModal(true)}
+          }}>Edit</button>
+          <Modal show={showModal} onHide={()=>setShowModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Edit Profile</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <Form.Group className='mb-3'>
+                <Form.Label>
+                  Name:
+                </Form.Label>
+                <Form.Control type='text' 
+                placeholder={user?.userName}
+                value={editName} onChange={(e)=>setEditName(e.target.value)}></Form.Control>
+              </Form.Group>
+              <Form.Group className='mb-3'>
+                <Form.Label>
+                  Email:
+                </Form.Label>
+                <Form.Control type='email' placeholder={user?.email} value={editEmail} onChange={(e)=>setEditEmail(e.target.value)}></Form.Control>
+              </Form.Group>
+              <Form.Group className="mb-3">
+              <Form.Label>Position</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder={user?.position}
+                value={editPosition}
+                onChange={(e) => setEditPosition(e.target.value)}
+              />
+            </Form.Group>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant='secondary' onClick={()=>setShowModal(false)}>Cancel</Button>
+              <Button variant='success' onClick={handleAccept}>Accept</Button>
+            </Modal.Footer>
+
+          </Modal>
       </div>
 
       {/* Engineer Profile Section */}
@@ -47,10 +116,12 @@ function EngineerDashboard() {
             <hr className="border-yellow-500 my-6" />
 
             <div className="space-y-3 text-lg">
-              <p><strong>Full Name:</strong> {user.fullName}</p>
-              <p><strong>Address:</strong> {user.address}</p>
-              <p><strong>NIC:</strong> {user.nic}</p>
+              <p><strong>Full Name:</strong> {user.userName}</p>
+              
+              <p><strong>Position</strong> {user.position}</p>
               <p><strong>Email:</strong> {user.email}</p>
+              <p><strong>Status:</strong> {user.status}</p>
+
             </div>
           </div>
         ) : (

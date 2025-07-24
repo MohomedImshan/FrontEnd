@@ -8,16 +8,19 @@ function EngineerDashboard() {
 
     useEffect(() => {
         const fetchUser = async () => {
-            try {
-                const res = await axios.get(`http://localhost:8800/Engineer`);
-                // Show only the first user for now
-                setUser(res.data.users?.[0] || null);
-            } catch (err) {
-                console.error(err);
-            }
+          try {
+            const storedempNum = localStorage.getItem('empNum')
+            const position = localStorage.getItem('position')
+            //console.log(empNum)
+            const res = await axios.get(`http://localhost:8800/Assistant-Engineer/${storedempNum}`);
+            // Show only the first user for now
+            setUser(res.data.users?.[0] || null);
+          } catch (err) {
+            console.error(err);
+          }
         };
         fetchUser();
-    }, []);
+      }, []);
 
     return (
         <div className="min-h-screen bg-white text-black">
@@ -26,9 +29,10 @@ function EngineerDashboard() {
 
             {/* Add Button */}
             <div className="px-8 mt-4">
-                <Link className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" to="/Register">
-                    Add Employee
-                </Link>
+                <button className='btn btn-success'><Link className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700" to="/Register">
+                        Add Employee
+                    </Link>
+                </button>
             </div>
 
             {/* Engineer Profile Section */}

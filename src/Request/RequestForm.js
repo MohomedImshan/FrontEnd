@@ -14,7 +14,7 @@ function RequestForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post('http://localhost:8800/api/requests', formData);
+    await axios.post('http://localhost:8800/requests/addRequest', formData);
     setFormData({ department: '', machine_code: '', type: '', description: '', employee_name: '' });
     window.dispatchEvent(new Event('request-submitted'));
   };

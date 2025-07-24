@@ -8,7 +8,7 @@ function Notification() {
   // Fetch all requests from backend
   const fetchRequests = async () => {
     try {
-      const res = await axios.get('http://localhost:8800/api/requests/allRequests');
+      const res = await axios.get('http://localhost:8800/requests/allRequests');
       setRequests(res.data || []);
     } catch (err) {
       console.error(err);
