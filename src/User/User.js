@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios"
 import Header from '../Header/Header'
+import { Link } from 'react-router-dom'
 
 function User() {
     const [users,setUsers] = useState([])
@@ -8,7 +9,7 @@ function User() {
     useEffect(()=>{
         const fetchAllUsers = async() =>{
             try{
-                const res = await axios.get("http://localhost:8801/User")
+                const res = await axios.get("http://localhost:8800/User")
                 setUsers(res.data.users)
             }catch(err){
                 console.log(err)
@@ -20,6 +21,7 @@ function User() {
     <div>
         <Header />
       <div className='home'>
+        <button className='btn btn-success'><Link to={"/Add-Employee"}>Register Employee</Link></button>
             <table className='table table-striped'>
                 <thead>
                     <tr>

@@ -1,4 +1,4 @@
-function validation(values){
+function RegisterValidation(values){
     let error = {}
 
     const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -33,4 +33,4 @@ function validation(values){
 
     return error
 }
-export default validation
+export default RegisterValidation
