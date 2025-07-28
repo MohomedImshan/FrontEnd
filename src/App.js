@@ -18,21 +18,31 @@ import AddEmployee from './api/AddEmployee';
 function App() {
 
   const [userPosition,setUserPosition] = useState(null)
+  const [empNum,setempNum] = useState(null)
 
   useEffect(()=>{
     const storePosition = localStorage.getItem('position')
+    const storedempNum = localStorage.getItem('empNum')
+
     if(storePosition){
       setUserPosition(storePosition)
     }
+    if(storedempNum)
+      setempNum(storedempNum)
   },[])
 
-  const handleLogin=(position)=>{
+  const handleLogin=(position,empNum)=>{
     setUserPosition(position)
+    setempNum(empNum)
     localStorage.setItem('position',position)
+    localStorage.setItem('empNum',empNum)
+
   }
   const handleLogout = () =>{
     setUserPosition(null)
+    setempNum(null)
     localStorage.removeItem('position')
+    localStorage.removeItem('empNum')
   }
   return (
     <div className="App">
@@ -43,24 +53,25 @@ function App() {
           <Route path="/" element={<Login onLogin={handleLogin} />} />
           <Route path="/Register" element={<Register />} />
          
-          <Route path="/RequestForm" element={<RequestForm />} />
+          <Route path="/Requests" element={<RequestForm />} />
           <Route path="/Notification" element={<Notification />} />
           <Route path="/SpareParts" element={<SpareParts />} />
           <Route path="/Add-Employee" element={<AddEmployee />}></Route>
+          {/* <Route path="/Requests" element={<Request />} ></Route> */}
          
 
         {userPosition === 'Engineer' &&(
-          <Route path='/Engineer' element={<EngineerDashboard onLogout={handleLogout} />} />
+          <Route path='/Engineer' element={<EngineerDashboard empNum={empNum} onLogout={handleLogout} />} />
         )}
 
 
 
         {userPosition === 'Technician' &&(
-          <Route path='/Technician' element={<TechnicianDashboard onLogout={handleLogout} />} />
+          <Route path='/Technician' element={<TechnicianDashboard empNum={empNum} onLogout={handleLogout} />} />
         )}
 
         {userPosition === 'Assistant_Engineer' &&(
-          <Route path='/Assistant_Engineer' element={<AssistantEngineerDashBoard onLogout={handleLogout} />} />
+          <Route path='/Assistant-Engineer' element={<AssistantEngineerDashBoard empNum={empNum} onLogout={handleLogout} />} />
         )}
 
         </Routes>

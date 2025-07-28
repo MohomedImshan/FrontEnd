@@ -14,7 +14,7 @@ function Notification() {
   // Fetch all requests
   const fetchRequests = async () => {
     try {
-      const res = await axios.get('http://localhost:8801/api/requests/allRequests');
+      const res = await axios.get('http://localhost:8800/requests/allRequests');
       setRequests(res.data || []);
     } catch (err) {
       console.error(err);

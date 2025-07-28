@@ -1,8 +1,10 @@
+
 import React, { useState } from 'react'
 import Header from '../Header/Header.js'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {Modal , Button ,Form} from 'react-bootstrap'
+
 
 function RequestForm() {
   const [formData, setFormData] = useState({
@@ -15,10 +17,11 @@ function RequestForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-    const response = await axios.post('http://localhost:8801/api/requests/addRequest', formData);
+    await axios.post('http://localhost:8800/requests/addRequest', formData);
     setFormData({ department: '', machine_code: '', type: '', description: '', employee_name: '' });
     window.dispatchEvent(new Event('request-submitted'));
+  };
+
 
     console.log('Success:', response.data);
   } catch (error) {
@@ -70,9 +73,9 @@ function RequestForm() {
             <button type="submit" className="btn btn-sm btn-outline-primary mb-2">Submit</button>
           </form>
         </div>
+
     </div>
   );
 }
 
 export default RequestForm;
-    

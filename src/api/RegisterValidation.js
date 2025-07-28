@@ -8,7 +8,7 @@ function RegisterValidation(values){
     const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$/
     
 
-    const username = String(values.user_name||"").trim()
+    const username = String(values.userName||"").trim()
     const email = String(values.email||"").trim()
     const password = values.password||""
     if(!username){

@@ -13,8 +13,9 @@ const Login = ({onLogin}) => {
     event.preventDefault()
     try{
       const res = await axios.post('http://localhost:8800/login',{email,password})
-      const {position} = res.data
-      onLogin(position)
+      const {empNum,position} = res.data
+      localStorage.setItem('empNum',empNum)
+      onLogin(position,empNum)
 
       if(position === 'Engineer'){
         navigate('/Engineer')
