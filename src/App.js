@@ -12,6 +12,8 @@ import SpareParts from './SpareParts/SpareParts';
 //requestform
 import RequestForm from './Request/RequestForm';
 import Notification from './Request/Notification';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 
 
 function App() {
