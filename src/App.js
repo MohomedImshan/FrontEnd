@@ -13,6 +13,8 @@ import RequestForm from './Request/RequestForm';
 import Notification from './Request/Notification';
 import { useEffect, useState } from 'react';
 import AddEmployee from './api/AddEmployee';
+import Report from './Reports/Report';
+import Reject from './Reject/Reject';
 
 
 function App() {
@@ -57,6 +59,10 @@ function App() {
           <Route path="/Notification" element={<Notification />} />
           <Route path="/SpareParts" element={<SpareParts />} />
           <Route path="/Add-Employee" element={<AddEmployee />}></Route>
+          <Route path="/Report" element={<Report />}></Route>
+          <Route path="/Reject" element={<Reject />}></Route>
+
+
           {/* <Route path="/Requests" element={<Request />} ></Route> */}
          
 

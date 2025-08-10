@@ -54,7 +54,7 @@ function EngineerDashboard({empNum,onLogout}) {
           Add Employee
         </Link>
         </button> */}
-          <button className='btn btn-success'onClick={()=>{
+          <button className='btn btn-sm btn-outline-success me-1'onClick={()=>{
             if(user){
               setEditName(user.userName)
               setEditEmail(user.email)

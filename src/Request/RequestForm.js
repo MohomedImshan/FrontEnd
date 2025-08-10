@@ -17,16 +17,21 @@ function RequestForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await axios.post('http://localhost:8800/requests/addRequest', formData);
-    setFormData({ department: '', machine_code: '', type: '', description: '', employee_name: '' });
-    window.dispatchEvent(new Event('request-submitted'));
+    try {
+      const response = await axios.post('http://localhost:8800/requests/addRequest', formData);
+      console.log('Success:', response.data);
+      setFormData({
+        department: '',
+        machine_code: '',
+        type: '',
+        description: '',
+        employee_name: ''
+      });
+      window.dispatchEvent(new Event('request-submitted'));
+    } catch (error) {
+      console.error('Axios error:', error);
+    }
   };
-
-
-    console.log('Success:', response.data);
-  } catch (error) {
-    console.error('Axios error:', error);
-  }};
   
       return (
         <div>
