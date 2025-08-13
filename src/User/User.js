@@ -12,16 +12,25 @@
         const [selectedUser,setSelectedUser] = useState(null)
         const [editStatus,setEditStatus] = useState('')
         const [showRegisterModal,setShowRegisterModal] = useState(false)
+        const [searchTerm,setSearchTerm] = useState('')
         
         const [newPassword, setNewPassword] = useState("");
         const [newUserName, setNewUserName] = useState("");
         const [newEmail, setNewEmail] = useState("");
         const [newPosition, setNewPosition] = useState("");
 
+        const filteredRequests = users.filter(req=>
+            Object.values(req).some(val=>
+                String(val).toLowerCase().includes(searchTerm.toLowerCase())))
+
         const fetchAllUsers = async () => {
             try {
-                
-                const res = await api.get('/User')
+                const token = localStorage.getItem('token')
+                const res = await api.get('/User',{
+                    headers:{
+                        Authorization:`Bearer ${token}`
+                    }
+                })
                 setUsers(res.data.users)
             } catch (err) {
                 console.log(err)
@@ -35,6 +44,7 @@
 
         const handleRegisterSubmit = async () =>{
             try{
+                const token = localStorage.getItem('token')
                 await axios.post("http://localhost:8800/User",{
                     
                     userName:newUserName,
@@ -42,6 +52,10 @@
                     password:newPassword,
                     position:newPosition
 
+                },{
+                    headers:{
+                        Authorization:`Bearer ${token}`
+                    }
                 })
                 await fetchAllUsers()
                 setShowRegisterModal(false)
@@ -66,8 +80,18 @@
             if(!selectedUser) return;
 
             try{
-                await axios.put(`http://localhost:8800/Engineer/${selectedUser.empNum}`,{status:editStatus})
-                
+                const token = localStorage.getItem('token')
+                await axios.put(`http://localhost:8800/User/${selectedUser.empNum}`,{status:editStatus}
+                ,{
+                    headers:{
+                        Authorization:`Bearer ${token}`
+                    }
+                })
+                setUsers(prev=>
+                    prev.map(u=>
+                        u.empNum===selectedUser.empNum ? {...u,status:editStatus}:u
+                        )
+                        )
                 setShowModal(false)
                 setSelectedUser(null)
                 await fetchAllUsers()
@@ -81,7 +105,12 @@
             if(!selectedUser) return
 
             try{
-                await axios.delete(`http://localhost:8800/Engineer/${selectedUser.empNum}`)
+                const token = localStorage.getItem('token')
+                await axios.delete(`http://localhost:8800/Engineer/${selectedUser.empNum}`,{
+                    headers:{
+                        Authorization:`Bearer ${token}`
+                    }
+                })
                 
                 setShowDeleteModal(false)
                 setSelectedUser(null)
@@ -141,6 +170,12 @@
                                             </Modal>
 
                                             <br />
+                                            <input
+                                                type="text"
+                                                placeholder="Search"
+                                                className="form-control mb-3"
+                                                onChange={(e) => setSearchTerm(e.target.value)}
+                                                />
                     <table className='table table-bordered table-striped'>
                         <thead>
                             <tr>
@@ -158,7 +193,7 @@
                                     <td colSpan='5'>No users</td>
                                 </tr>
                             ) : (
-                                users.map((user) => (
+                                filteredRequests.map((user) => (
                                     <tr key={user.empNum}>
                                         <td>{user.empNum}</td>
                                         <td>{user.userName}</td>
@@ -166,7 +201,12 @@
                                         <td>{user.position}</td>
                                         <td>{user.status}</td>
                                         <td>
-                                            <button className='btn btn-sm btn-outline-success me-1' onClick={()=>handleEditClick(user)}>Edit</button>
+                                            <button className='btn btn-sm btn-outline-success me-1' onClick={()=>{
+                                                setSelectedUser(user)
+                                                setEditStatus(user.status || '')
+                                                setShowModal(true)
+                                                }}
+                                                >Edit</button>
                                             <Modal show={showModal} onHide={()=>setShowModal(false)}>
                                                 <Modal.Header closeButton>
                                                 <Modal.Title>Edit Profile</Modal.Title>
@@ -174,15 +214,17 @@
                                                 <Modal.Body>
                                                 <Form.Group className='mb-3'>
                                                     <Form.Label>Status:</Form.Label>
-                                                        <Form.Select
-                                                            value={editStatus}
-                                                            onChange={(e) => setEditStatus(e.target.value)}
-                                                        >
-                                                            <option value="">Select status</option>
-                                                            <option value="Active">Active</option>
-                                                            <option value="Inactive">Inactive</option>
-                                                            <option value="Disabled">Disabled</option>
-                                                        </Form.Select>
+                                                    <div>
+                                                        {["Active", "Inactive", "Disabled"].map((status) => (
+                                                            <Form.Check
+                                                                key={status}
+                                                                type="checkbox"
+                                                                label={status}
+                                                                checked={editStatus === status} // only one can be selected
+                                                                onChange={() => setEditStatus(status)}
+                                                            />
+                                                        ))}
+                                                    </div>
                                                     </Form.Group>
                                                 
                                                 </Modal.Body>

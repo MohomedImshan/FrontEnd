@@ -39,7 +39,7 @@ function Report() {
   return (
     <div className="p-4">
         <Header />
-      <h2>Approved Reports</h2>
+      <h2>Weekly Report</h2>
       
 
       <button className='btn btn-success' onClick={()=>exportPDF(report)}>Download</button><br />
@@ -80,7 +80,8 @@ function Report() {
               <th>Type</th>
               <th>Description</th>
               <th>Employee</th>
-              <th>Date</th>
+              <th>Requested Date</th>
+              <th>Approved Date</th>
               
             </tr>
           </thead>
@@ -94,6 +95,8 @@ function Report() {
                 <td>{r.description}</td>
                 <td>{r.employee_name}</td>
                 <td>{new Date(r.created_at || r.date_time).toLocaleString()}</td>
+                <td></td>
+
                 
               </tr>
             ))}

@@ -15,6 +15,7 @@ import { useEffect, useState } from 'react';
 import AddEmployee from './api/AddEmployee';
 import Report from './Reports/Report';
 import Reject from './Reject/Reject';
+import OwnRequests from './OwnRequests/OwnRequests';
 
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
           <Route path="/Add-Employee" element={<AddEmployee />}></Route>
           <Route path="/Report" element={<Report />}></Route>
           <Route path="/Reject" element={<Reject />}></Route>
+          <Route path="/OwnRequests" element={<OwnRequests />}></Route>
 
 
           {/* <Route path="/Requests" element={<Request />} ></Route> */}

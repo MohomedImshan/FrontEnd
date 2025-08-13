@@ -13,7 +13,8 @@ function exportPDF(report){
         "Type",
         "Description",
         "Employee",
-        "Date"
+        "Requested Date",
+        "Approved Date"
     ]
     const tableRows = report.map(r =>[
         r.id,
@@ -23,6 +24,7 @@ function exportPDF(report){
         r.description,
         r.employee_name,
         r.created_at || r.date_time,
+        
     ])
     doc.autoTable({
         head:[tableColumn],

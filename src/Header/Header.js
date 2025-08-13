@@ -93,13 +93,17 @@ function Header() {
             <li className="nav-item">
                 <Link className="nav-link " to="/Requests" >Requests</Link>
             </li>
-            {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
             <li className="nav-item">
-                <Link className="nav-link" to="/Report">Reports</Link>
-            </li>)}
+                <Link className="nav-link " to="/OwnRequests" >My Requests</Link>
+            </li>
+            
             {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
             <li className="nav-item">
                 <Link className="nav-link" to="/Reject">Rejects</Link>
+            </li>)}
+            {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
+            <li className="nav-item">
+                <Link className="nav-link" to="/Report">Download</Link>
             </li>)}
             {/* <li>
                  <form className="form-inline my-2 my-lg-0 justify-item-right ">
