@@ -37,8 +37,11 @@ function Report() {
     // })
 
   return (
-    <div className="p-4">
+    <div>
         <Header />
+   
+    <div className="p-4">
+      
       <h2>Weekly Report</h2>
       
 
@@ -105,6 +108,7 @@ function Report() {
       ):(
         <p>No report Found</p>
       )}
+    </div>
     </div>
   )
 }

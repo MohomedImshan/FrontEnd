@@ -33,8 +33,11 @@ function Reject() {
     
 
   return (
+    <div>
+       <Header />
+    
     <div className="p-4">
-        <Header />
+       
       <h2>Rejected Requests</h2>
       
 
@@ -76,6 +79,7 @@ function Reject() {
       ):(
         <p>No rejected request found in 7 days</p>
       )}
+    </div>
     </div>
   )
 }

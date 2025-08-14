@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import {  useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Login = ({onLogin}) => {
 
@@ -16,7 +16,7 @@ const Login = ({onLogin}) => {
       //const {empNum,position} = res.data
       localStorage.setItem('token',res.data.token)
       const decoded = JSON.parse(atob(res.data.token.split('.')[1]))
-      onLogin(decoded.position,decoded.empNum)
+      onLogin(decoded.position,decoded.empNum,decoded.userName)
 
       if(decoded.position === 'Engineer'){
         navigate('/Engineer')
@@ -65,7 +65,7 @@ const Login = ({onLogin}) => {
           </div>
 
           <button onClick={handleLogin} className='btn btn-success' disabled={!email||!password}>Login</button>
-          {/* <p>Didn't have an Account:<button className='btn btn-light'><Link to={"/Register"}>Register</Link></button></p> */}
+          <p>Didn't have an Account:<button className='btn btn-light'><Link to={"/Register"}>Register</Link></button></p>
         </form>
 
       </div>

@@ -11,21 +11,21 @@ function RequestForm() {
     department: '',
     machine_code: '',
     type: '',
-    description: '',
-    employee_name: ''
+    description: ''
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8800/requests/addRequest', formData);
+      const empNum = localStorage.getItem('empNum')
+      const userName = localStorage.getItem('userName')
+      const response = await axios.post('http://localhost:8800/requests/addRequest', {formData,empNum,userName});
       console.log('Success:', response.data);
       setFormData({
         department: '',
         machine_code: '',
         type: '',
-        description: '',
-        employee_name: ''
+        description: ''
       });
       window.dispatchEvent(new Event('request-submitted'));
     } catch (error) {
@@ -68,12 +68,12 @@ function RequestForm() {
                 onChange={e => setFormData({ ...formData, description: e.target.value })} />
             </div>
     
-            <div className="mb-3">
+            {/* <div className="mb-3">
               <label>Employee Name</label>
               <input className="form-control" required
                 value={formData.employee_name}
                 onChange={e => setFormData({ ...formData, employee_name: e.target.value })} />
-            </div>
+            </div> */}
     
             <button type="submit" className="btn btn-sm btn-outline-primary mb-2">Submit</button>
           </form>

@@ -22,6 +22,7 @@ function App() {
 
   const [userPosition,setUserPosition] = useState(null)
   const [empNum,setempNum] = useState(null)
+  const [userName,setuserName] = useState(null)
 
   useEffect(()=>{
     const storePosition = localStorage.getItem('position')
@@ -34,11 +35,13 @@ function App() {
       setempNum(storedempNum)
   },[])
 
-  const handleLogin=(position,empNum)=>{
+  const handleLogin=(position,empNum,userName)=>{
     setUserPosition(position)
     setempNum(empNum)
+    setuserName(userName)
     localStorage.setItem('position',position)
     localStorage.setItem('empNum',empNum)
+    localStorage.setItem('userName',userName)
 
   }
   const handleLogout = () =>{
@@ -46,6 +49,7 @@ function App() {
     setempNum(null)
     localStorage.removeItem('position')
     localStorage.removeItem('empNum')
+    localStorage.removeItem('userName')
   }
   return (
     <div className="App">

@@ -51,7 +51,7 @@ function Notification() {
   const handleUpdate = async () => {
     if (!editRequest) return;
     try {
-      await axios.put(`http://localhost:8801/api/requests/${editRequest.id}`, editRequestData);
+      await axios.put(`http://localhost:8800/requests/${editRequest.id}`, editRequestData);
       alert("Request updated!");
       setEditRequest(null);
       fetchRequests();
@@ -62,14 +62,14 @@ function Notification() {
 
   const deleteRequest = async (id) => {
     if (window.confirm("Delete this request?")) {
-      await axios.delete(`http://localhost:8801/api/requests/${id}`);
+      await axios.delete(`http://localhost:8800/requests/${id}`);
       fetchRequests();
     }
   };
 
   const updateStatus = async (id, status) => {
     try {
-      await axios.put(`http://localhost:8801/api/requests/status/${id}`, { status });
+      await axios.put(`http://localhost:8800/requests/status/${id}`, { status });
       fetchRequests();
     } catch (err) {
       console.error("Status update failed", err);
