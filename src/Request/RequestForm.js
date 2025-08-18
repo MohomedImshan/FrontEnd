@@ -21,6 +21,7 @@ function RequestForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+
       const userName = localStorage.getItem('userName') || 'Unknown User';
       const response = await axios.post(`http://localhost:8800/api/requests/addRequest`, {
         ...formData,
@@ -119,6 +120,7 @@ function RequestForm() {
                 onChange={e => setPartsData({ ...partsData, partName: e.target.value })}
                 placeholder="Enter part name" />
             </Form.Group>
+
 
             <Form.Group className="mb-3">
               <Form.Label>Count</Form.Label>

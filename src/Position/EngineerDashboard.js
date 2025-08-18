@@ -3,6 +3,7 @@ import Header from '../Header/Header';
 //import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { Modal,Form,Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 
 function EngineerDashboard({empNum,onLogout}) {
   const [user, setUser] = useState(null);
@@ -12,14 +13,24 @@ function EngineerDashboard({empNum,onLogout}) {
   const [editName,setEditName] = useState('')
   const [editEmail,setEditEmail] = useState('')
   const [editPosition,setEditPosition] = useState('')
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchUser = async () => {
       try {
         const storedempNum = localStorage.getItem('empNum')
+        const token = localStorage.getItem('token')
         //const position = localStorage.getItem('position')
         //console.log(empNum)
-        const res = await axios.get(`http://localhost:8800/Engineer/${storedempNum}`);
+        if(!token){
+          console.error('No Token is Found,redirecting to login...')
+          navigate('/')
+        }
+        const res = await axios.get(`http://localhost:8800/Engineer/${storedempNum}`,{
+          headers:{
+            Authorization:`Bearer ${token}`
+          }
+        });
         // Show only the first user for now
         setUser(res.data.users?.[0] || null);
       } catch (err) {
@@ -30,12 +41,22 @@ function EngineerDashboard({empNum,onLogout}) {
   }, []);
   const handleAccept = async ()=>{
     try{
+      const token = localStorage.getItem('token')
+      if(!token){
+        console.error('No Token is Found,redirecting to login...')
+        navigate('/')
+      }
       const updatedUser = {
         userName : editName || user.userName, 
         email:editEmail || user.email,
-        position:editPosition || user.position
+        position:user.position
       }
-      await axios.put(`http://localhost:8800/Engineer/${user.empNum}`,updatedUser)
+      await axios.put(`http://localhost:8800/Engineer/${user.empNum}`,updatedUser
+      ,{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      })
       setUser((prevUser)=>({...prevUser,...updatedUser}))
       setShowModal(false)
     }catch(err){
@@ -54,7 +75,7 @@ function EngineerDashboard({empNum,onLogout}) {
           Add Employee
         </Link>
         </button> */}
-          <button className='btn btn-success'onClick={()=>{
+          <button className='btn btn-sm btn-outline-success me-1'onClick={()=>{
             if(user){
               setEditName(user.userName)
               setEditEmail(user.email)
@@ -82,15 +103,7 @@ function EngineerDashboard({empNum,onLogout}) {
                 </Form.Label>
                 <Form.Control type='email' placeholder={user?.email} value={editEmail} onChange={(e)=>setEditEmail(e.target.value)}></Form.Control>
               </Form.Group>
-              <Form.Group className="mb-3">
-              <Form.Label>Position</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder={user?.position}
-                value={editPosition}
-                onChange={(e) => setEditPosition(e.target.value)}
-              />
-            </Form.Group>
+              
             </Modal.Body>
             <Modal.Footer>
               <Button variant='secondary' onClick={()=>setShowModal(false)}>Cancel</Button>

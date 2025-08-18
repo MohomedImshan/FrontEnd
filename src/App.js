@@ -13,12 +13,16 @@ import RequestForm from './Request/RequestForm';
 import Notification from './Request/Notification';
 import { useEffect, useState } from 'react';
 import AddEmployee from './api/AddEmployee';
+import Report from './Reports/Report';
+import Reject from './Reject/Reject';
+import OwnRequests from './OwnRequests/OwnRequests';
 
 
 function App() {
 
   const [userPosition,setUserPosition] = useState(null)
   const [empNum,setempNum] = useState(null)
+  const [userName,setuserName] = useState(null)
 
   useEffect(()=>{
     const storePosition = localStorage.getItem('position')
@@ -31,11 +35,13 @@ function App() {
       setempNum(storedempNum)
   },[])
 
-  const handleLogin=(position,empNum)=>{
+  const handleLogin=(position,empNum,userName)=>{
     setUserPosition(position)
     setempNum(empNum)
+    setuserName(userName)
     localStorage.setItem('position',position)
     localStorage.setItem('empNum',empNum)
+    localStorage.setItem('userName',userName)
 
   }
   const handleLogout = () =>{
@@ -43,6 +49,7 @@ function App() {
     setempNum(null)
     localStorage.removeItem('position')
     localStorage.removeItem('empNum')
+    localStorage.removeItem('userName')
   }
   return (
     <div className="App">
@@ -57,6 +64,11 @@ function App() {
           <Route path="/Notification" element={<Notification />} />
           <Route path="/SpareParts" element={<SpareParts />} />
           <Route path="/Add-Employee" element={<AddEmployee />}></Route>
+          <Route path="/Report" element={<Report />}></Route>
+          <Route path="/Reject" element={<Reject />}></Route>
+          <Route path="/OwnRequests" element={<OwnRequests />}></Route>
+
+
           {/* <Route path="/Requests" element={<Request />} ></Route> */}
          
 

@@ -60,7 +60,9 @@ function Notification() {
   const handleUpdate = async () => {
     if (!editRequest) return;
     try {
+
       await axios.put(`${API}/requests/${editRequest.id}`, editRequestData);
+
       setEditRequest(null);
       fetchRequests();
     } catch (error) {
@@ -70,9 +72,11 @@ function Notification() {
   };
 
   const deleteRequest = async (id) => {
+
     if (!window.confirm('Delete this request?')) return;
     try {
       await axios.delete(`${API}/requests/${id}`);
+
       fetchRequests();
     } catch (e) {
       console.error('Delete failed', e);
@@ -82,7 +86,9 @@ function Notification() {
 
   const updateStatus = async (id, status) => {
     try {
+
       await axios.put(`${API}/requests/status/${id}`, { status });
+
       fetchRequests();
     } catch (err) {
       console.error('Status update failed', err);
