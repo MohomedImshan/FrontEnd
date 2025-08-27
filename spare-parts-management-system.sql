@@ -37,15 +37,16 @@ CREATE TABLE `requests` (
   `employee_name` varchar(100) NOT NULL,
   `date_time` datetime NOT NULL DEFAULT current_timestamp(),
   `status` varchar(50) NOT NULL DEFAULT 'pending',
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp()
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `approved_date` timestamp NULL 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `requests`
 --
 
-INSERT INTO `requests` (`id`, `department`, `machine_code`, `type`, `description`, `empNum`, `employee_name`, `date_time`, `status`, `created_at`) VALUES
-(4, 'D001', 'MC001', 'TYPE02', 'PROBLEM 5', 1, 'Imshan', '2025-08-14 10:48:34', 'pending', '2025-08-14 05:18:34');
+INSERT INTO `requests` (`id`, `department`, `machine_code`, `type`, `description`, `empNum`, `employee_name`, `date_time`, `status`, `created_at`,`approved_date`) VALUES
+(4, 'D001', 'MC001', 'TYPE02', 'PROBLEM 5', 1, 'Imshan', '2025-08-14 10:48:34', 'pending', '2025-08-14 05:18:34',' ');
 
 -- --------------------------------------------------------
 
@@ -137,27 +138,13 @@ ALTER TABLE `spare_parts_tbl`
 ALTER TABLE `users`
   MODIFY `empNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
-
+/*
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-
-
-
-/*Request Table-----------------*/
-/*
-CREATE TABLE requests (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  department VARCHAR(100),
-  machine_code VARCHAR(50),
-  type VARCHAR(100),
-  description TEXT,
-  employee_name VARCHAR(100),
-  date_time DATETIME DEFAULT CURRENT_TIMESTAMP,
-  status VARCHAR(50) DEFAULT 'Pending',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
-);
 */
+
+/*
 CREATE TABLE requests (
   id INT AUTO_INCREMENT PRIMARY KEY,
   empNum VARCHAR(50),
@@ -179,4 +166,4 @@ CREATE TABLE spare_parts (
   FOREIGN KEY (request_id) REFERENCES requests(id) ON DELETE CASCADE
 );
 
-
+*/
