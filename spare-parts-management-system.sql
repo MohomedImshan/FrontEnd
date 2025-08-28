@@ -34,19 +34,24 @@ CREATE TABLE `requests` (
   `machine_code` varchar(50) NOT NULL,
   `type` varchar(100) NOT NULL,
   `description` text NOT NULL,
-  `userName` varchar(100) NOT NULL,
+
+  `empNum` int(11) NOT NULL,
+  `employee_name` varchar(100) NOT NULL,
   `status` varchar(50) NOT NULL DEFAULT 'pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `parts` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL CHECK (json_valid(`parts`)),
-  `approved_date` timestamp NULL DEFAULT NULL
+  `approved_date` timestamp NULL 
+  `parts` JSON NULL,  -- to store multiple parts as JSON array
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `requests`
 --
 
+
 INSERT INTO `requests` (`id`, `empNum`, `department`, `machine_code`, `type`, `description`, `userName`, `status`, `created_at`, `parts`, `approved_date`) VALUES
 (7, 1, 'D001', 'Mc001', 'Type001', 'Problem 1', 'Imshan', 'pending', '2025-08-28 06:19:06', '[{\"id\":\"1\",\"item_name\":\"Pipe\",\"quantity\":\"3\"},{\"id\":\"2\",\"item_name\":\"ScrewDriver \",\"quantity\":\"1\"}]', NULL);
+
 
 -- --------------------------------------------------------
 
@@ -181,7 +186,8 @@ ALTER TABLE `users`
 ALTER TABLE `user_logs`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
-
+/*
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
