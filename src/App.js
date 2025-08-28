@@ -7,7 +7,7 @@ import TechnicianDashboard from './Position/TechnicianDashboard';
 import AssistantEngineerDashBoard from './Position/AssistantEngineerDashBoard';
 import Register from './api/Register';
 import Login from './api/Login';
-import SpareParts from './SpareParts/SpareParts';
+import SpareParts from './Spare-Parts/SpareParts';
 //requestform
 import RequestForm from './Request/RequestForm';
 import Notification from './Request/Notification';

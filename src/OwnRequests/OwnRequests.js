@@ -59,10 +59,10 @@ function OwnRequests() {
               <th>Department</th>
               <th>Machine Code</th>
               <th>Type</th>
-              <th>Description</th>
-              
+              <th>Description</th>             
               <th>Date & Time</th>
               <th>View</th>
+              <th>Status</th>
              
             </tr>
           </thead>
@@ -94,7 +94,31 @@ function OwnRequests() {
                 <p><strong>Department:</strong> {selectedRequest.department}</p>
                 <p><strong>Type:</strong> {selectedRequest.type}</p>
                 <p><strong>Description:</strong> {selectedRequest.description}</p>
-                <p><strong>Spare Parts:</strong> {selectedRequest.spareParts}</p>
+                <h6 className="mt-3">Spare Parts</h6>
+                <table className="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Item Name</th>
+                            <th>Quantity</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {selectedRequest.length > 0 ? (
+                            selectedRequest.map((p, index) => (
+                              <tr key={index}>
+                                <td>{p.id}</td>
+                                <td>{p.item_name}</td>
+                                <td>{p.quantity}</td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan="3" className="text-center">No parts added</td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
                 <button className="btn btn-secondary" onClick={closeModal}>Close</button>
               </div>
             </div>
