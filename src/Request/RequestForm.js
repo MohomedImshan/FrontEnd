@@ -22,7 +22,7 @@ function RequestForm() {
     e.preventDefault();
     try {
 
-      const userName = localStorage.getItem('userName') || 'Unknown User';
+      const userName = localStorage.getItem('userName') /*|| 'Unknown User'*/;
       const response = await axios.post(`http://localhost:8800/api/requests/addRequest`, {
         ...formData,
         userName
@@ -81,8 +81,12 @@ function RequestForm() {
 
           <div className="mb-3">
             <label>Department</label>
-            <input type="text" className="form-control" value={formData.department}
-              onChange={e => setFormData({ ...formData, department: e.target.value })} required />
+            <select className="form-control" value={formData.department}
+              onChange={e => setFormData({ ...formData, department: e.target.value })} required >
+                <option value="Electrical">Electrical</option>
+                <option value="Mechanical">Mechanical</option>
+                <option value="General">General</option>
+            </select>
           </div>
 
           <div className="mb-3">
@@ -104,6 +108,7 @@ function RequestForm() {
           </div>
 
           <button type="submit" className="btn btn-primary">Submit</button>
+          <Button variant="primary" type="submit">Add Part</Button>
         </form>
       </div>
 

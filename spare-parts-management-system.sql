@@ -35,10 +35,10 @@ CREATE TABLE `requests` (
   `description` text NOT NULL,
   `empNum` int(11) NOT NULL,
   `employee_name` varchar(100) NOT NULL,
-  `date_time` datetime NOT NULL DEFAULT current_timestamp(),
   `status` varchar(50) NOT NULL DEFAULT 'pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `approved_date` timestamp NULL 
+  `parts` JSON NULL,  -- to store multiple parts as JSON array
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -46,7 +46,7 @@ CREATE TABLE `requests` (
 --
 
 INSERT INTO `requests` (`id`, `department`, `machine_code`, `type`, `description`, `empNum`, `employee_name`, `date_time`, `status`, `created_at`,`approved_date`) VALUES
-(4, 'D001', 'MC001', 'TYPE02', 'PROBLEM 5', 1, 'Imshan', '2025-08-14 10:48:34', 'pending', '2025-08-14 05:18:34',' ');
+(4, 'D001', 'MC001', 'TYPE02', 'PROBLEM 5', 1, 'Imshan', 'pending', '2025-08-14 05:18:34',' ');
 
 -- --------------------------------------------------------
 
