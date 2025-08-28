@@ -59,9 +59,10 @@ function RequestForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const userName = localStorage.getItem('userName') || 'Unknown User';
 
-      const response = await axios.post('http://localhost:8800/api/requests/addRequest', {
+      const userName = localStorage.getItem('userName') /*|| 'Unknown User'*/;
+      const response = await axios.post(`http://localhost:8800/api/requests/addRequest`, {
+
         ...formData,
         userName
       });
@@ -92,8 +93,12 @@ function RequestForm() {
 
           <div className="mb-3">
             <label>Department</label>
-            <input type="text" className="form-control" value={formData.department}
-              onChange={e => setFormData({ ...formData, department: e.target.value })} required />
+            <select className="form-control" value={formData.department}
+              onChange={e => setFormData({ ...formData, department: e.target.value })} required >
+                <option value="Electrical">Electrical</option>
+                <option value="Mechanical">Mechanical</option>
+                <option value="General">General</option>
+            </select>
           </div>
 
           <div className="mb-3">
@@ -114,6 +119,7 @@ function RequestForm() {
               onChange={e => setFormData({ ...formData, description: e.target.value })} required />
           </div>
 
+
           {/* List of added parts */}
           {formData.parts.map((part, index) => (
             <div key={index} className="d-flex gap-2 mb-2">
@@ -126,6 +132,7 @@ function RequestForm() {
           <button type="button" className="btn btn-success mb-2" onClick={() => setShowModal(true)}>+ Add Spare Part</button>
           <br />
           <button type="submit" className="btn btn-primary">Submit Request</button>
+
         </form>
       </div>
 
