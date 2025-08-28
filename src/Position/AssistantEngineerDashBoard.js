@@ -4,8 +4,9 @@ import Header from '../Header/Header';
 import axios from 'axios';
 import { Modal,Form,Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import EngineerDashboard from './EngineerDashboard';
 
-function EngineerDashboard({empNum,onLogout}) {
+function AssistentEngineerDashboard({empNum,onLogout}) {
   const [user, setUser] = useState(null);
   const [showModal,setShowModal]= useState(false)
 
@@ -26,7 +27,7 @@ function EngineerDashboard({empNum,onLogout}) {
           console.error('No Token is Found,redirecting to login...')
           navigate('/')
         }
-        const res = await axios.get(`http://localhost:8800/Engineer/${storedempNum}`,{
+        const res = await axios.get(`http://localhost:8800/Assistant-Engineer/${storedempNum}`,{
           headers:{
             Authorization:`Bearer ${token}`
           }
@@ -51,7 +52,7 @@ function EngineerDashboard({empNum,onLogout}) {
         email:editEmail || user.email,
         position:user.position
       }
-      await axios.put(`http://localhost:8800/Engineer/${user.empNum}`,updatedUser
+      await axios.put(`http://localhost:8800/Assistant-Engineer/${user.empNum}`,updatedUser
       ,{
         headers:{
           Authorization:`Bearer ${token}`
@@ -138,11 +139,11 @@ function EngineerDashboard({empNum,onLogout}) {
             </div>
           </div>
         ) : (
-          <p className="text-center text-gray-600 mt-10">Loading engineer profile...</p>
+          <p className="text-center text-gray-600 mt-10">Loading Assistent Engineer profile...</p>
         )}
       </div>
     </div>
   );
 }
 
-export default EngineerDashboard;
+export default AssistentEngineerDashboard;

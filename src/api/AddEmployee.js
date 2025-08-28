@@ -1,44 +1,36 @@
-import axios from 'axios'
 import React, { useState } from 'react'
+import validation from './RegisterValidation'
+import axios from 'axios'
 import { useNavigate } from 'react-router-dom'
-import RegisterValidation from './RegisterValidation'
-import './index.css'
 
-function Register() {
-
-
+function AddEmployee() {
     const [values,setValues] = useState({
         userName:'',
         email:'',
         password:'',
         position:''
-        
     })
-    const navigate = useNavigate()
-
     const handleInput = (event)=>{
         setValues(prev=>({...prev,[event.target.name]:event.target.value}))
-
     }
-
     const [errors,setErrors] = useState({})
-    const [serverError,setServerError] = useState('')
-
+    const navigate = useNavigate()
     const handleSubmit = (event)=>{
+
         event.preventDefault()
-        console.log("Form submitted ",values)
-        const validationErrors = RegisterValidation(values)
+
+        const validationErrors = validation(values)
         setErrors(validationErrors)
-        console.log("Form submitted ",validationErrors)
-        setServerError('')
         if(Object.keys(validationErrors).length === 0 ){
-            axios.post("http://localhost:8800/Register",values)
+            axios.post("http://localhost:8800/Add-Employee",values)
             .then(res =>{
                 navigate('/')
             })
             .catch(err =>console.log(err))
         }
-    }
+
+   }
+
 
   return (
     <div className='d-flex vh-100 justify-content-center align-items-center'>
@@ -46,7 +38,7 @@ function Register() {
 
             <form onSubmit={handleSubmit} className='form-01'>
                 <h1>Registration Form</h1>
-                {serverError && <div className="alert alert-danger">{serverError}</div>}
+                
 
                 <div className='mb-3'>
                     <label id='userName'>User Name :</label>
@@ -76,7 +68,7 @@ function Register() {
                 
 
 
-                <button type='submit' className='btn btn-success'>Register</button><br /><br />
+                <button type='submit' className='btn btn-success'>Add Employee</button><br /><br />
 
 
             </form>
@@ -86,4 +78,4 @@ function Register() {
   )
 }
 
-export default Register
+export default AddEmployee

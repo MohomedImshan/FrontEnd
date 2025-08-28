@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Login = ({onLogin}) => {
 
@@ -12,17 +12,19 @@ const Login = ({onLogin}) => {
   const handleLogin = async (event)=>{
     event.preventDefault()
     try{
-      const res = await axios.post('http://localhost:8800/api/login',{email,password})
-      const {position} = res.data
-      onLogin(position)
+      const res = await axios.post('http://localhost:8800/login',{email,password})
+      //const {empNum,position} = res.data
+      localStorage.setItem('token',res.data.token)
+      const decoded = JSON.parse(atob(res.data.token.split('.')[1]))
+      onLogin(decoded.position,decoded.empNum,decoded.userName)
 
-      if(position === 'Engineer'){
+      if(decoded.position === 'Engineer'){
         navigate('/Engineer')
       }
-      else if(position === 'Assistent-Engineer')
+      else if(decoded.position === 'Assistent-Engineer')
       {
         navigate('/Assistent-Engineer')
-      }else if(position === 'Technician'){
+      }else if(decoded.position === 'Technician'){
         navigate('/Technician')
       }else {
         setErrors('Invalid rolde received from server')
@@ -63,6 +65,7 @@ const Login = ({onLogin}) => {
           </div>
 
           <button onClick={handleLogin} className='btn btn-success' disabled={!email||!password}>Login</button>
+          <p>Didn't have an Account:<button className='btn btn-light'><Link to={"/Register"}>Register</Link></button></p>
         </form>
 
       </div>

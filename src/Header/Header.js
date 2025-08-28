@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import {Link,useNavigate} from 'react-router-dom'
+import {jwtDecode} from 'jwt-decode'
+import '../Header/header.css'
 
 
 function Header() {
@@ -9,19 +11,37 @@ function Header() {
 
 
     useEffect(()=>{
-        const storedUser = localStorage.getItem('position')
-        const userId = localStorage.getItem('empNum')
-        if(storedUser){
-            setUserPosition(storedUser)
+        const token = localStorage.getItem('token')
+        if(!token){
+            navigate('/')
+            return
         }
-        if(userId){
-            setUserId(userId)
+
+        try{
+            const decoded = jwtDecode(token)
+            if(decoded.exp * 1000 < Date.now()){
+                handleLogout()
+            }else{
+                const storedUser = localStorage.getItem('position')
+                const userId = localStorage.getItem('empNum')
+                if(storedUser){
+                    setUserPosition(storedUser)
+                }
+                if(userId){
+                    setUserId(userId)
+                }
+            }
+           
         }
-    },[])
+        catch{
+            handleLogout()
+        }
+    },[navigate])
 
     const handleLogout =()=>{
         localStorage.removeItem('position')
         localStorage.removeItem('empNum')
+        localStorage.removeItem('token')
         navigate('/')
 
     }
@@ -50,16 +70,17 @@ function Header() {
                 <Link className="nav-link" to="/Technician">Home </Link>
             </li>
             )}
-            {(userPosition === 'Assistant_Engineer')&&(
+            {(userPosition === 'Assistant-Engineer')&&(
                 <li className="nav-item active">
                 <Link className="nav-link" to="/Assistant-Engineer">Home </Link>
             </li>
             )}
 
             
+            {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
             <li className="nav-item">
-                <Link className="nav-link " to="/User">User Details</Link>
-            </li>
+                <Link className="nav-link" to="/User">User Details</Link>
+            </li>)}
             {( userPosition ==='Engineer')&&(
             <li className="nav-item">
                 
@@ -67,21 +88,31 @@ function Header() {
             </li>)}
             {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
             <li className="nav-item">
-                <Link className="nav-link" to="/Notifications">Notification</Link>
+                <Link className="nav-link" to="/Notification">Notification</Link>
             </li>)}
             <li className="nav-item">
-                <Link className="nav-link " to={`/Requests/${userId}`} >Requests</Link>
+                <Link className="nav-link " to="/Requests" >Requests</Link>
             </li>
-            <li>
-                <form className="form-inline my-2 my-lg-0 justify-item-right ">
+            <li className="nav-item">
+                <Link className="nav-link " to="/OwnRequests" >My Requests</Link>
+            </li>
+            
+            {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
+            <li className="nav-item">
+                <Link className="nav-link" to="/Reject">Rejects</Link>
+            </li>)}
+            {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
+            <li className="nav-item">
+                <Link className="nav-link" to="/Report">Download</Link>
+            </li>)}
+            {/* <li>
+                 <form className="form-inline my-2 my-lg-0 justify-item-right ">
                     <input className="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" />
-                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-
-                    
-            </form>
-            </li>
+                    <button className="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>    
+                </form> 
+            </li> */}
             <li className='btn-logout nav-item '>
-                <button className='btn btn-outline-danger my-2 my-sm-0'
+                <button className='logout-btn btn btn-outline-danger my-2 my-sm-0'
                 onClick={handleLogout}
                 >LogOut</button>
             </li>

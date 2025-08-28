@@ -1,4 +1,4 @@
-function validation(values){
+function RegisterValidation(values){
     let error = {}
 
     const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -8,7 +8,7 @@ function validation(values){
     const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!]).{8,}$/
     
 
-    const username = String(values.user_name||"").trim()
+    const username = String(values.userName||"").trim()
     const email = String(values.email||"").trim()
     const password = values.password||""
     if(!username){
@@ -33,4 +33,4 @@ function validation(values){
 
     return error
 }
-export default validation
+export default RegisterValidation
