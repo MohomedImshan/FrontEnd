@@ -53,7 +53,7 @@ function Notification() {
       machine_code: row.machine_code ?? '',
       type: row.type ?? '',
       description: row.description ?? '',
-      employee_name: row.employee_name ?? ''
+      userName: row.userName ?? ''
     });
   };
 
@@ -137,7 +137,7 @@ function Notification() {
                   <td>{req.machine_code}</td>
                   <td>{req.type}</td>
                   <td style={{maxWidth: 240}} className="text-truncate">{req.description}</td>
-                  <td>{req.employee_name}</td>
+                  <td>{req.userName}</td>
                   <td>{req.created_at ? new Date(req.created_at).toLocaleString() : '-'}</td>
                   <td>{req.approved_date ? new Date(req.approved_date).toLocaleString() : '-'}</td>
                   <td>
@@ -175,20 +175,40 @@ function Notification() {
                     <p><strong>Type:</strong> {selectedRequest.type}</p>
                   </div>
                   <div className="col-md-6">
-                    <p><strong>Employee:</strong> {selectedRequest.employee_name}</p>
+                    <p><strong>Employee:</strong> {selectedRequest.userName}</p>
                     <p><strong>Status:</strong> {selectedRequest.status}</p>
                     <p><strong>Created:</strong> {selectedRequest.created_at ? new Date(selectedRequest.created_at).toLocaleString() : '-'}</p>
-                    <p><strong>Approved Date:</strong> {selectedRequest.approvedDate ? new Date(selectedRequest.approvedDate).toLocaleString() : '-'}</p>
+                    <p><strong>Approved Date:</strong> {selectedRequest.approved_date ? new Date(selectedRequest.approved_date).toLocaleString() : '-'}</p>
                   </div>
                 </div>
                 <p><strong>Description:</strong> {selectedRequest.description}</p>
 
                 <h6 className="mt-3">Spare Parts</h6>
-                <ul className="mb-3">
-                  {selectedParts.length ? selectedParts.map(p => (
-                    <li key={p.id}>{p.part_name} — {p.count}</li>
-                  )) : <li>None</li>}
-                </ul>
+                <table className="table table-bordered">
+                        <thead>
+                          <tr>
+                            <th>ID</th>
+                            <th>Item Name</th>
+                            <th>Quantity</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {selectedParts.length > 0 ? (
+                            selectedParts.map((p, index) => (
+                              <tr key={index}>
+                                <td>{p.id}</td>
+                                <td>{p.item_name}</td>
+                                <td>{p.quantity}</td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan="3" className="text-center">No parts added</td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+
 
                 <div className="text-end">
                   <button className="btn btn-secondary" onClick={closeModal}>Close</button>
@@ -217,7 +237,7 @@ function Notification() {
                     <input className="form-control mb-2" value={editRequestData.type} onChange={(e) => setEditRequestData({ ...editRequestData, type: e.target.value })} placeholder="Type" />
 
                     <p><strong>Employee:</strong></p>
-                    <input className="form-control mb-3" value={editRequestData.employee_name} onChange={(e) => setEditRequestData({ ...editRequestData, employee_name: e.target.value })} placeholder="Employee Name" />
+                    <input className="form-control mb-3" value={editRequestData.userName} onChange={(e) => setEditRequestData({ ...editRequestData, userName: e.target.value })} placeholder="Employee Name" />
 
                     <p><strong>Description:</strong></p>
                     <textarea className="form-control mb-2" value={editRequestData.description} onChange={(e) => setEditRequestData({ ...editRequestData, description: e.target.value })} placeholder="Description" />
