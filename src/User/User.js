@@ -123,7 +123,7 @@
         return (
             <div>
                 <Header />
-                <div className='home'><br />
+                <div className='container mt-4'><br />
                 <h1>User Details</h1>
                 
 

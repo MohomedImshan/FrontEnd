@@ -5,6 +5,7 @@ import exportPDF from './ReportDownload'
 
 function Report() {
     const [report,setReport] = useState([])
+    const [transaction,setTransaction]=useState([])
     const [loading,setLoading] = useState(true)
     // const [fromDate,setFromDate] = useState("")
     // const [toDate,setToDate]=useState("")
@@ -15,13 +16,26 @@ function Report() {
         console.error('No token found')
         return
       }
-        axios.get('http://localhost:8800/report',{
-          headers:{
-            Authorization:`Bearer ${token}`
-          }
+      axios.get('http://localhost:8800/report',{
+        headers:{
+           Authorization:`Bearer ${token}`
+         }
         })
         .then(res=>{
             setReport(res.data.report)
+            setLoading(false)
+        })
+        .catch(err=>{
+            console.error(err)
+            setLoading(false)
+        })
+      axios.get('http://localhost:8800/transaction',{
+        headers:{
+           Authorization:`Bearer ${token}`
+         }
+        })
+        .then(res=>{
+            setTransaction(res.data.transaction)
             setLoading(false)
         })
         .catch(err=>{
@@ -40,12 +54,12 @@ function Report() {
     <div>
         <Header />
    
-    <div className="p-4">
+    <div className="container p-4">
       
       <h2>Weekly Report</h2>
       
 
-      <button className='btn btn-success' onClick={()=>exportPDF(report)}>Download</button><br />
+      <button className='btn btn-success' onClick={()=>exportPDF(report,transaction)}>Download</button><br />
       {/* <div className="mb-3">
         <label>From: </label>
         <input
@@ -70,6 +84,7 @@ function Report() {
       </button> */}
       
       <br />
+      <h1>Requests for Last Week</h1>
       {loading ? (
         <p>Loading report...</p>
       ) : report?.length ?  (
@@ -96,9 +111,10 @@ function Report() {
                 <td>{r.machine_code}</td>
                 <td>{r.type}</td>
                 <td>{r.description}</td>
-                <td>{r.employee_name}</td>
+                <td>{r.userName}</td>
                 <td>{new Date(r.created_at || r.date_time).toLocaleString()}</td>
-                <td></td>
+                <td>{r.approved_date ? new Date(r.approved_date).toLocaleString() : '-'}</td>
+                
 
                 
               </tr>
@@ -107,6 +123,42 @@ function Report() {
         </table>
       ):(
         <p>No report Found</p>
+      )}
+      <br />
+      <h1>Reports of Transaction</h1>
+      {loading ? (
+        <p>Loading report...</p>
+      ) : transaction?.length ?  (
+        
+        <table className="table table-bordered table-striped">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Action</th>
+              <th>Item ID</th>
+              <th>Items</th>
+              <th>Quantity</th>
+              <th>Date of Update/Issued/Accepted</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+            {transaction.map((t) => (
+              <tr key={t.id}>
+                <td>{t.id}</td>
+                <td>{t.action}</td>
+                <td>{t.item_id}</td>
+                <td>{t.item_name}</td>
+                <td>{t.quantity}</td>
+                <td>{t.date_of_accept	 ? new Date(t.date_of_accept	).toLocaleString() : '-'}</td>
+
+                
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ):(
+        <p>No report Found for last 7 days</p>
       )}
     </div>
     </div>

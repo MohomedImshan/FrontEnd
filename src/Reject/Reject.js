@@ -69,7 +69,7 @@ function Reject() {
                 <td>{r.machine_code}</td>
                 <td>{r.type}</td>
                 <td>{r.description}</td>
-                <td>{r.employee_name}</td>
+                <td>{r.userName}</td>
                 <td>{new Date(r.created_at || r.date_time).toLocaleString()}</td>
                 
               </tr>

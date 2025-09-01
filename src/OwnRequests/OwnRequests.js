@@ -75,10 +75,13 @@ function OwnRequests() {
                 <td>{req.type}</td>
                 <td>{req.description}</td>
                 
+                
                 <td>{new Date(req.created_at || req.date_time).toLocaleString()}</td>
                 <td>
                   <button onClick={() => openModal(req)} className="btn btn-sm btn-outline-info">View</button>
+
                 </td>
+                <td>{req.status}</td>
             
               </tr>
             ))}

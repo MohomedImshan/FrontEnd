@@ -70,7 +70,7 @@ function EngineerDashboard({empNum,onLogout}) {
       <Header />
 
       {/* Add Button */}
-      <div className="px-8 mt-4">
+      <div className="container px-8 mt-4">
         {/* <button className='btn btn-success'> <Link className="bg-green-600 text-white px-4 py-2 padding-10 rounded hover:bg-green-700" to="/Register">
           Add Employee
         </Link>
@@ -114,7 +114,7 @@ function EngineerDashboard({empNum,onLogout}) {
       </div>
 
       {/* Engineer Profile Section */}
-      <div className="p-8">
+      <div className="container p-8">
         {user ? (
           <div className="bg-gray-50 shadow rounded-lg p-6">
             <div className="flex items-center space-x-8">

@@ -16,6 +16,7 @@ import AddEmployee from './api/AddEmployee';
 import Report from './Reports/Report';
 import Reject from './Reject/Reject';
 import OwnRequests from './OwnRequests/OwnRequests';
+import Logfile from './Logbook/logfile';
 
 function App() {
 
@@ -66,7 +67,7 @@ function App() {
           <Route path="/Report" element={<Report />}></Route>
           <Route path="/Reject" element={<Reject />}></Route>
           <Route path="/OwnRequests" element={<OwnRequests />}></Route>
-
+          <Route path="/Logfile" element={<Logfile />}></Route>
 
           {/* <Route path="/Requests" element={<Request />} ></Route> */}
          

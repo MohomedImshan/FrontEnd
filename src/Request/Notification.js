@@ -122,7 +122,7 @@ function Notification() {
                 <th>Description</th>
                 <th>Employee</th>
                 <th>Created</th>
-                <th>Approved Date</th>
+                <th>Date Of Action</th>
                 <th>View</th>
                 <th>Status</th>
                 <th>Action</th>
@@ -178,7 +178,7 @@ function Notification() {
                     <p><strong>Employee:</strong> {selectedRequest.userName}</p>
                     <p><strong>Status:</strong> {selectedRequest.status}</p>
                     <p><strong>Created:</strong> {selectedRequest.created_at ? new Date(selectedRequest.created_at).toLocaleString() : '-'}</p>
-                    <p><strong>Approved Date:</strong> {selectedRequest.approved_date ? new Date(selectedRequest.approved_date).toLocaleString() : '-'}</p>
+                    <p><strong>Date Of Action:</strong> {selectedRequest.approved_date ? new Date(selectedRequest.approved_date).toLocaleString() : '-'}</p>
                   </div>
                 </div>
                 <p><strong>Description:</strong> {selectedRequest.description}</p>
@@ -211,6 +211,7 @@ function Notification() {
 
 
                 <div className="text-end">
+                  
                   <button className="btn btn-secondary" onClick={closeModal}>Close</button>
                 </div>
               </div>

@@ -115,7 +115,7 @@ function Header({ onLogout }) {
             </li>)}
             {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
             <li className="nav-item">
-                <Nav.Link  as={Link} to="/Report" onClick={() => setExpanded(false)} >Log Files</Nav.Link>
+                <Nav.Link  as={Link} to="/Logfile" onClick={() => setExpanded(false)} >Log Files</Nav.Link>
             </li>)}
             {/* <li>
                  <form className="form-inline my-2 my-lg-0 justify-item-right ">
