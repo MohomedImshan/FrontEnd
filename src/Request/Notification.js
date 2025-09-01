@@ -11,7 +11,7 @@ function Notification() {
   const [selectedParts, setSelectedParts] = useState([]);
   const [editRequest, setEditRequest] = useState(null);
   const [editRequestData, setEditRequestData] = useState({});
-
+  const [stockError,setStockError]=useState(null)
   const searchQuery = useMemo(() => searchTerm.trim(), [searchTerm]);
 
   const fetchRequests = async () => {
@@ -85,14 +85,21 @@ function Notification() {
   };
 
   const updateStatus = async (id, status) => {
+    console.log(id,"to status",status)
     try {
 
       await axios.put(`${API}/requests/status/${id}`, { status });
 
       fetchRequests();
     } catch (err) {
-      console.error('Status update failed', err);
-      alert('Status update failed');
+      //console.error('Status update failed', err);
+      if(err.response?.status === 400 && err.response?.data?.message?.includes('Not enough stock')){
+        setStockError(err.response.data.message)
+      }else{
+        alert(`Status update failed:`);
+   
+      }
+      
     }
   };
 
@@ -251,6 +258,24 @@ function Notification() {
             </div>
           </div>
         )}
+        {/* Stock Error Modal */}
+        {stockError && (
+  <div className="modal show d-block" tabIndex="-1" role="dialog">
+    <div className="modal-dialog">
+      <div className="modal-content p-3">
+        <h5>Stock Error</h5>
+        <p>{stockError}</p>
+        <div className="text-end">
+          <button className="btn btn-secondary" onClick={() => setStockError("")}>
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
+
       </div>
     </div>
   );

@@ -93,12 +93,15 @@ function RequestForm() {
 
           <div className="mb-3">
             <label>Department</label>
-            <select className="form-control" value={formData.department}
+            <select className="form-control" 
+              value={formData.department}
               onChange={e => setFormData({ ...formData, department: e.target.value })} required >
-                <option value="Electrical">Electrical</option>
-                <option value="Mechanical">Mechanical</option>
-                <option value="General">General</option>
-            </select>
+              <option value="">-- Select Department --</option>
+              <option value="Electrical">Electrical</option>
+              <option value="Mechanical">Mechanical</option>
+              <option value="General">General</option>
+          </select>
+
           </div>
 
           <div className="mb-3">
