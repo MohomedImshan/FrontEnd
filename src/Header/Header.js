@@ -52,7 +52,7 @@ function Header({ onLogout }) {
 
   return (
     <header>
-        <Navbar expand="lg" bg="light" className="shadow-sm" expanded={expanded} >
+        <Navbar expand="lg" bg='light' className= "shadow-sm" expanded={expanded} >
             <Container fluid>
             <Navbar.Brand href="https://gillsinternational.com/" className="navbar-logo">
                 <img src="https://gillsinternational.com/wp-content/uploads/2024/01/Gills-Logo-2.png" alt="Logo" className="logo-img"/>
