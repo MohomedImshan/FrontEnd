@@ -7,7 +7,7 @@ import TechnicianDashboard from './Position/TechnicianDashboard';
 import AssistantEngineerDashBoard from './Position/AssistantEngineerDashBoard';
 import Register from './api/Register';
 import Login from './api/Login';
-import SpareParts from './Spare-Parts/SpareParts';
+import SpareParts from './SpareParts/SpareParts';
 //requestform
 import RequestForm from './Request/RequestForm';
 import Notification from './Request/Notification';
@@ -16,7 +16,6 @@ import AddEmployee from './api/AddEmployee';
 import Report from './Reports/Report';
 import Reject from './Reject/Reject';
 import OwnRequests from './OwnRequests/OwnRequests';
-
 
 function App() {
 

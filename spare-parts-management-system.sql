@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 17, 2025 at 06:01 PM
+-- Generation Time: Aug 28, 2025 at 08:42 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -29,24 +29,29 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `requests` (
   `id` int(11) NOT NULL,
+  `empNum` int(11) NOT NULL,
   `department` varchar(100) NOT NULL,
   `machine_code` varchar(50) NOT NULL,
   `type` varchar(100) NOT NULL,
   `description` text NOT NULL,
+
   `empNum` int(11) NOT NULL,
   `employee_name` varchar(100) NOT NULL,
   `status` varchar(50) NOT NULL DEFAULT 'pending',
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
   `approved_date` timestamp NULL 
   `parts` JSON NULL,  -- to store multiple parts as JSON array
+
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `requests`
 --
 
-INSERT INTO `requests` (`id`, `department`, `machine_code`, `type`, `description`, `empNum`, `employee_name`, `date_time`, `status`, `created_at`,`approved_date`) VALUES
-(4, 'D001', 'MC001', 'TYPE02', 'PROBLEM 5', 1, 'Imshan', 'pending', '2025-08-14 05:18:34',' ');
+
+INSERT INTO `requests` (`id`, `empNum`, `department`, `machine_code`, `type`, `description`, `userName`, `status`, `created_at`, `parts`, `approved_date`) VALUES
+(7, 1, 'D001', 'Mc001', 'Type001', 'Problem 1', 'Imshan', 'pending', '2025-08-28 06:19:06', '[{\"id\":\"1\",\"item_name\":\"Pipe\",\"quantity\":\"3\"},{\"id\":\"2\",\"item_name\":\"ScrewDriver \",\"quantity\":\"1\"}]', NULL);
+
 
 -- --------------------------------------------------------
 
@@ -67,7 +72,11 @@ CREATE TABLE `spare_parts_tbl` (
 --
 
 INSERT INTO `spare_parts_tbl` (`id`, `department`, `type`, `item_name`, `quantity`) VALUES
-(1, 'D001', 'T001', 'Tap', 100);
+(1, 'D001', 'T001', 'Tap', 100),
+(2, 'D001', 'T003', 'Pipe', 100),
+(3, 'D003', 'Type 4', 'Screwdriver set', 10),
+(4, 'D003', 'Type 4', 'Screwdriver set', 10),
+(5, 'D004', 'Type 5', 'E004151', 200);
 
 -- --------------------------------------------------------
 
@@ -85,14 +94,41 @@ CREATE TABLE `users` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
-
-
 -- Dumping data for table `users`
 --
 
 INSERT INTO `users` (`empNum`, `userName`, `email`, `password`, `position`, `status`) VALUES
 (1, 'Imshan', 'mohomedamccimshan@gmail.com', '$2b$10$nqw2.wZo7zavOJwW.DlHXe5PeBmkflCPt4u.NpeRUNg96spmi8b5q', 'Engineer', 'Active'),
-(2, 'saman', 'saman@gmail.com', '$2b$10$V7jFoyCjHWtDdVBMnF3BeeFySbNVJ7JYe8pbTQWEb6EH181THDb0G', 'Technician', 'Active');
+(2, 'saman', 'saman@gmail.com', '$2b$10$V7jFoyCjHWtDdVBMnF3BeeFySbNVJ7JYe8pbTQWEb6EH181THDb0G', 'Technician', 'Active'),
+(3, 'santha', 'santha@gmail.com', '$2b$10$0wXyWt5aA88hPCF2qFGgBuArUk6Q388.eheCx0j2osDC3e.FCJ1qi', 'Technician', 'pending'),
+(4, 'Mahasen', 'mahasen@gmail.com', '$2b$10$P5.5KbeZOczaamoiZCSfLumYZjjLdEmkrYT6tERG2i7B/zk45nKuW', 'Technician', 'pending'),
+(5, 'Pasindu', 'pasindu@gmail.com', '$2b$10$jwgG3vanz7Q5UyGCftphA.jBkxnEbxNClbwOV0DmOM9XPKlks1jqa', 'Technician', 'Active');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user_logs`
+--
+
+CREATE TABLE `user_logs` (
+  `id` int(11) NOT NULL,
+  `empNum` varchar(100) NOT NULL,
+  `action` varchar(50) NOT NULL,
+  `details` text NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `user_logs`
+--
+
+INSERT INTO `user_logs` (`id`, `empNum`, `action`, `details`, `timestamp`) VALUES
+(1, '1', 'LOGIN', 'User logged IN', '2025-08-27 17:13:47'),
+(2, '1', 'Register', 'New user Registered', '2025-08-27 17:23:14'),
+(3, '1', 'UPDATE STATUS', 'Updated the status of Employee Number 5', '2025-08-27 17:27:57'),
+(4, '1', 'LOGIN', 'User logged IN', '2025-08-28 04:41:42'),
+(5, '1', 'LOGIN', 'User logged IN', '2025-08-28 05:36:00'),
+(6, '1', 'LOGIN', 'User logged IN', '2025-08-28 06:24:24');
 
 --
 -- Indexes for dumped tables
@@ -117,6 +153,12 @@ ALTER TABLE `users`
   ADD PRIMARY KEY (`empNum`);
 
 --
+-- Indexes for table `user_logs`
+--
+ALTER TABLE `user_logs`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- AUTO_INCREMENT for dumped tables
 --
 
@@ -124,46 +166,28 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `requests`
 --
 ALTER TABLE `requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `spare_parts_tbl`
 --
 ALTER TABLE `spare_parts_tbl`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `empNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `empNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
+--
+-- AUTO_INCREMENT for table `user_logs`
+--
+ALTER TABLE `user_logs`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 COMMIT;
 /*
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-*/
 
-/*
-CREATE TABLE requests (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  empNum VARCHAR(50),
-  department VARCHAR(100),
-  machine_code VARCHAR(50),
-  type VARCHAR(50),
-  description TEXT,
-  employee_name VARCHAR(100),
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ,
-  approved_date DATETIME NULL,
-  status ENUM('Pending','Approved','Rejected') DEFAULT 'Pending'  
-);
-
-CREATE TABLE spare_parts (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  request_id INT,
-  part_name VARCHAR(100),
-  count INT,
-  FOREIGN KEY (request_id) REFERENCES requests(id) ON DELETE CASCADE
-);
-
-*/
