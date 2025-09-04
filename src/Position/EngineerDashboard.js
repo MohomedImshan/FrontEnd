@@ -8,13 +8,16 @@ import { useNavigate } from 'react-router-dom';
 
 function EngineerDashboard({ empNum, onLogout }) {
   const [user, setUser] = useState(null);
-  const [showModal, setShowModal] = useState(false)
-  const [showChangePasswordmodel, setChangePasswordModal] = useState(false)
 
-  const [editName, setEditName] = useState('')
-  const [editEmail, setEditEmail] = useState('')
-  const [password, setpassword] = useState('')
-  const [confirmpassword, setconfirmPassword] = useState('')
+  const [showModal,setShowModal]= useState(false)
+  const [showChangePasswordmodel,setChangePasswordModal]= useState(false)
+
+
+  const [editName,setEditName] = useState('')
+  const [editEmail,setEditEmail] = useState('')
+  const [password,setpassword] = useState('')
+  const [confirmpassword,setconfirmPassword] = useState('')
+
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -41,36 +44,38 @@ function EngineerDashboard({ empNum, onLogout }) {
     };
     fetchUser();
   }, []);
-  const handleAccept = async () => {
-    try {
+  const handleAccept = async ()=>{
+    try{
       const token = localStorage.getItem('token')
-      if (!token) {
+      if(!token){
         console.error('No Token is Found,redirecting to login...')
         navigate('/')
       }
       const updatedUser = {
-        userName: editName || user.userName,
-        email: editEmail || user.email,
+
+        userName : editName || user.userName, 
+        email:editEmail || user.email,
         //position:user.position,
-
+        
       }
-      await axios.put(`http://localhost:8800/Engineer/${user.empNum}`, updatedUser
-        , {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-      setUser((prevUser) => ({
-        ...prevUser,
+      await axios.put(`http://localhost:8800/Engineer/${user.empNum}`,updatedUser
+      ,{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      })
+      setUser((prevUser)=>({...prevUser,
 
-        userName: updatedUser.userName,
-        email: updatedUser.email
-      }))
+        userName:updatedUser.userName,
+        email:updatedUser.email
+    }))
+
       setShowModal(false)
-    } catch (err) {
-      console.error('Failed to update user:', err)
+    }catch(err){
+      console.error('Failed to update user:',err)
     }
   }
+  
   const handleChangePassword = async () => {
     try {
       const token = localStorage.getItem('token')
@@ -113,6 +118,7 @@ function EngineerDashboard({ empNum, onLogout }) {
       {/* Top Navigation (unchanged as requested) */}
       <Header />
 
+
       {/* Main content container with padding */}
       <div className="container my-5 px-5">
         {/* Engineer Profile Section */}
@@ -150,31 +156,26 @@ function EngineerDashboard({ empNum, onLogout }) {
                   width="20" height="20"
                   class="mx-2 my-2" />
               </button>
+
+      
             </div>
 
-            {/* Horizontal line for separation */}
-            <hr className="my-3" style={{ borderTop: '5px solid #ffc107' }} />
+            <hr className="border-yellow-500 my-6" />
 
-            {/* User details section */}
-            <div className="text-start row g-2 ps-">
-              <div className="col-12">
-                <p className="mb-0"><strong>Full Name:</strong> {user.userName}</p>
-              </div>
-              <div className="col-12">
-                <p className="mb-0"><strong>Position:</strong> {user.position}</p>
-              </div>
-              <div className="col-12">
-                <p className="mb-0"><strong>Email:</strong> {user.email}</p>
-              </div>
-              <div className="col-12">
-                <p className="mb-0"><strong>Status:</strong> {user.status}</p>
-              </div>
+            <div className="space-y-3 text-lg">
+              <p><strong>Full Name:</strong> {user.userName}</p>
+              
+              <p><strong>Position</strong> {user.position}</p>
+              <p><strong>Email:</strong> {user.email}</p>
+              <p><strong>Status:</strong> {user.status}</p>
+
             </div>
           </div>
         ) : (
-          <p className="text-center text-secondary mt-5">Loading engineer profile...</p>
+          <p className="text-center text-gray-600 mt-10">Loading engineer profile...</p>
         )}
       </div>
+
 
       {/* Modal remains unchanged, but I added a rounded-3 class to the form control as a minor style improvement */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
@@ -231,6 +232,7 @@ function EngineerDashboard({ empNum, onLogout }) {
         </Modal.Footer>
 
       </Modal>
+
     </div>
   );
 }

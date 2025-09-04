@@ -6,6 +6,7 @@ import exportPDF from './ReportDownload'
 function Report() {
     const [report,setReport] = useState([])
     const [transaction,setTransaction]=useState([])
+    const [stockReport,setStockReport]=useState([])
     const [loading,setLoading] = useState(true)
     // const [fromDate,setFromDate] = useState("")
     // const [toDate,setToDate]=useState("")
@@ -42,6 +43,19 @@ function Report() {
             console.error(err)
             setLoading(false)
         })
+        axios.get('http://localhost:8800/report/stockreport',{
+        headers:{
+           Authorization:`Bearer ${token}`
+         }
+        })
+        .then(res=>{
+          setStockReport(res.data.stockReport)
+            setLoading(false)
+        })
+        .catch(err=>{
+            console.error(err)
+            setLoading(false)
+        })
     },[])
 
     // const filteredReport = report.filter(r=>{
@@ -59,7 +73,7 @@ function Report() {
       <h2>Weekly Report</h2>
       
 
-      <button className='btn btn-success' onClick={()=>exportPDF(report,transaction)}>Download</button><br />
+      <button className='btn btn-success' onClick={()=>exportPDF(report,transaction,stockReport)}>Download</button><br />
       {/* <div className="mb-3">
         <label>From: </label>
         <input

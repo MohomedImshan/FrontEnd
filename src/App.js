@@ -4,7 +4,7 @@ import {BrowserRouter,Routes,Route} from "react-router-dom"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import EngineerDashboard from './Position/EngineerDashboard';
 import TechnicianDashboard from './Position/TechnicianDashboard';
-import AssistantEngineerDashBoard from './Position/AssistantEngineerDashBoard';
+
 import Register from './api/Register';
 import Login from './api/Login';
 import SpareParts from './Spare-Parts/SpareParts';
@@ -17,6 +17,7 @@ import Report from './Reports/Report';
 import Reject from './Reject/Reject';
 import OwnRequests from './OwnRequests/OwnRequests';
 import Logfile from './Logbook/logfile';
+import AssistantEngineerDashBoard from './Position/AssistantEngineerDashBoard';
 
 
 
@@ -84,7 +85,7 @@ function App() {
           <Route path='/Technician' element={<TechnicianDashboard empNum={empNum} onLogout={handleLogout} />} />
         )}
 
-        {userPosition === 'Assistant_Engineer' &&(
+        {userPosition === 'Assistant-Engineer' &&(
           <Route path='/Assistant-Engineer' element={<AssistantEngineerDashBoard empNum={empNum} onLogout={handleLogout} />} />
         )}
 

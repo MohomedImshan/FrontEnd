@@ -85,7 +85,7 @@ function Header({ onLogout }) {
             )}
 
             
-            {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
+            {( userPosition==='Engineer' || userPosition === 'Assistant-Engineer')&&(
             <li className="nav-item">
                 <Nav.Link as={Link} to="/User" onClick={() => setExpanded(false)}>User Details</Nav.Link>
             </li>)}
@@ -94,7 +94,7 @@ function Header({ onLogout }) {
                 
                 <Nav.Link as={Link} to="/Spareparts" onClick={() => setExpanded(false)}>Spare Parts</Nav.Link>
             </li>)}
-            {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
+            {( userPosition==='Engineer' || userPosition === 'Assistant-Engineer')&&(
             <li className="nav-item">
                 <Nav.Link as={Link} to="/Notification" onClick={() => setExpanded(false)}>Notification</Nav.Link>
             </li>)}
@@ -105,15 +105,15 @@ function Header({ onLogout }) {
                 <Nav.Link as={Link} to="/OwnRequests" onClick={() => setExpanded(false)} >My Requests</Nav.Link>
             </li>
             
-            {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
+            {( userPosition==='Engineer' || userPosition === 'Assistant-Engineer')&&(
             <li className="nav-item">
                 <Nav.Link as={Link} to="/Reject" onClick={() => setExpanded(false)} >Rejects</Nav.Link>
             </li>)}
-            {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
+            {( userPosition==='Engineer' || userPosition === 'Assistant-Engineer')&&(
             <li className="nav-item">
                 <Nav.Link as={Link} to="/Report" onClick={() => setExpanded(false)} >Download</Nav.Link>
             </li>)}
-            {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
+            {( userPosition==='Engineer' || userPosition === 'Assistant-Engineer')&&(
             <li className="nav-item">
                 <Nav.Link  as={Link} to="/Logfile" onClick={() => setExpanded(false)} >Log Files</Nav.Link>
             </li>)}

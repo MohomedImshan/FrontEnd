@@ -157,7 +157,7 @@
                                                         >
                                                             <option value="">Select status</option>
                                                             <option value="Engineer">Engineer</option>
-                                                            <option value="Assistent-Engineer">Assistent-Engineer</option>
+                                                            <option value="Assistant-Engineer">Assistant-Engineer</option>
                                                             <option value="Technician">Technician</option>
                                                         </Form.Select>
                                                 </Form.Group>

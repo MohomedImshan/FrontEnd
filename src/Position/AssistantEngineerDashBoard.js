@@ -4,16 +4,18 @@ import Header from '../Header/Header';
 import axios from 'axios';
 import { Modal,Form,Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
-import EngineerDashboard from './EngineerDashboard';
 
-function AssistentEngineerDashboard({empNum,onLogout}) {
+function AssistantEngineerDashBoard({empNum,onLogout}) {
   const [user, setUser] = useState(null);
   const [showModal,setShowModal]= useState(false)
+  const [showChangePasswordmodel,setChangePasswordModal]= useState(false)
 
 
   const [editName,setEditName] = useState('')
   const [editEmail,setEditEmail] = useState('')
-  const [editPosition,setEditPosition] = useState('')
+  const [password,setpassword] = useState('')
+  const [confirmpassword,setconfirmPassword] = useState('')
+ // const [editPosition,setEditPosition] = useState('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -50,7 +52,8 @@ function AssistentEngineerDashboard({empNum,onLogout}) {
       const updatedUser = {
         userName : editName || user.userName, 
         email:editEmail || user.email,
-        position:user.position
+        //position:user.position,
+        
       }
       await axios.put(`http://localhost:8800/Assistant-Engineer/${user.empNum}`,updatedUser
       ,{
@@ -58,10 +61,49 @@ function AssistentEngineerDashboard({empNum,onLogout}) {
           Authorization:`Bearer ${token}`
         }
       })
-      setUser((prevUser)=>({...prevUser,...updatedUser}))
+      setUser((prevUser)=>({...prevUser,
+
+        userName:updatedUser.userName,
+        email:updatedUser.email
+    }))
       setShowModal(false)
     }catch(err){
       console.error('Failed to update user:',err)
+    }
+  }
+  const handleChangePassword = async ()=>{
+    try{
+      const token = localStorage.getItem('token')
+      if(!token){
+        console.error('No Token is Found,redirecting to login...')
+        navigate('/')
+      }
+      if(!password){
+        alert("Please enter new password")
+        return
+      }
+      if(password !==confirmpassword){
+        alert("Passwords do not match")
+        return
+      }
+      
+      const data = {
+        
+        confirmpassword:confirmpassword
+      }
+      await axios.put(`http://localhost:8800/Assistant-Engineer/${user.empNum}/changepassword`
+      ,data,{
+        headers:{
+          Authorization:`Bearer ${token}`
+        }
+      })
+      alert("Password changed successfully!!")
+      setChangePasswordModal(false)
+      setpassword('')
+      setconfirmPassword('')
+    }catch(err){
+      console.error('Failed to update user:',err)
+      alert(err.response?.data?.message||'Update failed')
     }
   }
 
@@ -71,7 +113,7 @@ function AssistentEngineerDashboard({empNum,onLogout}) {
       <Header />
 
       {/* Add Button */}
-      <div className="px-8 mt-4">
+      <div className="container px-8 mt-4">
         {/* <button className='btn btn-success'> <Link className="bg-green-600 text-white px-4 py-2 padding-10 rounded hover:bg-green-700" to="/Register">
           Add Employee
         </Link>
@@ -80,11 +122,13 @@ function AssistentEngineerDashboard({empNum,onLogout}) {
             if(user){
               setEditName(user.userName)
               setEditEmail(user.email)
-              setEditPosition(user.position)
+              //setEditPosition(user.position)
 
             
             setShowModal(true)}
-          }}>Edit</button>
+          }}>Customize Profile</button>
+
+          
           <Modal show={showModal} onHide={()=>setShowModal(false)}>
             <Modal.Header closeButton>
               <Modal.Title>Edit Profile</Modal.Title>
@@ -105,6 +149,7 @@ function AssistentEngineerDashboard({empNum,onLogout}) {
                 <Form.Control type='email' placeholder={user?.email} value={editEmail} onChange={(e)=>setEditEmail(e.target.value)}></Form.Control>
               </Form.Group>
               
+              
             </Modal.Body>
             <Modal.Footer>
               <Button variant='secondary' onClick={()=>setShowModal(false)}>Cancel</Button>
@@ -112,10 +157,38 @@ function AssistentEngineerDashboard({empNum,onLogout}) {
             </Modal.Footer>
 
           </Modal>
+          <button className='btn btn-sm btn-outline-success me-1' onClick={()=>{setChangePasswordModal(true)}}>Change Password</button>
+          <Modal show={showChangePasswordmodel} onHide={()=>setChangePasswordModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Change Password</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              
+              
+              <Form.Group className='mb-3'>
+                <Form.Label>
+                  Enter New Password:
+                </Form.Label>
+                <Form.Control type='password' placeholder='Enter current password...'  value={password} onChange={(e)=>setpassword(e.target.value)}></Form.Control>
+              </Form.Group>
+              <Form.Group className='mb-3'>
+                <Form.Label>
+                  Re-Enter Password :
+                </Form.Label>
+                <Form.Control type='password' placeholder='Enter New Password...' value={confirmpassword} onChange={(e)=>setconfirmPassword(e.target.value)}></Form.Control>
+              </Form.Group>
+              
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant='secondary' onClick={()=>setChangePasswordModal(false)}>Cancel</Button>
+              <Button variant='success' onClick={handleChangePassword}>Accept</Button>
+            </Modal.Footer>
+
+          </Modal>
       </div>
 
       {/* Engineer Profile Section */}
-      <div className="p-8">
+      <div className="container p-8">
         {user ? (
           <div className="bg-gray-50 shadow rounded-lg p-6">
             <div className="flex items-center space-x-8">
@@ -139,11 +212,11 @@ function AssistentEngineerDashboard({empNum,onLogout}) {
             </div>
           </div>
         ) : (
-          <p className="text-center text-gray-600 mt-10">Loading Assistent Engineer profile...</p>
+          <p className="text-center text-gray-600 mt-10">Loading engineer profile...</p>
         )}
       </div>
     </div>
   );
 }
 
-export default AssistentEngineerDashboard;
+export default AssistantEngineerDashBoard;
