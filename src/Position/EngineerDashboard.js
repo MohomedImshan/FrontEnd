@@ -170,13 +170,13 @@ function EngineerDashboard({ empNum, onLogout }) {
                 <Form.Label>
                   Enter New Password:
                 </Form.Label>
-                <Form.Control type='password' placeholder='Enter current password...'  value={password} onChange={(e)=>setpassword(e.target.value)}></Form.Control>
+                <Form.Control type='password' placeholder='Enter New Password...'  value={password} onChange={(e)=>setpassword(e.target.value)}></Form.Control>
               </Form.Group>
               <Form.Group className='mb-3'>
                 <Form.Label>
                   Re-Enter Password :
                 </Form.Label>
-                <Form.Control type='password' placeholder='Enter New Password...' value={confirmpassword} onChange={(e)=>setconfirmPassword(e.target.value)}></Form.Control>
+                <Form.Control type='password' placeholder='Re-Enter New Password...' value={confirmpassword} onChange={(e)=>setconfirmPassword(e.target.value)}></Form.Control>
               </Form.Group>
               
             </Modal.Body>
