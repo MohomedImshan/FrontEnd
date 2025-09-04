@@ -9,11 +9,12 @@ import { useNavigate } from 'react-router-dom';
 function EngineerDashboard({ empNum, onLogout }) {
   const [user, setUser] = useState(null);
   const [showModal, setShowModal] = useState(false)
-
+  const [showChangePasswordmodel, setChangePasswordModal] = useState(false)
 
   const [editName, setEditName] = useState('')
   const [editEmail, setEditEmail] = useState('')
-  const [editPosition, setEditPosition] = useState('')
+  const [password, setpassword] = useState('')
+  const [confirmpassword, setconfirmPassword] = useState('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -50,7 +51,8 @@ function EngineerDashboard({ empNum, onLogout }) {
       const updatedUser = {
         userName: editName || user.userName,
         email: editEmail || user.email,
-        position: user.position
+        //position:user.position,
+
       }
       await axios.put(`http://localhost:8800/Engineer/${user.empNum}`, updatedUser
         , {
@@ -58,10 +60,50 @@ function EngineerDashboard({ empNum, onLogout }) {
             Authorization: `Bearer ${token}`
           }
         })
-      setUser((prevUser) => ({ ...prevUser, ...updatedUser }))
+      setUser((prevUser) => ({
+        ...prevUser,
+
+        userName: updatedUser.userName,
+        email: updatedUser.email
+      }))
       setShowModal(false)
     } catch (err) {
       console.error('Failed to update user:', err)
+    }
+  }
+  const handleChangePassword = async () => {
+    try {
+      const token = localStorage.getItem('token')
+      if (!token) {
+        console.error('No Token is Found,redirecting to login...')
+        navigate('/')
+      }
+      if (!password) {
+        alert("Please enter new password")
+        return
+      }
+      if (password !== confirmpassword) {
+        alert("Passwords do not match")
+        return
+      }
+
+      const data = {
+
+        confirmpassword: confirmpassword
+      }
+      await axios.put(`http://localhost:8800/Engineer/${user.empNum}/changepassword`
+        , data, {
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
+      })
+      alert("Password changed successfully!!")
+      setChangePasswordModal(false)
+      setpassword('')
+      setconfirmPassword('')
+    } catch (err) {
+      console.error('Failed to update user:', err)
+      alert(err.response?.data?.message || 'Update failed')
     }
   }
 
@@ -72,11 +114,11 @@ function EngineerDashboard({ empNum, onLogout }) {
       <Header />
 
       {/* Main content container with padding */}
-      <div className="container my-5 p-5">
+      <div className="container my-5 px-5">
         {/* Engineer Profile Section */}
         {user ? (
           // Replaced bg-gray-50 and shadow with Bootstrap card and shadow classes
-          <div className="card shadow rounded-3 p-4">
+          <div className="card shadow rounded-3 p-5">
             <div className="d-flex justify-content-between align-items-center mb-4">
               {/* Profile image and info */}
               <div className="d-flex align-items-center">
@@ -99,14 +141,14 @@ function EngineerDashboard({ empNum, onLogout }) {
                   if (user) {
                     setEditName(user.userName)
                     setEditEmail(user.email)
-                    setEditPosition(user.position)
+                    //setEditPosition(user.position)
                     setShowModal(true)
                   }
                 }}>
-              <img src="https://cdn-icons.flaticon.com/svg/3917/3917484.svg?token=exp=1756995245~hmac=bd04b284e3c7804f32c0205e94ab907e" 
-                alt="edit" 
-                width="20" height="20" 
-                class="mx-2 my-2" />
+                <img src="https://cdn-icons.flaticon.com/svg/3917/3917484.svg?token=exp=1756995245~hmac=bd04b284e3c7804f32c0205e94ab907e"
+                  alt="edit"
+                  width="20" height="20"
+                  class="mx-2 my-2" />
               </button>
             </div>
 
@@ -160,6 +202,34 @@ function EngineerDashboard({ empNum, onLogout }) {
           <Button variant='secondary' onClick={() => setShowModal(false)}>Cancel</Button>
           <Button variant='success' onClick={handleAccept}>Accept</Button>
         </Modal.Footer>
+      </Modal>
+      <button className='btn btn-sm btn-outline-success me-1' onClick={() => { setChangePasswordModal(true) }}>Change Password</button>
+      <Modal show={showChangePasswordmodel} onHide={() => setChangePasswordModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Change Password</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+
+          <Form.Group className='mb-3'>
+            <Form.Label>
+              Enter New Password:
+            </Form.Label>
+            <Form.Control type='password' placeholder='Enter current password...' value={password} onChange={(e) => setpassword(e.target.value)}></Form.Control>
+          </Form.Group>
+          <Form.Group className='mb-3'>
+            <Form.Label>
+              Re-Enter Password :
+            </Form.Label>
+            <Form.Control type='password' placeholder='Enter New Password...' value={confirmpassword} onChange={(e) => setconfirmPassword(e.target.value)}></Form.Control>
+          </Form.Group>
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant='secondary' onClick={() => setChangePasswordModal(false)}>Cancel</Button>
+          <Button variant='success' onClick={handleChangePassword}>Accept</Button>
+        </Modal.Footer>
+
       </Modal>
     </div>
   );
