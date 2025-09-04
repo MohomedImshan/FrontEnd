@@ -1,6 +1,6 @@
 import jsPDF from 'jspdf'
 import 'jspdf-autotable'
-function exportPDF(report,treasaction){
+function exportPDF(report=[],transaction=[],stockReport=[]){
     const doc = new jsPDF();
 
     doc.setFontSize(18);
@@ -12,7 +12,7 @@ function exportPDF(report,treasaction){
         "Machine Code",
         "Type",
         "Description",
-        "Employee",
+        //"Employee",
         "Requested Date",
         "Approved Date"
     ]
@@ -22,7 +22,7 @@ function exportPDF(report,treasaction){
         r.machine_code,
         r.type,
         r.description,
-        r.employee_name,
+        //r.employee_name,
         r.created_at || r.date_time,
         r.approved_date
         
@@ -30,7 +30,9 @@ function exportPDF(report,treasaction){
     doc.autoTable({
         head:[tableColumn],
         body:tableRows,
-        startY:20,
+        startY:25,
+        styles:{fontSize:8,cellPadding:3},
+        
     })
 
     doc.text("Stock Records",14,doc.lastAutoTable.finalY+15);
@@ -42,7 +44,7 @@ function exportPDF(report,treasaction){
         "Quantity",
         "Date Of Action"
     ]
-    const tableRows2 = treasaction.map(r =>[
+    const tableRows2 = transaction.map(r =>[
         r.id,
         r.action,
         r.item_id,
@@ -59,6 +61,33 @@ function exportPDF(report,treasaction){
     })
 
 
+    doc.addPage();
+    
+    doc.text("Stock Report",14,15);
+    const stockTable = [
+        "ID",
+        "Department Name",
+        "Type",
+        "Item Name",
+        "Quantity"
+    ]
+    const stocktablerow = stockReport.map(r =>[
+        r.id,
+        r.department,
+        r.type,
+        r.item_name,
+        r.quantity,
+       
+        
+        
+    ])
+    doc.autoTable({
+        head:[stockTable],
+        body:stocktablerow,
+        startY:25,
+        //styles:{fontSize:8,cellPadding:3},
+        
+    })
 
 
 

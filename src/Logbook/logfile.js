@@ -40,7 +40,7 @@ function Logfile() {
     <div>
         <Header />
    
-    <div className="p-4">
+    <div className="container p-4">
       
       <h2>Weekly log</h2>
       
@@ -93,7 +93,7 @@ function Logfile() {
                 <td>{r.empNum}</td>
                 <td>{r.action}</td>
                 <td>{r.details}</td>
-                <td>{r.timestamp}</td>
+                <td>{new Date(r.timestamp).toLocaleString()}</td>
                 
 
                 

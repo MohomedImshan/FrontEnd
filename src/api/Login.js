@@ -21,9 +21,9 @@ const Login = ({onLogin}) => {
       if(decoded.position === 'Engineer'){
         navigate('/Engineer')
       }
-      else if(decoded.position === 'Assistent-Engineer')
+      else if(decoded.position === 'Assistant-Engineer')
       {
-        navigate('/Assistent-Engineer')
+        navigate('/Assistant-Engineer')
       }else if(decoded.position === 'Technician'){
         navigate('/Technician')
       }else {

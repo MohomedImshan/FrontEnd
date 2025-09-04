@@ -36,7 +36,7 @@ function Reject() {
     <div>
        <Header />
     
-    <div className="p-4">
+    <div className="container p-4">
        
       <h2>Rejected Requests</h2>
       
