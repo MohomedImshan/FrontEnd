@@ -9,11 +9,13 @@ import { useNavigate } from 'react-router-dom';
 function EngineerDashboard({ empNum, onLogout }) {
   const [user, setUser] = useState(null);
   const [showModal,setShowModal]= useState(false)
+  const [showChangePasswordmodel,setChangePasswordModal]= useState(false)
 
 
   const [editName,setEditName] = useState('')
   const [editEmail,setEditEmail] = useState('')
-  const [editPosition,setEditPosition] = useState('')
+  const [password,setpassword] = useState('')
+  const [confirmpassword,setconfirmPassword] = useState('')
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -40,17 +42,18 @@ function EngineerDashboard({ empNum, onLogout }) {
     };
     fetchUser();
   }, []);
-  const handleAccept = async () => {
-    try {
+  const handleAccept = async ()=>{
+    try{
       const token = localStorage.getItem('token')
-      if (!token) {
+      if(!token){
         console.error('No Token is Found,redirecting to login...')
         navigate('/')
       }
       const updatedUser = {
         userName : editName || user.userName, 
         email:editEmail || user.email,
-        position:user.position
+        //position:user.position,
+        
       }
       await axios.put(`http://localhost:8800/Engineer/${user.empNum}`,updatedUser
       ,{
@@ -58,10 +61,14 @@ function EngineerDashboard({ empNum, onLogout }) {
           Authorization:`Bearer ${token}`
         }
       })
-      setUser((prevUser)=>({...prevUser,...updatedUser}))
+      setUser((prevUser)=>({...prevUser,
+
+        userName:updatedUser.userName,
+        email:updatedUser.email
+    }))
       setShowModal(false)
-    } catch (err) {
-      console.error('Failed to update user:', err)
+    }catch(err){
+      console.error('Failed to update user:',err)
     }
   }
   const handleChangePassword = async ()=>{
@@ -116,11 +123,13 @@ function EngineerDashboard({ empNum, onLogout }) {
             if(user){
               setEditName(user.userName)
               setEditEmail(user.email)
-              setEditPosition(user.position)
+              //setEditPosition(user.position)
 
             
             setShowModal(true)}
-          }}>Edit</button>
+          }}>Customize Profile</button>
+
+          
           <Modal show={showModal} onHide={()=>setShowModal(false)}>
             <Modal.Header closeButton>
               <Modal.Title>Edit Profile</Modal.Title>
@@ -141,10 +150,39 @@ function EngineerDashboard({ empNum, onLogout }) {
                 <Form.Control type='email' placeholder={user?.email} value={editEmail} onChange={(e)=>setEditEmail(e.target.value)}></Form.Control>
               </Form.Group>
               
+              
             </Modal.Body>
             <Modal.Footer>
               <Button variant='secondary' onClick={()=>setShowModal(false)}>Cancel</Button>
               <Button variant='success' onClick={handleAccept}>Accept</Button>
+            </Modal.Footer>
+
+          </Modal>
+          <button className='btn btn-sm btn-outline-success me-1' onClick={()=>{setChangePasswordModal(true)}}>Change Password</button>
+          <Modal show={showChangePasswordmodel} onHide={()=>setChangePasswordModal(false)}>
+            <Modal.Header closeButton>
+              <Modal.Title>Change Password</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              
+              
+              <Form.Group className='mb-3'>
+                <Form.Label>
+                  Enter New Password:
+                </Form.Label>
+                <Form.Control type='password' placeholder='Enter current password...'  value={password} onChange={(e)=>setpassword(e.target.value)}></Form.Control>
+              </Form.Group>
+              <Form.Group className='mb-3'>
+                <Form.Label>
+                  Re-Enter Password :
+                </Form.Label>
+                <Form.Control type='password' placeholder='Enter New Password...' value={confirmpassword} onChange={(e)=>setconfirmPassword(e.target.value)}></Form.Control>
+              </Form.Group>
+              
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant='secondary' onClick={()=>setChangePasswordModal(false)}>Cancel</Button>
+              <Button variant='success' onClick={handleChangePassword}>Accept</Button>
             </Modal.Footer>
 
           </Modal>
