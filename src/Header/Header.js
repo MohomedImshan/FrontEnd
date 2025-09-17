@@ -4,6 +4,7 @@ import {jwtDecode} from 'jwt-decode'
 import '../Header/header.css'
 import { Navbar, Nav, Container,Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import axios from 'axios';
 
 
 function Header({ onLogout }) {
@@ -41,11 +42,23 @@ function Header({ onLogout }) {
         }
     },[navigate])
 
-    const handleLogout =()=>{
-        localStorage.removeItem('position')
+    const handleLogout = async ()=>{
+
+        try{
+            const token = localStorage.getItem('token')
+            if(token){
+                await axios.post('http://localhost:8800/logout',{},{
+                    headers:{Authorization:`Bearer ${token}`}
+                })
+            }
+            localStorage.removeItem('position')
         localStorage.removeItem('empNum')
         localStorage.removeItem('token')
         navigate('/')
+        }catch(err){
+            console.error('Log out failed',err)
+        }
+        
 
     }
     
