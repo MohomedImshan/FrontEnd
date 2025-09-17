@@ -193,8 +193,8 @@ import { jwtDecode } from 'jwt-decode'
                                                 </Form.Group>
                                                 </Modal.Body>
                                                 <Modal.Footer>
-                                                <Button variant='secondary' onClick={()=>setShowRegisterModal(false)}>Cancel</Button>
-                                                <Button variant='success' onClick={handleRegisterSubmit}>Accept</Button>
+                                                <Button variant='btn btn-outline-secondary' onClick={()=>setShowRegisterModal(false)}>Cancel</Button>
+                                                <Button variant='btn btn-outline-success' onClick={handleRegisterSubmit}>Accept</Button>
                                                 </Modal.Footer>
 
                                             </Modal>
@@ -313,8 +313,8 @@ import { jwtDecode } from 'jwt-decode'
                                                     Are you sure you want to delete user <strong>{selectedUser?.userName}</strong>?
                                                 </Modal.Body>
                                                 <Modal.Footer>
-                                                    <Button variant='secondary' onClick={() => setShowDeleteModal(false)}>Cancel</Button>
-                                                    <Button variant='danger' onClick={handleDeleteConfirm}>Delete</Button>
+                                                    <Button variant='btn btn-outline-secondary' onClick={() => setShowDeleteModal(false)}>Cancel</Button>
+                                                    <Button variant='btn btn-outline-danger' onClick={handleDeleteConfirm}>Delete</Button>
                                                 </Modal.Footer>
                                             </Modal>
                                         </td>
