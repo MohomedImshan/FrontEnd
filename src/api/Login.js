@@ -27,7 +27,7 @@ const Login = ({onLogin}) => {
       }else if(decoded.position === 'Technician'){
         navigate('/Technician')
       }else {
-        setErrors('Invalid rolde received from server')
+        setErrors('Invalid role received from server')
       }
     }catch(err){
       console.log(err)
@@ -37,7 +37,9 @@ const Login = ({onLogin}) => {
 
 
   return (
-    <div className='d-flex vh-100 justify-content-center align-items-center'>
+    <div className=' d-flex vh-100 justify-content-center align-items-center' 
+   
+    >
       <div className='p-3 bg-white w-25'>
 
         <form className='form-01'>
@@ -65,7 +67,7 @@ const Login = ({onLogin}) => {
           </div>
 
           <button onClick={handleLogin} className='btn btn-success' disabled={!email||!password}>Login</button>
-          <p>Didn't have an Account:<button className='btn btn-light'><Link to={"/Register"}>Register</Link></button></p>
+          {/* <p>Didn't have an Account:<button className='btn btn-light'><Link to={"/Register"}>Register</Link></button></p> */}
         </form>
 
       </div>

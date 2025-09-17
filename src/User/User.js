@@ -19,6 +19,10 @@
         const [newEmail, setNewEmail] = useState("");
         const [newPosition, setNewPosition] = useState("");
 
+        const [editName,setEditName] = useState('')
+        const [editEmail,setEditEmail] = useState('')
+        const [editPosition,setEditPosition] = useState('')
+
         const filteredRequests = users.filter(req=>
             Object.values(req).some(val=>
                 String(val).toLowerCase().includes(searchTerm.toLowerCase())))
@@ -73,7 +77,11 @@
         }
         const handleEditClick = (user)=>{
             setSelectedUser(user)
+            setEditName(user.userName || '')
+            setEditEmail(user.email || '')
+            setEditPosition(user.position || '')
             setEditStatus(user.status ||'' )
+
             setShowModal(true)
         }
         const handleAccept = async()=>{
@@ -81,7 +89,14 @@
 
             try{
                 const token = localStorage.getItem('token')
-                await axios.put(`http://localhost:8800/User/${selectedUser.empNum}`,{status:editStatus}
+                await axios.put(`http://localhost:8800/User/${selectedUser.empNum}`,{
+                    userName:editName,
+                    email:editEmail,
+                    position:editPosition,
+                    status:editStatus,
+
+
+                }
                 ,{
                     headers:{
                         Authorization:`Bearer ${token}`
@@ -201,9 +216,12 @@
                                         <td>{user.position}</td>
                                         <td>{user.status}</td>
                                         <td>
-                                            <button className='btn btn-sm btn-outline-success me-1' onClick={()=>{
+                                        <button className='btn btn-sm btn-outline-success me-1' onClick={()=>{
                                                 setSelectedUser(user)
-                                                setEditStatus(user.status || '')
+                                                setEditName(user.userName || '')
+                                                setEditEmail(user.email || '')
+                                                setEditPosition(user.position || '')
+                                                setEditStatus(user.status ||'' )
                                                 setShowModal(true)
                                                 }}
                                                 >Edit</button>
@@ -211,7 +229,40 @@
                                                 <Modal.Header closeButton>
                                                 <Modal.Title>Edit Profile</Modal.Title>
                                                 </Modal.Header>
+                                                
                                                 <Modal.Body>
+                                                    <Form.Group className='mx-3'>
+                                                        <Form.Label className="mx-1">
+                                                        Name:
+                                                        </Form.Label>
+                                                        <Form.Control type='text'
+                                                        placeholder={selectedUser?.userName}
+                                                        value={editName} onChange={(e) => setEditName(e.target.value)}
+                                                        className="rounded-3" ></Form.Control>
+                                                    </Form.Group>
+                                                    <Form.Group className='mt-3 mx-3'>
+                                                        <Form.Label>
+                                                        Email:
+                                                        </Form.Label>
+                                                        <Form.Control type='email' placeholder={selectedUser?.email} value={editEmail} onChange={(e) => setEditEmail(e.target.value)} className="rounded-3"></Form.Control>
+                                                    </Form.Group>
+                                                    <Form.Group className='mb-3 mx-3'>
+                                                            <Form.Label>Position</Form.Label>
+                                                            <Form.Select
+                                                                value={editPosition || selectedUser?.position || ""}
+                                                                onChange={(e) => setEditPosition(e.target.value)}
+                                                                className="rounded-3"
+                                                            >
+                                                                <option value="" disabled>
+                                                                -- Current: {selectedUser?.position || "Not Assigned"} --
+                                                                </option>
+                                                                <option value="Engineer">Engineer</option>
+                                                                <option value="Assistant-Engineer">Assistant-Engineer</option>
+                                                                <option value="Technician">Technician</option>
+                                                            </Form.Select>
+                                                            </Form.Group>
+
+                                                    
                                                 <Form.Group className='mb-3'>
                                                     <Form.Label>Status:</Form.Label>
                                                     <div>
@@ -226,6 +277,7 @@
                                                         ))}
                                                     </div>
                                                     </Form.Group>
+
                                                 
                                                 </Modal.Body>
                                                 <Modal.Footer>

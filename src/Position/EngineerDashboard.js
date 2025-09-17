@@ -156,7 +156,7 @@ function EngineerDashboard({ empNum, onLogout }) {
                 <img src="https://cdn-icons.flaticon.com/svg/3917/3917484.svg?token=exp=1756995245~hmac=bd04b284e3c7804f32c0205e94ab907e"
                   alt="edit"
                   width="20" height="20"
-                  class="mx-2 my-2" />
+                  className="mx-2 my-2" />
               </button>
 
       
