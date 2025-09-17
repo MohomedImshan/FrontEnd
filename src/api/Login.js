@@ -1,78 +1,117 @@
-import axios from 'axios'
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios';
+import React, { useState } from 'react';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Login = ({onLogin}) => {
+const Login = ({ onLogin }) => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState('');
+  const navigate = useNavigate();
 
-  const [email,setEmail] = useState('')
-  const [password,setPassword] = useState('')
-  const [errors,setErrors] = useState('')
-  const navigate = useNavigate()
-  
-  const handleLogin = async (event)=>{
-    event.preventDefault()
-    try{
-      const res = await axios.post('http://localhost:8800/login',{email,password})
-      //const {empNum,position} = res.data
-      localStorage.setItem('token',res.data.token)
-      const decoded = JSON.parse(atob(res.data.token.split('.')[1]))
-      onLogin(decoded.position,decoded.empNum,decoded.userName)
+  const handleLogin = async (event) => {
+    event.preventDefault();
+    try {
+      const res = await axios.post('http://localhost:8800/login', { email, password });
+      localStorage.setItem('token', res.data.token);
+      const decoded = JSON.parse(atob(res.data.token.split('.')[1]));
+      onLogin(decoded.position, decoded.empNum, decoded.userName);
 
-      if(decoded.position === 'Engineer'){
-        navigate('/Engineer')
+      if (decoded.position === 'Engineer') {
+        navigate('/Engineer');
+      } else if (decoded.position === 'Assistant-Engineer') {
+        navigate('/Assistant-Engineer');
+      } else if (decoded.position === 'Technician') {
+        navigate('/Technician');
+      } else {
+        setErrors('Invalid role received from server');
       }
-      else if(decoded.position === 'Assistant-Engineer')
-      {
-        navigate('/Assistant-Engineer')
-      }else if(decoded.position === 'Technician'){
-        navigate('/Technician')
-      }else {
-        setErrors('Invalid role received from server')
-      }
-    }catch(err){
-      console.log(err)
-      setErrors("Invalid email or password")
+    } catch (err) {
+      console.log(err);
+      setErrors("Invalid email or password");
     }
-  }
-
+  };
 
   return (
-    <div className=' d-flex vh-100 justify-content-center align-items-center' 
-   
-    >
-      <div className='p-3 bg-white w-25'>
+    <div style={{ backgroundColor: '#f4f7f6', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <header className="bg-white shadow-sm p-3 d-flex align-items-center">
+        <img
+          src="https://gillsinternational.com/wp-content/uploads/2024/01/Gills-Logo-2.png"
+          alt="Gills Logo"
+          style={{ height: '50px', marginRight: '1rem' }}
+        />
+        <h2 className="h3 mx-3 my-2 fw-bold text-uppercase ">Spare Parts Management System</h2>
+      </header>
 
-        <form className='form-01'>
-          <h1>Login Form</h1>
+      <main className="d-flex flex-grow-1 justify-content-center align-items-center">
+        <div
+          className="p-5 shadow"
+          style={{
+            backgroundColor: '#fef9f2',
+            borderRadius: '1rem',
+            width: '100%',
+            maxWidth: '512px',
+            border: '1px solid #f2eada'
+          }}
+        >
+          <h1 className="text-center h2 fw-bold mb-4">Login</h1>
+          <form onSubmit={handleLogin}>
+            {errors && <p className='text-danger text-center mb-3'>{errors}</p>}
 
-          {errors && <p className='text-red-500 mb-4'>{errors}</p> }
+            <div className="input-group mb-3">
+              <input
+                type='email'
+                placeholder='Username'
+                className='form-control ps-4'
+                style={{ borderRadius: '2rem', borderTopRightRadius: '0', borderBottomRightRadius: '0' }}
+                onChange={(e) => setEmail(e.target.value)}
+                required
+              />
+              <span className="input-group-text bg-white" style={{ borderTopRightRadius: '2rem', borderBottomRightRadius: '2rem', borderLeft: 'none' }}>
+                <i className="fas fa-user my-2 me-1"></i>
+              </span>
+            </div>
 
-          <div className='mb-3'>
-            <label id='email'>Email :</label>
-            <input type='email' placeholder='Enter email' name='email'
-            onChange={(e)=>setEmail(e.target.value)}
-            className='form-control'
-            required/>
+            <div className='input-group mb-3'>
+              <input
+                type='password'
+                placeholder='Password'
+                className='form-control ps-4'
+                style={{ borderRadius: '2rem', borderTopRightRadius: '0', borderBottomRightRadius: '0' }}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
+              <span className="input-group-text bg-white" style={{ borderTopRightRadius: '2rem', borderBottomRightRadius: '2rem', borderLeft: 'none' }}>
+                <i className="fas fa-lock my-2 me-1"></i>
+              </span>
+            </div>
 
-            {errors.email && <span className='text-danger'>{errors.email}</span>}
-          </div>
-          <div className='mb-3'>
-            <label id='password'>Passsword :</label>
-            <input type='password' placeholder='Enter Password' name='password'
-            onChange={(e)=>setPassword(e.target.value)}
-            className='form-control'
-            required/>
+            {/* <div className="text-end mb-3">
+              <a href="#" className="text-muted text-decoration-none" style={{ fontSize: '0.9rem' }}>Forgot password?</a>
+            </div> */}
 
-            {errors.password && <span className='text-danger'>{errors.password}</span>}
-          </div>
+            <hr className="my-4 " />
 
-          <button onClick={handleLogin} className='btn btn-success' disabled={!email||!password}>Login</button>
-          {/* <p>Didn't have an Account:<button className='btn btn-light'><Link to={"/Register"}>Register</Link></button></p> */}
-        </form>
+            <button
+              type="submit"
+              className='btn w-100 fw-bold'
+              style={{ backgroundColor: '#ffc107', borderColor: '#ffc107', color: '#000000ff', borderRadius: '2rem', padding: '0.75rem' }}
+              disabled={!email || !password}
+            >
+              Login
+            </button>
 
-      </div>
+
+            {/* <div className="text-center mt-3">
+              <span className="text-muted" style={{ fontSize: '0.9rem' }}>Didn't have an account? </span>
+              <Link to="/Register" className="text-muted" style={{ fontSize: '0.9rem' }}>Register</Link>
+            </div> */}
+
+          </form>
+        </div>
+      </main>
     </div>
-  )
-}
+  );
+};
 
-export default Login
+export default Login;
