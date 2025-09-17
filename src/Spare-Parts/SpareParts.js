@@ -107,7 +107,7 @@ const SpareParts = () => {
       <h2 className="mb-4">Spare Parts</h2>
 
       <button
-        className="btn btn-success mb-3"
+        className="btn btn-outline-success mb-3"
         onClick={() => {
           setFormData({ department: '', type: '', item_name: '', quantity: '' });
           setEditingId(null);

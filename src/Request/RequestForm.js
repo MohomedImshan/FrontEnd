@@ -132,9 +132,9 @@ function RequestForm() {
             </div>
           ))}
 
-          <button type="button" className="btn btn-success mb-2" onClick={() => setShowModal(true)}>+ Add Spare Part</button>
+          <button type="button" className="btn btn-outline-success mb-2" onClick={() => setShowModal(true)}>+ Add Spare Part</button>
           <br />
-          <button type="submit" className="btn btn-primary">Submit Request</button>
+          <button type="submit" className="btn btn-outline-primary mb-2">Submit Request</button>
 
         </form>
       </div>

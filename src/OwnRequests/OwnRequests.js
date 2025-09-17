@@ -82,8 +82,19 @@ function OwnRequests() {
     )
   );
 
-  const openModal = (req) => setSelectedRequest(req);
-  const closeModal = () => setSelectedRequest(null);
+  const openModal = async (row) => {
+    try {
+      const res = await axios.get(`${API}/requests/${row.id}`);
+      setSelectedRequest(res.data);
+      setSelectedParts(res.data.spareParts || []);
+    } catch (e) {
+      console.error('Fetch single request failed:', e);
+      setSelectedRequest(row);
+      setSelectedParts([]);
+    }
+  };
+  const closeModal = () => { setSelectedRequest(null); setSelectedParts([]); };
+
 
   
 
@@ -135,7 +146,7 @@ function OwnRequests() {
 
                 <td>{req.status}</td>
                 <td className="text-nowrap">
-                    <button className="btn btn-sm btn-outline-warning me-2" onClick={() => handleEdit(req)}>Edit</button>
+                    <button className="btn btn-sm btn-outline-warning me-2" onClick={() => handleEdit(req)} disabled={req.status === "Approved"}>Edit</button>
                     <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(req.id)}>Delete</button>
                   </td>
 
