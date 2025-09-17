@@ -58,11 +58,20 @@ function Header({ onLogout }) {
                 <img src="https://gillsinternational.com/wp-content/uploads/2024/01/Gills-Logo-2.png" alt="Logo" className="logo-img"/>
             </Navbar.Brand>
         {/*for mobile*/}
-        <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setExpanded(!expanded)}/>
+       <Navbar.Toggle aria-controls="basic-navbar-nav" onClick={() => setExpanded(!expanded)}/>
 
-      { /* }<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+       {/*<button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
         </button>*/}
+        
+          {/* Toggle Button for mobile 
+          <Button
+            variant="outline-dark"
+            className="d-lg-none"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
+            
+          </Button>*/}
         <Navbar.Collapse id="navbar-nav">
        
             <ul className="navbar-nav">

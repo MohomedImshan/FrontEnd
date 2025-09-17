@@ -9,9 +9,13 @@ function Notification() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [selectedParts, setSelectedParts] = useState([]);
+<<<<<<< Updated upstream
   const [editRequest, setEditRequest] = useState(null);
   const [editRequestData, setEditRequestData] = useState({});
 
+=======
+  const [stockError,setStockError]=useState(null)
+>>>>>>> Stashed changes
   const searchQuery = useMemo(() => searchTerm.trim(), [searchTerm]);
 
   const fetchRequests = async () => {
@@ -45,44 +49,6 @@ function Notification() {
   };
   const closeModal = () => { setSelectedRequest(null); setSelectedParts([]); };
 
-  const handleEdit = (row) => {
-    setEditRequest(row);
-    setEditRequestData({
-      empNum: row.empNum ?? row.empNumber ?? '',
-      department: row.department ?? '',
-      machine_code: row.machine_code ?? '',
-      type: row.type ?? '',
-      description: row.description ?? '',
-      userName: row.userName ?? ''
-    });
-  };
-
-  const handleUpdate = async () => {
-    if (!editRequest) return;
-    try {
-
-      await axios.put(`${API}/requests/${editRequest.id}`, editRequestData);
-
-      setEditRequest(null);
-      fetchRequests();
-    } catch (error) {
-      console.error('Update failed', error);
-      alert('Update failed');
-    }
-  };
-
-  const deleteRequest = async (id) => {
-
-    if (!window.confirm('Delete this request?')) return;
-    try {
-      await axios.delete(`${API}/requests/${id}`);
-
-      fetchRequests();
-    } catch (e) {
-      console.error('Delete failed', e);
-      alert('Delete failed');
-    }
-  };
 
   const updateStatus = async (id, status) => {
     try {
@@ -144,13 +110,11 @@ function Notification() {
                     <button onClick={() => openModal(req)} className="btn btn-sm btn-outline-info">View</button>
                   </td>
                   <td className="text-nowrap">
-                    <button onClick={() => updateStatus(req.id, 'Pending')} className="btn btn-sm btn-outline-primary me-1">Pending</button>
-                    <button onClick={() => updateStatus(req.id, 'Approved')} className="btn btn-sm btn-outline-success me-1">Approve</button>
-                    <button onClick={() => updateStatus(req.id, 'Rejected')} className="btn btn-sm btn-outline-danger">Reject</button>
+                   <td>{req.status}</td>  
                   </td>
                   <td className="text-nowrap">
-                    <button className="btn btn-sm btn-outline-warning me-2" onClick={() => handleEdit(req)}>Edit</button>
-                    <button className="btn btn-sm btn-outline-danger" onClick={() => deleteRequest(req.id)}>Delete</button>
+                    <button onClick={() => updateStatus(req.id, 'Approved')} className="btn btn-sm btn-outline-success me-1">Approve</button>
+                    <button onClick={() => updateStatus(req.id, 'Rejected')} className="btn btn-sm btn-outline-danger">Reject</button>
                   </td>
                 </tr>
               ))}
@@ -218,6 +182,7 @@ function Notification() {
           </div>
         )}
 
+<<<<<<< Updated upstream
         {/* Edit Modal */}
         {editRequest && (
           <div className="modal show d-block" tabIndex="-1" role="dialog">
@@ -250,6 +215,8 @@ function Notification() {
             </div>
           </div>
         )}
+=======
+>>>>>>> Stashed changes
       </div>
     </div>
   );
