@@ -1,11 +1,11 @@
-/* Navbar Background */
-.custom-navbar {
-  background-color: #fff;
+/* Navbar Background 
+.shadow-sm {
+  background-color: #3b2b1f;
   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.08);
   padding: 10px 0;
   width: auto;
 }
-
+*/
 /* Logo */
 .navbar-logo .logo-img {
   height: 50px; /* adjust as needed */
@@ -17,9 +17,10 @@
 .nav-links .nav-link {
   font-size: 16px;
   font-weight: 500;
-  color: #333 !important;
+  color: #3b2b1f!important;
   margin: 0 12px;
   transition: all 0.3s ease;
+  font-family: 'Georgia', serif;
 }
 
 .nav-links .nav-link:hover {

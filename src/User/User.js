@@ -4,9 +4,11 @@
     import api from '../api/api'
     //import {  Link } from 'react-router-dom'
     import { Form,Button, Modal } from 'react-bootstrap'
+import { jwtDecode } from 'jwt-decode'
 
     function User() {
         const [users, setUsers] = useState([])
+        const [loggedInUser,setLoggedInUser] = useState(null)
         const [showModal,setShowModal] = useState(false) 
         const [showDeleteModal,setShowDeleteModal] = useState(null)
         const [selectedUser,setSelectedUser] = useState(null)
@@ -42,8 +44,21 @@
             }
         }
         useEffect(() => {
+            const token = localStorage.getItem('token')
+            if(token){
+                const decoded = jwtDecode(token)
+                setLoggedInUser(decoded)
+            }
+            try{
+                fetchAllUsers()
+            }catch(err){
+                if(err.response?.status === 403){
+                    alert("Your account has been disabled or deleted.Please contact admin")
+                    localStorage.removeItem('token')
+                    window.location.href = '/'
+                }
+            }
             
-            fetchAllUsers()
         }, [])
 
         const handleRegisterSubmit = async () =>{
@@ -121,7 +136,7 @@
 
             try{
                 const token = localStorage.getItem('token')
-                await axios.delete(`http://localhost:8800/Engineer/${selectedUser.empNum}`,{
+                await axios.delete(`http://localhost:8800/User/${selectedUser.empNum}`,{
                     headers:{
                         Authorization:`Bearer ${token}`
                     }
@@ -178,8 +193,8 @@
                                                 </Form.Group>
                                                 </Modal.Body>
                                                 <Modal.Footer>
-                                                <Button variant='secondary' onClick={()=>setShowRegisterModal(false)}>Cancel</Button>
-                                                <Button variant='success' onClick={handleRegisterSubmit}>Accept</Button>
+                                                <Button variant='btn btn-outline-secondary' onClick={()=>setShowRegisterModal(false)}>Cancel</Button>
+                                                <Button variant='btn btn-outline-success' onClick={handleRegisterSubmit}>Accept</Button>
                                                 </Modal.Footer>
 
                                             </Modal>
@@ -286,7 +301,10 @@
                                                 </Modal.Footer>
 
                                             </Modal>
-                                            <button className='btn btn-sm btn-outline-danger me-1' onClick={()=>handleDeleteClick(user)}>Delete</button>
+                                            {loggedInUser?.empNum !== user.empNum && (
+                                                 <button className='btn btn-sm btn-outline-danger me-1' onClick={()=>handleDeleteClick(user)}>Delete</button>
+                                            )}
+                                           
                                             <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
                                                 <Modal.Header closeButton>
                                                     <Modal.Title>Confirm Delete</Modal.Title>
@@ -295,8 +313,8 @@
                                                     Are you sure you want to delete user <strong>{selectedUser?.userName}</strong>?
                                                 </Modal.Body>
                                                 <Modal.Footer>
-                                                    <Button variant='secondary' onClick={() => setShowDeleteModal(false)}>Cancel</Button>
-                                                    <Button variant='danger' onClick={handleDeleteConfirm}>Delete</Button>
+                                                    <Button variant='btn btn-outline-secondary' onClick={() => setShowDeleteModal(false)}>Cancel</Button>
+                                                    <Button variant='btn btn-outline-danger' onClick={handleDeleteConfirm}>Delete</Button>
                                                 </Modal.Footer>
                                             </Modal>
                                         </td>
