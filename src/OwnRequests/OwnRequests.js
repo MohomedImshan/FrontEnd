@@ -22,7 +22,8 @@ function OwnRequests() {
     try {
         const empNum= localStorage.getItem('empNum')
       const res = await axios.get(`http://localhost:8800/ownrequests/${empNum}`);
-      setRequests(res.data || []);
+      setRequests(Array.isArray(res.data) ? res.data : [res.data]);
+
     } catch (err) {
       console.error(err);
     }
@@ -82,11 +83,23 @@ function OwnRequests() {
     )
   );
 
-  const openModal = (req) => {
-    setSelectedRequest(req)
-    const parts = Array.isArray(req.spareParts)? req.spareParts:JSON.parse(req.spareParts || '[]')
-    setSelectedParts(parts)
+  const openModal = async (req) => {
+    try {
+      const empNum = localStorage.getItem("empNum");
+      const res = await axios.get(`http://localhost:8800/ownrequests/${empNum}/${req.id}`);
+      const data = res.data;
+  
+      setSelectedRequest(data);
+      setSelectedParts(Array.isArray(data.spareParts) ? data.spareParts : []);
+    } catch (err) {
+      console.error("Error fetching request details:", err);
+      setSelectedRequest(req); 
+      setSelectedParts([]);
+    }
   };
+  
+  
+  
   const closeModal = () => setSelectedRequest(null);
 
   
@@ -172,36 +185,38 @@ function OwnRequests() {
                 <p><strong>Description:</strong> {selectedRequest.description}</p>
 
 
-                <p><strong>Spare Parts:</strong> {selectedRequest.spareParts}</p>
+                <p><strong>Spare Parts:</strong> </p>
 
                 
 
 
                 
+                <h6 className="mt-3">Spare Parts</h6>
                 <table className="table table-bordered">
-                        <thead>
-                          <tr>
-                            <th>ID</th>
-                            <th>Item Name</th>
-                            <th>Quantity</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {selectedParts.length > 0 ? (
-                            selectedParts.map((p, index) => (
-                              <tr key={index}>
-                                <td>{p.id}</td>
-                                <td>{p.item_name}</td>
-                                <td>{p.quantity}</td>
-                              </tr>
-                            ))
-                          ) : (
-                            <tr>
-                              <td colSpan="3" className="text-center">No parts added</td>
-                            </tr>
-                          )}
-                        </tbody>
-                      </table>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Item Name</th>
+                      <th>Quantity</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {selectedParts.length > 0 ? (
+                      selectedParts.map((p, index) => (
+                        <tr key={index}>
+                          <td>{p.id}</td>
+                          <td>{p.item_name || p.itemName}</td>
+                          <td>{p.quantity}</td>
+                        </tr>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="3" className="text-center">No parts added</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+
 
 
                 <div className="text-end">
