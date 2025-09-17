@@ -82,7 +82,11 @@ function OwnRequests() {
     )
   );
 
-  const openModal = (req) => setSelectedRequest(req);
+  const openModal = (req) => {
+    setSelectedRequest(req)
+    const parts = Array.isArray(req.spareParts)? req.spareParts:JSON.parse(req.spareParts || '[]')
+    setSelectedParts(parts)
+  };
   const closeModal = () => setSelectedRequest(null);
 
   
@@ -170,10 +174,10 @@ function OwnRequests() {
 
                 <p><strong>Spare Parts:</strong> {selectedRequest.spareParts}</p>
 
-                <button className="btn btn-secondary" onClick={closeModal}>Close</button>
+                
 
 
-                <h6 className="mt-3">Spare Parts</h6>
+                
                 <table className="table table-bordered">
                         <thead>
                           <tr>
