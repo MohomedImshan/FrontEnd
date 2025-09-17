@@ -108,13 +108,12 @@ function OwnRequests() {
               <th>Department</th>
               <th>Machine Code</th>
               <th>Type</th>
-              <th>Description</th>
-              
+              <th>Description</th>             
               <th>Date & Time</th>
               <th>View</th>
-
               <th>Status</th>
               <th>Action</th>
+
 
             </tr>
           </thead>
@@ -127,9 +126,11 @@ function OwnRequests() {
                 <td>{req.type}</td>
                 <td>{req.description}</td>
                 
+                
                 <td>{new Date(req.created_at || req.date_time).toLocaleString()}</td>
                 <td>
                   <button onClick={() => openModal(req)} className="btn btn-sm btn-outline-info">View</button>
+
                 </td>
 
                 <td>{req.status}</td>
@@ -137,6 +138,7 @@ function OwnRequests() {
                     <button className="btn btn-sm btn-outline-warning me-2" onClick={() => handleEdit(req)}>Edit</button>
                     <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(req.id)}>Delete</button>
                   </td>
+
 
               </tr>
             ))}
@@ -165,7 +167,9 @@ function OwnRequests() {
                 </div>
                 <p><strong>Description:</strong> {selectedRequest.description}</p>
 
+
                 <p><strong>Spare Parts:</strong> {selectedRequest.spareParts}</p>
+
                 <button className="btn btn-secondary" onClick={closeModal}>Close</button>
 
 

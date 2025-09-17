@@ -36,7 +36,7 @@ function Reject() {
     <div>
        <Header />
     
-    <div className="p-4">
+    <div className="container p-4">
        
       <h2>Rejected Requests</h2>
       
@@ -69,7 +69,7 @@ function Reject() {
                 <td>{r.machine_code}</td>
                 <td>{r.type}</td>
                 <td>{r.description}</td>
-                <td>{r.employee_name}</td>
+                <td>{r.userName}</td>
                 <td>{new Date(r.created_at || r.date_time).toLocaleString()}</td>
                 
               </tr>

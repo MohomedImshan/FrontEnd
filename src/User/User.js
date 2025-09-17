@@ -4,9 +4,11 @@
     import api from '../api/api'
     //import {  Link } from 'react-router-dom'
     import { Form,Button, Modal } from 'react-bootstrap'
+import { jwtDecode } from 'jwt-decode'
 
     function User() {
         const [users, setUsers] = useState([])
+        const [loggedInUser,setLoggedInUser] = useState(null)
         const [showModal,setShowModal] = useState(false) 
         const [showDeleteModal,setShowDeleteModal] = useState(null)
         const [selectedUser,setSelectedUser] = useState(null)
@@ -18,6 +20,10 @@
         const [newUserName, setNewUserName] = useState("");
         const [newEmail, setNewEmail] = useState("");
         const [newPosition, setNewPosition] = useState("");
+
+        const [editName,setEditName] = useState('')
+        const [editEmail,setEditEmail] = useState('')
+        const [editPosition,setEditPosition] = useState('')
 
         const filteredRequests = users.filter(req=>
             Object.values(req).some(val=>
@@ -38,8 +44,21 @@
             }
         }
         useEffect(() => {
+            const token = localStorage.getItem('token')
+            if(token){
+                const decoded = jwtDecode(token)
+                setLoggedInUser(decoded)
+            }
+            try{
+                fetchAllUsers()
+            }catch(err){
+                if(err.response?.status === 403){
+                    alert("Your account has been disabled or deleted.Please contact admin")
+                    localStorage.removeItem('token')
+                    window.location.href = '/'
+                }
+            }
             
-            fetchAllUsers()
         }, [])
 
         const handleRegisterSubmit = async () =>{
@@ -73,7 +92,11 @@
         }
         const handleEditClick = (user)=>{
             setSelectedUser(user)
+            setEditName(user.userName || '')
+            setEditEmail(user.email || '')
+            setEditPosition(user.position || '')
             setEditStatus(user.status ||'' )
+
             setShowModal(true)
         }
         const handleAccept = async()=>{
@@ -81,7 +104,14 @@
 
             try{
                 const token = localStorage.getItem('token')
-                await axios.put(`http://localhost:8800/User/${selectedUser.empNum}`,{status:editStatus}
+                await axios.put(`http://localhost:8800/User/${selectedUser.empNum}`,{
+                    userName:editName,
+                    email:editEmail,
+                    position:editPosition,
+                    status:editStatus,
+
+
+                }
                 ,{
                     headers:{
                         Authorization:`Bearer ${token}`
@@ -106,7 +136,7 @@
 
             try{
                 const token = localStorage.getItem('token')
-                await axios.delete(`http://localhost:8800/Engineer/${selectedUser.empNum}`,{
+                await axios.delete(`http://localhost:8800/User/${selectedUser.empNum}`,{
                     headers:{
                         Authorization:`Bearer ${token}`
                     }
@@ -123,7 +153,7 @@
         return (
             <div>
                 <Header />
-                <div className='home'><br />
+                <div className='container mt-4'><br />
                 <h1>User Details</h1>
                 
 
@@ -157,7 +187,7 @@
                                                         >
                                                             <option value="">Select status</option>
                                                             <option value="Engineer">Engineer</option>
-                                                            <option value="Assistent-Engineer">Assistent-Engineer</option>
+                                                            <option value="Assistant-Engineer">Assistant-Engineer</option>
                                                             <option value="Technician">Technician</option>
                                                         </Form.Select>
                                                 </Form.Group>
@@ -201,9 +231,12 @@
                                         <td>{user.position}</td>
                                         <td>{user.status}</td>
                                         <td>
-                                            <button className='btn btn-sm btn-outline-success me-1' onClick={()=>{
+                                        <button className='btn btn-sm btn-outline-success me-1' onClick={()=>{
                                                 setSelectedUser(user)
-                                                setEditStatus(user.status || '')
+                                                setEditName(user.userName || '')
+                                                setEditEmail(user.email || '')
+                                                setEditPosition(user.position || '')
+                                                setEditStatus(user.status ||'' )
                                                 setShowModal(true)
                                                 }}
                                                 >Edit</button>
@@ -211,7 +244,40 @@
                                                 <Modal.Header closeButton>
                                                 <Modal.Title>Edit Profile</Modal.Title>
                                                 </Modal.Header>
+                                                
                                                 <Modal.Body>
+                                                    <Form.Group className='mx-3'>
+                                                        <Form.Label className="mx-1">
+                                                        Name:
+                                                        </Form.Label>
+                                                        <Form.Control type='text'
+                                                        placeholder={selectedUser?.userName}
+                                                        value={editName} onChange={(e) => setEditName(e.target.value)}
+                                                        className="rounded-3" ></Form.Control>
+                                                    </Form.Group>
+                                                    <Form.Group className='mt-3 mx-3'>
+                                                        <Form.Label>
+                                                        Email:
+                                                        </Form.Label>
+                                                        <Form.Control type='email' placeholder={selectedUser?.email} value={editEmail} onChange={(e) => setEditEmail(e.target.value)} className="rounded-3"></Form.Control>
+                                                    </Form.Group>
+                                                    <Form.Group className='mb-3 mx-3'>
+                                                            <Form.Label>Position</Form.Label>
+                                                            <Form.Select
+                                                                value={editPosition || selectedUser?.position || ""}
+                                                                onChange={(e) => setEditPosition(e.target.value)}
+                                                                className="rounded-3"
+                                                            >
+                                                                <option value="" disabled>
+                                                                -- Current: {selectedUser?.position || "Not Assigned"} --
+                                                                </option>
+                                                                <option value="Engineer">Engineer</option>
+                                                                <option value="Assistant-Engineer">Assistant-Engineer</option>
+                                                                <option value="Technician">Technician</option>
+                                                            </Form.Select>
+                                                            </Form.Group>
+
+                                                    
                                                 <Form.Group className='mb-3'>
                                                     <Form.Label>Status:</Form.Label>
                                                     <div>
@@ -226,6 +292,7 @@
                                                         ))}
                                                     </div>
                                                     </Form.Group>
+
                                                 
                                                 </Modal.Body>
                                                 <Modal.Footer>
@@ -234,7 +301,10 @@
                                                 </Modal.Footer>
 
                                             </Modal>
-                                            <button className='btn btn-sm btn-outline-danger me-1' onClick={()=>handleDeleteClick(user)}>Delete</button>
+                                            {loggedInUser?.empNum !== user.empNum && (
+                                                 <button className='btn btn-sm btn-outline-danger me-1' onClick={()=>handleDeleteClick(user)}>Delete</button>
+                                            )}
+                                           
                                             <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)}>
                                                 <Modal.Header closeButton>
                                                     <Modal.Title>Confirm Delete</Modal.Title>

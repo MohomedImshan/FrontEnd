@@ -4,6 +4,7 @@ import {jwtDecode} from 'jwt-decode'
 import '../Header/header.css'
 import { Navbar, Nav, Container,Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import axios from 'axios';
 
 
 function Header({ onLogout }) {
@@ -41,11 +42,23 @@ function Header({ onLogout }) {
         }
     },[navigate])
 
-    const handleLogout =()=>{
-        localStorage.removeItem('position')
+    const handleLogout = async ()=>{
+
+        try{
+            const token = localStorage.getItem('token')
+            if(token){
+                await axios.post('http://localhost:8800/logout',{},{
+                    headers:{Authorization:`Bearer ${token}`}
+                })
+            }
+            localStorage.removeItem('position')
         localStorage.removeItem('empNum')
         localStorage.removeItem('token')
         navigate('/')
+        }catch(err){
+            console.error('Log out failed',err)
+        }
+        
 
     }
     
@@ -94,7 +107,7 @@ function Header({ onLogout }) {
             )}
 
             
-            {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
+            {( userPosition==='Engineer' || userPosition === 'Assistant-Engineer')&&(
             <li className="nav-item">
                 <Nav.Link as={Link} to="/User" onClick={() => setExpanded(false)}>User Details</Nav.Link>
             </li>)}
@@ -103,7 +116,7 @@ function Header({ onLogout }) {
                 
                 <Nav.Link as={Link} to="/Spareparts" onClick={() => setExpanded(false)}>Spare Parts</Nav.Link>
             </li>)}
-            {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
+            {( userPosition==='Engineer' || userPosition === 'Assistant-Engineer')&&(
             <li className="nav-item">
                 <Nav.Link as={Link} to="/Notification" onClick={() => setExpanded(false)}>Notification</Nav.Link>
             </li>)}
@@ -114,17 +127,17 @@ function Header({ onLogout }) {
                 <Nav.Link as={Link} to="/OwnRequests" onClick={() => setExpanded(false)} >My Requests</Nav.Link>
             </li>
             
-            {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
+            {( userPosition==='Engineer' || userPosition === 'Assistant-Engineer')&&(
             <li className="nav-item">
                 <Nav.Link as={Link} to="/Reject" onClick={() => setExpanded(false)} >Rejects</Nav.Link>
             </li>)}
-            {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
+            {( userPosition==='Engineer' || userPosition === 'Assistant-Engineer')&&(
             <li className="nav-item">
                 <Nav.Link as={Link} to="/Report" onClick={() => setExpanded(false)} >Download</Nav.Link>
             </li>)}
-            {( userPosition==='Engineer' || userPosition === 'Engineer-Assistent')&&(
+            {( userPosition==='Engineer' || userPosition === 'Assistant-Engineer')&&(
             <li className="nav-item">
-                <Nav.Link  as={Link} to="/Report" onClick={() => setExpanded(false)} >Log Files</Nav.Link>
+                <Nav.Link  as={Link} to="/Logfile" onClick={() => setExpanded(false)} >Log Files</Nav.Link>
             </li>)}
             {/* <li>
                  <form className="form-inline my-2 my-lg-0 justify-item-right ">
