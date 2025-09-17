@@ -112,12 +112,10 @@ function OwnRequests() {
               
               <th>Date & Time</th>
               <th>View</th>
-<<<<<<< Updated upstream
-             
-=======
+
               <th>Status</th>
               <th>Action</th>
->>>>>>> Stashed changes
+
             </tr>
           </thead>
           <tbody>
@@ -133,15 +131,13 @@ function OwnRequests() {
                 <td>
                   <button onClick={() => openModal(req)} className="btn btn-sm btn-outline-info">View</button>
                 </td>
-<<<<<<< Updated upstream
-            
-=======
+
                 <td>{req.status}</td>
                 <td className="text-nowrap">
                     <button className="btn btn-sm btn-outline-warning me-2" onClick={() => handleEdit(req)}>Edit</button>
                     <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(req.id)}>Delete</button>
                   </td>
->>>>>>> Stashed changes
+
               </tr>
             ))}
           </tbody>
@@ -168,10 +164,10 @@ function OwnRequests() {
                   </div>
                 </div>
                 <p><strong>Description:</strong> {selectedRequest.description}</p>
-<<<<<<< Updated upstream
+
                 <p><strong>Spare Parts:</strong> {selectedRequest.spareParts}</p>
                 <button className="btn btn-secondary" onClick={closeModal}>Close</button>
-=======
+
 
                 <h6 className="mt-3">Spare Parts</h6>
                 <table className="table table-bordered">
@@ -272,7 +268,7 @@ function OwnRequests() {
                     Cancel
                   </button>
                 </div>
->>>>>>> Stashed changes
+
               </div>
             </div>
           </div>

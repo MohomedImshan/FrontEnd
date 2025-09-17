@@ -9,13 +9,9 @@ function Notification() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedRequest, setSelectedRequest] = useState(null);
   const [selectedParts, setSelectedParts] = useState([]);
-<<<<<<< Updated upstream
-  const [editRequest, setEditRequest] = useState(null);
-  const [editRequestData, setEditRequestData] = useState({});
 
-=======
   const [stockError,setStockError]=useState(null)
->>>>>>> Stashed changes
+
   const searchQuery = useMemo(() => searchTerm.trim(), [searchTerm]);
 
   const fetchRequests = async () => {
@@ -110,7 +106,7 @@ function Notification() {
                     <button onClick={() => openModal(req)} className="btn btn-sm btn-outline-info">View</button>
                   </td>
                   <td className="text-nowrap">
-                   <td>{req.status}</td>  
+                   {req.status} 
                   </td>
                   <td className="text-nowrap">
                     <button onClick={() => updateStatus(req.id, 'Approved')} className="btn btn-sm btn-outline-success me-1">Approve</button>
@@ -182,41 +178,6 @@ function Notification() {
           </div>
         )}
 
-<<<<<<< Updated upstream
-        {/* Edit Modal */}
-        {editRequest && (
-          <div className="modal show d-block" tabIndex="-1" role="dialog">
-            <div className="modal-dialog">
-              <div className="modal-content p-3">
-                <h5>Edit Request</h5>
-                    <p><strong>Emp No:</strong></p>
-                    <input className="form-control mb-2" value={editRequestData.empNum} onChange={(e) => setEditRequestData({ ...editRequestData, empNum: e.target.value })} placeholder="Emp Number" /> 
-                    
-                    <p><strong>Department:</strong></p>
-                    <input className="form-control mb-2" value={editRequestData.department} onChange={(e) => setEditRequestData({ ...editRequestData, department: e.target.value })} placeholder="Department" />
-
-                    <p><strong>Machine Code:</strong></p>
-                    <input className="form-control mb-2" value={editRequestData.machine_code} onChange={(e) => setEditRequestData({ ...editRequestData, machine_code: e.target.value })} placeholder="Machine Code" />
-
-                    <p><strong>Type:</strong></p>
-                    <input className="form-control mb-2" value={editRequestData.type} onChange={(e) => setEditRequestData({ ...editRequestData, type: e.target.value })} placeholder="Type" />
-
-                    <p><strong>Employee:</strong></p>
-                    <input className="form-control mb-3" value={editRequestData.userName} onChange={(e) => setEditRequestData({ ...editRequestData, userName: e.target.value })} placeholder="Employee Name" />
-
-                    <p><strong>Description:</strong></p>
-                    <textarea className="form-control mb-2" value={editRequestData.description} onChange={(e) => setEditRequestData({ ...editRequestData, description: e.target.value })} placeholder="Description" />
-                
-                <div className="text-end">
-                  <button className="btn btn-success me-2" onClick={handleUpdate}>Save</button>
-                  <button className="btn btn-secondary" onClick={() => setEditRequest(null)}>Cancel</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
-=======
->>>>>>> Stashed changes
       </div>
     </div>
   );
