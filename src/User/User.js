@@ -202,7 +202,7 @@ import { jwtDecode } from 'jwt-decode'
                                             <br />
                                             <input
                                                 type="text"
-                                                placeholder="Search"
+                                                placeholder="Search For Users..."
                                                 className="form-control mb-3"
                                                 onChange={(e) => setSearchTerm(e.target.value)}
                                                 />

@@ -12,8 +12,27 @@ function Header({ onLogout }) {
     const [userId,setUserId] = useState(null)
     const navigate = useNavigate()
     const [expanded, setExpanded] = useState(false); 
+    const [count,setCount]= useState(0)
 
+    const handleLogout = async ()=>{
 
+        try{
+            const token = localStorage.getItem('token')
+            if(token){
+                await axios.post('http://localhost:8800/logout',{},{
+                    headers:{Authorization:`Bearer ${token}`}
+                })
+            }
+            localStorage.removeItem('position')
+        localStorage.removeItem('empNum')
+        localStorage.removeItem('token')
+        navigate('/')
+        }catch(err){
+            console.error('Log out failed',err)
+        }
+        
+
+    }
     useEffect(()=>{
         const token = localStorage.getItem('token')
         if(!token){
@@ -40,27 +59,24 @@ function Header({ onLogout }) {
         catch{
             handleLogout()
         }
+        const fetchPendingCount = async()=>{
+            try{
+                const res = await axios.get("http://localhost:8800/header/pendingcount",{
+                    headers:{Authorization:`Bearer ${token}`},
+                    
+                })
+                setCount(res.data.count)
+            }catch(err){
+                console.error("error fetching pending Count:",err)
+            }
+        }
+        fetchPendingCount();
+
+        const interval = setInterval(fetchPendingCount,30000);
+        return ()=>clearInterval(interval)
     },[navigate])
 
-    const handleLogout = async ()=>{
-
-        try{
-            const token = localStorage.getItem('token')
-            if(token){
-                await axios.post('http://localhost:8800/logout',{},{
-                    headers:{Authorization:`Bearer ${token}`}
-                })
-            }
-            localStorage.removeItem('position')
-        localStorage.removeItem('empNum')
-        localStorage.removeItem('token')
-        navigate('/')
-        }catch(err){
-            console.error('Log out failed',err)
-        }
-        
-
-    }
+    
     
 
   return (
@@ -118,7 +134,7 @@ function Header({ onLogout }) {
             </li>)}
             {( userPosition==='Engineer' || userPosition === 'Assistant-Engineer')&&(
             <li className="nav-item">
-                <Nav.Link as={Link} to="/Notification" onClick={() => setExpanded(false)}>Notification</Nav.Link>
+                <Nav.Link as={Link} to="/Notification" onClick={() => setExpanded(false)}>Notification ({count})</Nav.Link>
             </li>)}
             <li className="nav-item">
                 <Nav.Link as={Link} to="/Requests" onClick={() => setExpanded(false)}>Requests</Nav.Link>

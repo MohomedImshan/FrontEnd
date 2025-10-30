@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
+  const [userName,setUserName]=useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState('');
   const navigate = useNavigate();
@@ -12,7 +13,7 @@ const Login = ({ onLogin }) => {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const res = await axios.post('http://localhost:8800/login', { email, password });
+      const res = await axios.post('http://localhost:8800/login', { identifier:email, password });
       localStorage.setItem('token', res.data.token);
       const decoded = JSON.parse(atob(res.data.token.split('.')[1]));
       onLogin(decoded.position, decoded.empNum, decoded.userName);
@@ -60,7 +61,7 @@ const Login = ({ onLogin }) => {
 
             <div className="input-group mb-3">
               <input
-                type='email'
+                type='text'
                 placeholder='Username'
                 className='form-control ps-4'
                 style={{ borderRadius: '2rem', borderTopRightRadius: '0', borderBottomRightRadius: '0' }}

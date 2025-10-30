@@ -2,14 +2,19 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "bootstrap/dist/css/bootstrap.min.css";
 import Header from "../Header/Header";
+import jsPDF from 'jspdf'
+import 'jspdf-autotable'
+import { Button, Form, Modal } from "react-bootstrap";
 
 const SpareParts = () => {
   const [spareParts, setSpareParts] = useState([]); // All spare parts from backend
   const [filteredParts, setFilteredParts] = useState([]); // Parts after search filter
   const [searchTerm, setSearchTerm] = useState(""); // Search text
+  
 
   const [showModal, setShowModal] = useState(false);
   const [formData, setFormData] = useState({
+    empNum:localStorage.getItem('empNum')||"",
     department: "",
     type: "",
     item_name: "",
@@ -19,7 +24,11 @@ const SpareParts = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [highlightQuantity, setHighlightQuantity] = useState(false);
 
-  // ✅ Fetch spare parts from backend
+  const [showDownloadModal,setShowDownloadModal] = useState(false)
+  const [selectedDepartment,setSelectedDepartment]=useState('')
+  const [stock,setStock] = useState([])
+
+  // Fetch spare parts from backend
   const fetchSpareParts = async () => {
     try {
       const res = await axios.get("http://localhost:8800/api/spareparts");
@@ -31,10 +40,11 @@ const SpareParts = () => {
   };
 
   useEffect(() => {
+    
     fetchSpareParts();
   }, []);
 
-  // ✅ When typing in search bar, filter parts
+  // When typing in search bar, filter parts
   const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
     setSearchTerm(value);
@@ -48,12 +58,12 @@ const SpareParts = () => {
     setFilteredParts(filtered);
   };
 
-  // ✅ Handle form input changes
+  // Handle form input changes
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ✅ Prevent editing read-only fields in update mode
+  // Prevent editing read-only fields in update mode
   const handleForbiddenEdit = () => {
     if (editingId) {
       setErrorMessage("Can't change this! Use Add Quantity.");
@@ -61,7 +71,7 @@ const SpareParts = () => {
     }
   };
 
-  // ✅ Save or update spare parts
+  //Save or update spare parts
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -75,6 +85,7 @@ const SpareParts = () => {
         await axios.put(`http://localhost:8800/api/spareparts/${editingId}`, {
           ...existingPart,
           quantity: updatedQuantity,
+          empNum:localStorage.getItem('empNum'),
         });
       } else {
         // Prevent duplicate entry
@@ -90,11 +101,12 @@ const SpareParts = () => {
           return;
         }
 
-        await axios.post("http://localhost:8800/api/spareparts", formData);
+        await axios.post("http://localhost:8800/api/spareparts", {...formData,
+        empNum:localStorage.getItem('empNum'),});
       }
 
       fetchSpareParts(); // reload list
-      setFormData({ department: "", type: "", item_name: "", quantity: "" });
+      setFormData({ empNum:localStorage.getItem('empNum'), department: "", type: "", item_name: "", quantity: "" });
       setEditingId(null);
       setShowModal(false);
       setErrorMessage("");
@@ -104,7 +116,7 @@ const SpareParts = () => {
     }
   };
 
-  // ✅ Delete part
+  // Delete part
   const handleDelete = async (id) => {
     try {
       await axios.delete(`http://localhost:8800/api/spareparts/${id}`);
@@ -114,7 +126,7 @@ const SpareParts = () => {
     }
   };
 
-  // ✅ Edit part
+  // Edit part
   const handleEdit = (part) => {
     setFormData({ ...part, quantity: "" }); // reset quantity for adding new qty
     setEditingId(part.id);
@@ -123,6 +135,71 @@ const SpareParts = () => {
     setHighlightQuantity(false);
   };
 
+  const handleshowDownload=()=>setShowDownloadModal(true);
+  const handleDowloadClose = ()=>{
+    setShowDownloadModal(false)
+    setSelectedDepartment('')
+  }
+
+  const handleDownload= async ()=>{
+    if(!selectedDepartment) return alert('Please Select a Department')
+
+    const token = localStorage.getItem('token')
+    if(!token) return alert('No token found')
+    try{
+      const res = await axios.get(
+        `http://localhost:8800/api/spareparts/stock?department=${selectedDepartment}`,
+        {headers:{Authorization:`Bearer ${token}`}}
+      )
+      
+      const stockData = res.data.stock
+      if(!stockData||stockData.length === 0) return alert("No stock found")
+
+      
+    const doc = new jsPDF()
+
+    doc.setFontSize(18)
+    doc.text('Stock Report',20,20)
+    doc.setFontSize(14)
+    doc.text(`Department : ${selectedDepartment}`,20,35)
+    doc.setFontSize(12)
+    doc.text("Generated on: "+ new Date().toLocaleString(),20,45)
+
+    
+    const tableColumn = [
+        "ID",
+        "Department",
+        "Type",
+        "Item Name",
+        "Quantity",
+        
+    ]
+    const tableRows = stockData.map(r =>[
+        r.id,
+        r.department,
+        r.type,
+        r.item_name,
+        r.quantity,
+        
+        
+        
+    ])
+    doc.autoTable({
+        head:[tableColumn],
+        body:tableRows,
+        startY:55,
+        theme:"grid",
+        headStyles:{fillColor:[46,204,113]}
+    })
+    doc.save(`Stock_Report_${selectedDepartment}.pdf`)
+    }
+    catch (err) {
+      console.error(err);
+      alert('Error fetching stock data');
+    }
+  }
+  
+
   return (
     <div>
       <Header />
@@ -130,20 +207,21 @@ const SpareParts = () => {
       <div className="container mt-4">
         <h2 className="mb-3">Spare Parts</h2>
 
-        {/* ✅ Search bar */}
+        {/* Search bar */}
         <input
           type="text"
           className="form-control mb-4"
-          placeholder="🔍 Search by Department, Type or Item Name..."
+          placeholder="Search by Department, Type or Item Name..."
           value={searchTerm}
           onChange={handleSearch}
         />
 
-        {/* ✅ Add button */}
+        {/*Add button */}
         <button
-          className="btn btn-success mb-3"
+          className="btn btn-sm btn-outline-success me-3"
           onClick={() => {
             setFormData({
+              empNum:localStorage.getItem('empNum'),
               department: "",
               type: "",
               item_name: "",
@@ -157,8 +235,39 @@ const SpareParts = () => {
         >
           Add Spare Part
         </button>
+        <button
+          className="btn btn-sm btn-outline-success me-3"  
+          onClick={handleshowDownload}       
+        >
+          Download Stock Report
+        </button>
 
-        {/* ✅ Modal for add/update */}
+        <Modal show={showDownloadModal} onHide={handleDowloadClose} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Select Department</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form>
+              <Form.Group controlId="departmentSelect">
+                <Form.Select value={selectedDepartment} onChange={(e)=>setSelectedDepartment(e.target.value)}>
+                  <option value="">--Select Department--</option>
+                  <option value="Mechanical">Mechanical</option>
+                  <option value="Electrical">Electrical</option>
+                  <option value="General">General</option>
+
+                </Form.Select>
+              </Form.Group>
+            </Form>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="success"onClick={handleDownload}>Download PDF</Button>
+            <Button variant="secondary"onClick={handleDowloadClose}>Close</Button>
+          </Modal.Footer>
+        </Modal>
+        
+        
+
+        {/*Modal for add/update */}
         {showModal && (
           <div
             className="modal d-block"
@@ -178,6 +287,7 @@ const SpareParts = () => {
                       onClick={() => {
                         setShowModal(false);
                         setFormData({
+                          empNum:"",
                           department: "",
                           type: "",
                           item_name: "",
@@ -188,6 +298,9 @@ const SpareParts = () => {
                         setHighlightQuantity(false);
                       }}
                     ></button>
+                    
+
+      
                   </div>
                   <div className="modal-body">
                     {/* Department */}
@@ -300,6 +413,7 @@ const SpareParts = () => {
                       onClick={() => {
                         setShowModal(false);
                         setFormData({
+                          empNum: "",
                           department: "",
                           type: "",
                           item_name: "",
@@ -319,7 +433,7 @@ const SpareParts = () => {
           </div>
         )}
 
-        {/* ✅ Spare parts table */}
+        {/*Spare parts table */}
         <table className="table table-bordered table-striped">
           <thead>
             <tr>
@@ -366,7 +480,7 @@ const SpareParts = () => {
             ) : (
               <tr>
                 <td colSpan="6" style={{ textAlign: "center" }}>
-                  ❌ No parts found
+                   No parts found
                 </td>
               </tr>
             )}

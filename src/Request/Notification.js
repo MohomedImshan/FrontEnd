@@ -130,6 +130,24 @@ function Notification() {
           </table>
         </div>
 
+          {stockError &&(
+            <div className='modal show d-block' tabIndex="-1" role='dialog'>
+              <div className="modal-dialog">
+              <div className="modal-content p-3">
+                <div className="modal-header">
+                  <h5 className="modal-title text-danger">Stock Error</h5>
+                  <button type="button" className="btn-close" onClick={() => setStockError(null)}></button>
+                </div>
+                <div className="modal-body">
+                  <p>{stockError}</p>
+                </div>
+                <div className="modal-footer">
+                  <button className="btn btn-secondary" onClick={() => setStockError(null)}>Close</button>
+                </div>
+              </div>
+            </div>
+            </div>
+          )}
         {/* View Modal */}
         {selectedRequest && (
           <div className="modal show d-block" tabIndex="-1" role="dialog">
