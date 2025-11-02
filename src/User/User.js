@@ -64,7 +64,7 @@ import { jwtDecode } from 'jwt-decode'
         const handleRegisterSubmit = async () =>{
             try{
                 const token = localStorage.getItem('token')
-                await axios.post("http://localhost:8800/User",{
+                await axios.post(`${process.env.REACT_APP_API_URL}/User`,{
                     
                     userName:newUserName,
                     email:newEmail,
@@ -104,7 +104,7 @@ import { jwtDecode } from 'jwt-decode'
 
             try{
                 const token = localStorage.getItem('token')
-                await axios.put(`http://localhost:8800/User/${selectedUser.empNum}`,{
+                await axios.put(`${process.env.REACT_APP_API_URL}/User/${selectedUser.empNum}`,{
                     userName:editName,
                     email:editEmail,
                     position:editPosition,
@@ -136,7 +136,7 @@ import { jwtDecode } from 'jwt-decode'
 
             try{
                 const token = localStorage.getItem('token')
-                await axios.delete(`http://localhost:8800/User/${selectedUser.empNum}`,{
+                await axios.delete(`${process.env.REACT_APP_API_URL}User/${selectedUser.empNum}`,{
                     headers:{
                         Authorization:`Bearer ${token}`
                     }

@@ -21,7 +21,7 @@ function OwnRequests() {
   const fetchRequests = async () => {
     try {
         const empNum= localStorage.getItem('empNum')
-      const res = await axios.get(`http://localhost:8800/ownrequests/${empNum}`);
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/ownrequests/${empNum}`);
       setRequests(Array.isArray(res.data) ? res.data : [res.data]);
 
     } catch (err) {
@@ -52,7 +52,7 @@ function OwnRequests() {
     if (!editRequest) return;
     try {
 
-      await axios.put(`${API}/requests/${editRequest.id}`, editRequestData);
+      await axios.put(`${process.env.REACT_APP_API_URL}/requests/${editRequest.id}`, editRequestData);
 
       setEditRequest(null);
       fetchRequests();
@@ -86,7 +86,7 @@ function OwnRequests() {
   const openModal = async (req) => {
     try {
       const empNum = localStorage.getItem("empNum");
-      const res = await axios.get(`http://localhost:8800/ownrequests/${empNum}/${req.id}`);
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/ownrequests/${empNum}/${req.id}`);
       const data = res.data;
   
       setSelectedRequest(data);

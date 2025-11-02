@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useEffect, useMemo, useState } from 'react';
 import Header from '../Header/Header';
 
-const API = 'http://localhost:8800/api';
+
 
 function Notification() {
   const [requests, setRequests] = useState([]);
@@ -18,7 +18,7 @@ function Notification() {
 
   const fetchRequests = async () => {
     try {
-      const res = await axios.get(`${API}/notifications`, {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/notifications`, {
         params: { search: searchQuery }
       });
       setRequests(res.data || []);
@@ -36,7 +36,7 @@ function Notification() {
 
   const openModal = async (row) => {
     try {
-      const res = await axios.get(`${API}/requests/${row.id}`);
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/requests/${row.id}`);
       setSelectedRequest(res.data);
       setSelectedParts(res.data.spareParts || []);
     } catch (e) {
@@ -52,7 +52,7 @@ function Notification() {
     console.log(id,"to status",status)
     try {
 
-      await axios.put(`${API}/requests/status/${id}`, { status });
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/requests/status/${id}`, { status });
 
       fetchRequests();
     } catch (err) {

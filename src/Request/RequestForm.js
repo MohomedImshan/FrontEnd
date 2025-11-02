@@ -21,7 +21,7 @@ function RequestForm() {
   const [allParts,setAllParts]=useState([])
 
   useEffect(()=>{
-    axios.get('http://localhost:8800/api/spareParts')
+    axios.get(`${process.env.REACT_APP_API_URL}/api/spareParts`)
     .then(res=>setAllParts(res.data))
     .catch(err=>console.error(err))
   },[])
@@ -61,7 +61,7 @@ function RequestForm() {
     try {
 
       const userName = localStorage.getItem('userName') /*|| 'Unknown User'*/;
-      const response = await axios.post(`http://localhost:8800/api/requests/addRequest`, {
+      const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/requests/addRequest`, {
 
         ...formData,
         userName

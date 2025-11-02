@@ -31,7 +31,7 @@ const SpareParts = () => {
   // Fetch spare parts from backend
   const fetchSpareParts = async () => {
     try {
-      const res = await axios.get("http://localhost:8800/api/spareparts");
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/spareparts`);
       setSpareParts(res.data);
       setFilteredParts(res.data); // show all initially
     } catch (err) {
@@ -82,7 +82,7 @@ const SpareParts = () => {
           (parseInt(existingPart.quantity, 10) || 0) +
           (parseInt(formData.quantity, 10) || 0);
 
-        await axios.put(`http://localhost:8800/api/spareparts/${editingId}`, {
+        await axios.put(`${process.env.REACT_APP_API_URL}/api/spareparts/${editingId}`, {
           ...existingPart,
           quantity: updatedQuantity,
           empNum:localStorage.getItem('empNum'),
@@ -101,7 +101,7 @@ const SpareParts = () => {
           return;
         }
 
-        await axios.post("http://localhost:8800/api/spareparts", {...formData,
+        await axios.post(`${process.env.REACT_APP_API_URL}/api/spareparts`, {...formData,
         empNum:localStorage.getItem('empNum'),});
       }
 
@@ -119,7 +119,7 @@ const SpareParts = () => {
   // Delete part
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8800/api/spareparts/${id}`);
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/spareparts/${id}`);
       fetchSpareParts();
     } catch (err) {
       console.error("Error deleting spare part:", err);
@@ -148,7 +148,7 @@ const SpareParts = () => {
     if(!token) return alert('No token found')
     try{
       const res = await axios.get(
-        `http://localhost:8800/api/spareparts/stock?department=${selectedDepartment}`,
+        `${process.env.REACT_APP_API_URL}/api/spareparts/stock?department=${selectedDepartment}`,
         {headers:{Authorization:`Bearer ${token}`}}
       )
       

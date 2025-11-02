@@ -15,7 +15,7 @@ function Logfile() {
         console.error('No token found')
         return
       }
-        axios.get('http://localhost:8800/logfile',{
+        axios.get(`${process.env.REACT_APP_API_URL}/logfile`,{
           headers:{
             Authorization:`Bearer ${token}`
           }

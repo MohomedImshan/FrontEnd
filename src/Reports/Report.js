@@ -17,7 +17,7 @@ function Report() {
         console.error('No token found')
         return
       }
-      axios.get('http://localhost:8800/report',{
+      axios.get(`${process.env.REACT_APP_API_URL}/report`,{
         headers:{
            Authorization:`Bearer ${token}`
          }
@@ -30,7 +30,7 @@ function Report() {
             console.error(err)
             setLoading(false)
         })
-      axios.get('http://localhost:8800/transaction',{
+      axios.get(`${process.env.REACT_APP_API_URL}/transaction`,{
         headers:{
            Authorization:`Bearer ${token}`
          }
@@ -43,7 +43,7 @@ function Report() {
             console.error(err)
             setLoading(false)
         })
-        axios.get('http://localhost:8800/report/stockreport',{
+        axios.get(`${process.env.REACT_APP_API_URL}/report/stockreport`,{
         headers:{
            Authorization:`Bearer ${token}`
          }

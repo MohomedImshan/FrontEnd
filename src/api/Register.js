@@ -32,7 +32,7 @@ function Register() {
         console.log("Form submitted ",validationErrors)
         setServerError('')
         if(Object.keys(validationErrors).length === 0 ){
-            axios.post("http://localhost:8800/Register",values)
+            axios.post(`${process.env.REACT_APP_API_URL}/Register`,values)
             .then(res =>{
                 navigate('/')
             })

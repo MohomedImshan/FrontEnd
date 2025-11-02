@@ -19,7 +19,7 @@ function Header({ onLogout }) {
         try{
             const token = localStorage.getItem('token')
             if(token){
-                await axios.post('http://localhost:8800/logout',{},{
+                await axios.post(`${process.env.REACT_APP_API_URL}/logout`,{},{
                     headers:{Authorization:`Bearer ${token}`}
                 })
             }
@@ -61,7 +61,7 @@ function Header({ onLogout }) {
         }
         const fetchPendingCount = async()=>{
             try{
-                const res = await axios.get("http://localhost:8800/header/pendingcount",{
+                const res = await axios.get(`${process.env.REACT_APP_API_URL}/header/pendingcount`,{
                     headers:{Authorization:`Bearer ${token}`},
                     
                 })

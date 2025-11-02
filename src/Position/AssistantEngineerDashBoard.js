@@ -23,7 +23,7 @@ function AssistantEngineerDashBoard({ empNum, onLogout }) {
           console.error('No Token is Found, redirecting to login...');
           navigate('/');
         }
-        const res = await axios.get(`http://localhost:8800/Assistant-Engineer/${storedempNum}`, {
+        const res = await axios.get(`${process.env.REACT_APP_API_URL}/Assistant-Engineer/${storedempNum}`, {
           headers: {
             Authorization: `Bearer ${token}`
           }
@@ -47,7 +47,7 @@ function AssistantEngineerDashBoard({ empNum, onLogout }) {
         userName: editName || user.userName,
         email: editEmail || user.email,
       };
-      await axios.put(`http://localhost:8800/Assistant-Engineer/${user.empNum}`, updatedUser, {
+      await axios.put(`${process.env.REACT_APP_API_URL}/Assistant-Engineer/${user.empNum}`, updatedUser, {
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -81,7 +81,7 @@ function AssistantEngineerDashBoard({ empNum, onLogout }) {
       const data = {
         confirmpassword: confirmpassword
       };
-      await axios.put(`http://localhost:8800/Assistant-Engineer/${user.empNum}/changepassword`, data, {
+      await axios.put(`${process.env.REACT_APP_API_URL}/Assistant-Engineer/${user.empNum}/changepassword`, data, {
         headers: {
           Authorization: `Bearer ${token}`
         }

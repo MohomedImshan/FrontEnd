@@ -15,7 +15,7 @@ function Reject() {
         console.error('No token found')
         return
       }
-        axios.get('http://localhost:8800/reject',{
+        axios.get(`${process.env.REACT_APP_API_URL}/reject`,{
           headers:{
             Authorization:`Bearer ${token}`
           }
