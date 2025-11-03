@@ -152,7 +152,7 @@ function OwnRequests() {
 
                 <td>{req.status}</td>
                 <td className="text-nowrap">
-                    <button className="btn btn-sm btn-outline-warning me-2" onClick={() => handleEdit(req)}disabled={req.status=="Approved"}>Edit</button>
+                    <button className="btn btn-sm btn-outline-warning me-2" onClick={() => handleEdit(req)}disabled={req.status==="Approved"}>Edit</button>
                     <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(req.id)}>Delete</button>
                   </td>
 
