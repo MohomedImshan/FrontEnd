@@ -13,7 +13,7 @@ const Login = ({ onLogin }) => {
   const handleLogin = async (event) => {
     event.preventDefault();
     try {
-      const res = await axios.post(`${process.env.REACT_APP_API_URL}/login`, { identifier:email, password });
+      const res = await axios.post(`${process.env.REACT_APP_API_URL}/api/login`, { identifier:email, password });
       localStorage.setItem('token', res.data.token);
       const decoded = JSON.parse(atob(res.data.token.split('.')[1]));
       onLogin(decoded.position, decoded.empNum, decoded.userName);
