@@ -67,7 +67,7 @@ function OwnRequests() {
     return; // stop if user cancels
   }
   try {
-    await axios.delete(`${API}/requests/${id}`);
+    await axios.delete(`${process.env.REACT_APP_API_URL}/requests/${id}`);
     fetchRequests(); // refresh table
     setDeleteRequest(null); // close modal
   } catch (e) {
