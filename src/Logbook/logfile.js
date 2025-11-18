@@ -66,10 +66,10 @@ function Logfile() {
 
       <div className="container p-4">
 
-        <h2>Weekly Log</h2>
+        <h1 className='topic'>Weekly Log</h1>
 
         {/* Date Filters */}
-        <div className="mb-3 d-flex align-items-center">
+        <div className="mb-3 d-flex align-items-center bar">
           
           <label className="me-2">From: </label>
           <input

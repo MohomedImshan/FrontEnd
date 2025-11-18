@@ -38,7 +38,7 @@ function Reject() {
     
     <div className="container p-4">
        
-      <h2>Rejected Requests</h2>
+      <h1 className='topic'>Rejected Requests</h1>
       
 
       

@@ -154,11 +154,11 @@ import { jwtDecode } from 'jwt-decode'
             <div>
                 <Header />
                 <div className='container mt-4'><br />
-                <h1>User Details</h1>
+                <h1 className='topic'>User Details</h1>
                 
 
               
-                    <button className='btn btn-sm btn-outline-success me-1' onClick={()=>setShowRegisterModal(true)}>Register New Employee</button>  <br />
+                    <button className='btn btn-sm btn-danger me-1' onClick={()=>setShowRegisterModal(true)}>Register New Employee</button>  <br />
                 
                 
                                             <Modal show={showRegisterModal} onHide={()=>setShowRegisterModal(false)}>
@@ -325,6 +325,8 @@ import { jwtDecode } from 'jwt-decode'
                         </tbody>
                     </table>
                 </div>
+                <br></br>
+                <br></br>
             </div>
         )
     }

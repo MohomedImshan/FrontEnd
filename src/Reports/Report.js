@@ -70,10 +70,10 @@ function Report() {
    
     <div className="container p-4">
       
-      <h2>Weekly Report</h2>
+      <h1 className='topic'>Weekly Report</h1>
       
 
-      <button className='btn btn-success' onClick={()=>exportPDF(report,transaction,stockReport)}>Download</button><br />
+      <button className='btn btn-danger' onClick={()=>exportPDF(report,transaction,stockReport)}>Download</button><br />
       {/* <div className="mb-3">
         <label>From: </label>
         <input
@@ -98,7 +98,9 @@ function Report() {
       </button> */}
       
       <br />
-      <h1>Requests for Last Week</h1>
+      <br />
+      <hr></hr>
+      <h1 className='topic'>Requests for Last Week</h1>
       {loading ? (
         <p>Loading report...</p>
       ) : report?.length ?  (
@@ -139,7 +141,9 @@ function Report() {
         <p>No report Found</p>
       )}
       <br />
-      <h1>Reports of Transaction</h1>
+      <br />
+      <hr></hr>
+      <h1 className='topic'>Reports of Transaction</h1>
       {loading ? (
         <p>Loading report...</p>
       ) : transaction?.length ?  (
