@@ -80,6 +80,8 @@ function RequestForm() {
   return (
     <div>
       <Header />
+      <br></br>
+      <h1 className='topic'>Request Spare Parts</h1>
       <div className="border shadow bg-light rounded mx-auto my-4 p-4" style={{ maxWidth: 720 }}>
         <h2>Request Form for Spare Parts</h2>
 
@@ -132,13 +134,15 @@ function RequestForm() {
             </div>
           ))}
 
-          <button type="button" className="btn btn-success mb-2" onClick={() => setShowModal(true)}>+ Add Spare Part</button>
+          <button type="button" className="btn btn-secondary  mb-2" onClick={() => setShowModal(true)}>+ Add Spare Part</button>
           <br />
-          <button type="submit" className="btn btn-primary">Submit Request</button>
+          <button type="submit" className="btn btn-danger">Submit Request</button>
 
         </form>
-      </div>
 
+      </div>
+        <br></br>
+        <br></br>
       {/* Modal for adding parts */}
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
@@ -167,7 +171,7 @@ function RequestForm() {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
-          <Button variant="success" onClick={handleAddPart}>Add Part</Button>
+          <Button variant="danger" onClick={handleAddPart}>Add Part</Button>
         </Modal.Footer>
       </Modal>
     </div>

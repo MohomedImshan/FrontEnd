@@ -3,6 +3,7 @@ import Header from '../Header/Header';
 import axios from 'axios';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import './dashboard.css';
 
 function EngineerDashboard({ empNum, onLogout }) {
   const [user, setUser] = useState(null);
@@ -97,7 +98,7 @@ function EngineerDashboard({ empNum, onLogout }) {
   };
 
   return (
-    <div className="min-vh-100" style={{ backgroundColor: '#f0f5fa' }}>
+    <div className="min-vh-100" style={{ backgroundImage: `url(${require('./../bg.jpg')})`}}>
       <Header />
 
       <div className="container my-5 px-5">
@@ -117,7 +118,7 @@ function EngineerDashboard({ empNum, onLogout }) {
               <div className="d-flex">
                 <button
                   className="btn btn-warning rounded-pill px-3 py-2 fw-bold d-flex align-items-center me-2"
-                  style={{ backgroundColor: '#ffc107', borderColor: '#ffc107', color: '#000' }}
+                  style={{ backgroundColor: '#ff0707ff', borderColor: '#ff0707ff', color: '#ffffffff' }}
                   onClick={() => {
                     if (user) {
                       setEditName(user.userName);
@@ -130,7 +131,7 @@ function EngineerDashboard({ empNum, onLogout }) {
                 </button>
                 <button
                   className="btn btn-warning rounded-pill px-3 py-2 fw-bold d-flex align-items-center"
-                  style={{ backgroundColor: '#ffc107', borderColor: '#ffc107', color: '#000' }}
+                  style={{ backgroundColor: '#ff0707ff', borderColor: '#ff0707ff', color: '#ffffffff' }}
                   onClick={() => setChangePasswordModal(true)}
                 >
                   <i className="bi bi-key me-2"></i>Change Password
@@ -185,7 +186,7 @@ function EngineerDashboard({ empNum, onLogout }) {
             variant="success"
             onClick={handleAccept}
             className="rounded-pill px-4"
-            style={{ backgroundColor: '#ffc107', borderColor: '#ffc107', color: '#000' }}
+            style={{ backgroundColor: '#ff0707ff', borderColor: '#ff0707ff', color: '#ffffffff' }}
           >
             Accept
           </Button>
@@ -237,7 +238,7 @@ function EngineerDashboard({ empNum, onLogout }) {
             variant="success"
             onClick={handleChangePassword}
             className="rounded-pill px-4"
-            style={{ backgroundColor: '#ffc107', borderColor: '#ffc107', color: '#000' }}
+            style={{ backgroundColor: '#ff0707ff', borderColor: '#ff0707ff', color: '#ffffffff' }}
           >
             Accept
           </Button>

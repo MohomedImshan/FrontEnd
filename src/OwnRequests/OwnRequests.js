@@ -110,7 +110,9 @@ function OwnRequests() {
     <div>
       <Header />
       <div className='container'>
-        <h1 className='text-center'>Request Notifications</h1>
+        <br></br>
+        <h1 className='text-center topic'>Request Notifications</h1>
+        <br></br>
         <input
           type="text"
           placeholder="Search"
@@ -291,7 +293,6 @@ function OwnRequests() {
                     Cancel
                   </button>
                 </div>
-
               </div>
             </div>
           </div>
@@ -300,6 +301,7 @@ function OwnRequests() {
         
 
       </div>
+      <br></br> <br></br>
     </div>
   );
 }

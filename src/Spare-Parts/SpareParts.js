@@ -282,7 +282,7 @@ const SpareParts = () => {
 
       {/* Main container */}
       <div className="container mt-4">
-        <h2 className="mb-3">Spare Parts</h2>
+        <h1 className="mb-3 topic">Spare Parts</h1>
 
         {/* Search bar */}
         <input
@@ -295,7 +295,7 @@ const SpareParts = () => {
 
         {/* Buttons */}
         <button
-          className="btn btn-sm btn-outline-success me-3"
+          className="btn btn-sm btn-danger me-3"
           onClick={() => {
             setFormData({
               empNum: localStorage.getItem("empNum") || "",
@@ -316,13 +316,15 @@ const SpareParts = () => {
         </button>
 
         <button
-          className="btn btn-sm btn-outline-success me-3"
-          onClick={handleshowDownload}
+
+          className="btn btn-sm btn-danger me-3"  
+          onClick={handleshowDownload}       
         >
           Download Stock Report
         </button>
+<br></br>
+<br></br>
 
-        {/* Download Modal */}
         <Modal show={showDownloadModal} onHide={handleDowloadClose} centered>
           <Modal.Header closeButton>
             <Modal.Title>Select Department</Modal.Title>
