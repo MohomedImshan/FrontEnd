@@ -91,7 +91,7 @@ function Logfile() {
 
           
           <button
-            className="btn btn-primary me-2"
+            className="btn btn-danger me-2"
             onClick={handleSearch}
           >
             Search

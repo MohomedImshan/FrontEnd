@@ -134,9 +134,9 @@ function RequestForm() {
             </div>
           ))}
 
-          <button type="button" className="btn btn-success mb-2" onClick={() => setShowModal(true)}>+ Add Spare Part</button>
+          <button type="button" className="btn btn-secondary  mb-2" onClick={() => setShowModal(true)}>+ Add Spare Part</button>
           <br />
-          <button type="submit" className="btn btn-primary">Submit Request</button>
+          <button type="submit" className="btn btn-danger">Submit Request</button>
 
         </form>
 
@@ -171,7 +171,7 @@ function RequestForm() {
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
-          <Button variant="success" onClick={handleAddPart}>Add Part</Button>
+          <Button variant="danger" onClick={handleAddPart}>Add Part</Button>
         </Modal.Footer>
       </Modal>
     </div>
