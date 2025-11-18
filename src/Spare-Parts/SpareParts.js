@@ -115,10 +115,13 @@ const SpareParts = () => {
         // -------------------------------
         const existingPart = spareParts.find((p) => p.id === editingId);
         const addQty = parseInt(formData.quantity, 10) || 0;
-        const updatedQuantity = (parseInt(existingPart.quantity, 10) || 0) + addQty;
+        const updatedQuantity =
+          (parseInt(existingPart.quantity, 10) || 0) + addQty;
 
         // Combine old cost + new cost
-        const updatedCost = (parseFloat(existingPart.cost) || 0) + (parseFloat(formData.cost) || 0);
+        const updatedCost =
+          (parseFloat(existingPart.cost) || 0) +
+          (parseFloat(formData.cost) || 0);
 
         const payload = {
           ...existingPart,
@@ -191,7 +194,10 @@ const SpareParts = () => {
       type: part.type || "",
       item_name: part.item_name || "",
       quantity: "", // User inputs quantity to add
-      cost: (part.cost !== undefined && part.cost !== null) ? String(Number(part.cost).toFixed(2)) : "0.00",
+      cost:
+        part.cost !== undefined && part.cost !== null
+          ? String(Number(part.cost).toFixed(2))
+          : "0.00",
     });
     setEditingId(part.id);
     setShowModal(true);
@@ -215,9 +221,12 @@ const SpareParts = () => {
     if (!token) return alert("No token found");
 
     try {
-      const res = await axios.get(`${API}/api/spareparts/stock?department=${selectedDepartment}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await axios.get(
+        `${API}/api/spareparts/stock?department=${selectedDepartment}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       const stockData = res.data.stock;
       if (!stockData || stockData.length === 0) return alert("No stock found");
@@ -230,7 +239,15 @@ const SpareParts = () => {
       doc.setFontSize(12);
       doc.text("Generated on: " + new Date().toLocaleString(), 20, 45);
 
-      const tableColumn = ["ID", "Department", "Supplier", "Type", "Item Name", "Quantity", "Cost"];
+      const tableColumn = [
+        "ID",
+        "Department",
+        "Supplier",
+        "Type",
+        "Item Name",
+        "Quantity",
+        "Cost",
+      ];
       const tableRows = stockData.map((r) => [
         r.id,
         r.department,
@@ -298,7 +315,10 @@ const SpareParts = () => {
           Add Spare Part
         </button>
 
-        <button className="btn btn-sm btn-outline-success me-3" onClick={handleshowDownload}>
+        <button
+          className="btn btn-sm btn-outline-success me-3"
+          onClick={handleshowDownload}
+        >
           Download Stock Report
         </button>
 
@@ -310,7 +330,10 @@ const SpareParts = () => {
           <Modal.Body>
             <Form>
               <Form.Group controlId="departmentSelect">
-                <Form.Select value={selectedDepartment} onChange={(e) => setSelectedDepartment(e.target.value)}>
+                <Form.Select
+                  value={selectedDepartment}
+                  onChange={(e) => setSelectedDepartment(e.target.value)}
+                >
                   <option value="">--Select Department--</option>
                   <option value="Mechanical">Mechanical</option>
                   <option value="Electrical">Electrical</option>
@@ -331,13 +354,23 @@ const SpareParts = () => {
 
         {/* Add/Update Modal */}
         {showModal && (
-          <div className="modal d-block" tabIndex="-1" style={{ backgroundColor: "rgba(0,0,0,0.5)" }}>
+          <div
+            className="modal d-block"
+            tabIndex="-1"
+            style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+          >
             <div className="modal-dialog">
               <div className="modal-content">
                 <form onSubmit={handleSubmit}>
                   <div className="modal-header">
-                    <h5 className="modal-title">{editingId ? "Update Spare Part" : "Add Spare Part"}</h5>
-                    <button type="button" className="btn-close" onClick={() => setShowModal(false)}></button>
+                    <h5 className="modal-title">
+                      {editingId ? "Update Spare Part" : "Add Spare Part"}
+                    </h5>
+                    <button
+                      type="button"
+                      className="btn-close"
+                      onClick={() => setShowModal(false)}
+                    ></button>
                   </div>
 
                   <div className="modal-body">
@@ -345,9 +378,21 @@ const SpareParts = () => {
                     <div className="mb-3">
                       <label className="form-label">Department</label>
                       {editingId ? (
-                        <input type="text" className="form-control" value={formData.department} readOnly onFocus={handleForbiddenEdit} />
+                        <input
+                          type="text"
+                          className="form-control"
+                          value={formData.department}
+                          readOnly
+                          onFocus={handleForbiddenEdit}
+                        />
                       ) : (
-                        <select name="department" className="form-select" value={formData.department} onChange={handleChange} required>
+                        <select
+                          name="department"
+                          className="form-select"
+                          value={formData.department}
+                          onChange={handleChange}
+                          required
+                        >
                           <option value="">-- Select Department --</option>
                           <option value="Mechanical">Mechanical</option>
                           <option value="Electrical">Electrical</option>
@@ -360,48 +405,115 @@ const SpareParts = () => {
                     {/* Supplier */}
                     <div className="mb-3">
                       <label className="form-label">Supplier</label>
-                      <input type="text" name="supplier" className="form-control" value={formData.supplier} onChange={handleChange} required={!editingId} readOnly={!!editingId} onFocus={handleForbiddenEdit} />
+                      <input
+                        type="text"
+                        name="supplier"
+                        className="form-control"
+                        value={formData.supplier}
+                        onChange={handleChange}
+                        required={!editingId}
+                        readOnly={!!editingId}
+                        onFocus={handleForbiddenEdit}
+                      />
                     </div>
 
                     {/* Type */}
                     <div className="mb-3">
                       <label className="form-label">Type</label>
-                      <input type="text" name="type" className="form-control" value={formData.type} onChange={handleChange} readOnly={!!editingId} onFocus={handleForbiddenEdit} required />
+                      <input
+                        type="text"
+                        name="type"
+                        className="form-control"
+                        value={formData.type}
+                        onChange={handleChange}
+                        readOnly={!!editingId}
+                        onFocus={handleForbiddenEdit}
+                        required
+                      />
                     </div>
 
                     {/* Item Name */}
                     <div className="mb-3">
                       <label className="form-label">Item Name</label>
-                      <input type="text" name="item_name" className="form-control" value={formData.item_name} onChange={handleChange} readOnly={!!editingId} onFocus={handleForbiddenEdit} required />
+                      <input
+                        type="text"
+                        name="item_name"
+                        className="form-control"
+                        value={formData.item_name}
+                        onChange={handleChange}
+                        readOnly={!!editingId}
+                        onFocus={handleForbiddenEdit}
+                        required
+                      />
                     </div>
 
                     {/* Current Quantity */}
                     {editingId && (
                       <div className="mb-3">
                         <label className="form-label">Current Quantity</label>
-                        <input type="number" className="form-control" value={spareParts.find((p) => p.id === editingId)?.quantity || 0} readOnly />
+                        <input
+                          type="number"
+                          className="form-control"
+                          value={
+                            spareParts.find((p) => p.id === editingId)
+                              ?.quantity || 0
+                          }
+                          readOnly
+                        />
                       </div>
                     )}
 
                     {/* Quantity to Add */}
                     <div className="mb-3">
-                      <label className="form-label">{editingId ? "Add Quantity" : "Quantity"}</label>
-                      <input type="number" name="quantity" className={`form-control ${highlightQuantity ? "border border-danger" : ""}`} value={formData.quantity} onChange={handleChange} required />
+                      <label className="form-label">
+                        {editingId ? "Add Quantity" : "Quantity"}
+                      </label>
+                      <input
+                        type="number"
+                        name="quantity"
+                        className={`form-control ${
+                          highlightQuantity ? "border border-danger" : ""
+                        }`}
+                        value={formData.quantity}
+                        onChange={handleChange}
+                        required
+                      />
                     </div>
 
                     {/* Cost */}
                     <div className="mb-3">
                       <label className="form-label">Cost</label>
-                      <input type="number" step="0.01" name="cost" className="form-control" value={formData.cost} onChange={handleChange} required />
+                      <input
+                        type="number"
+                        step="0.01"
+                        name="cost"
+                        className="form-control"
+                        value={formData.cost}
+                        onChange={handleChange}
+                        required
+                      />
                     </div>
 
                     {/* Error Message */}
-                    {errorMessage && <div style={{ color: "red", fontSize: "0.85rem" }}>{errorMessage}</div>}
+                    {errorMessage && (
+                      <div style={{ color: "red", fontSize: "0.85rem" }}>
+                        {errorMessage}
+                      </div>
+                    )}
                   </div>
 
                   <div className="modal-footer">
-                    <button type="submit" className="btn btn-sm btn-outline-success me-1">{editingId ? "Update" : "Save"}</button>
-                    <button type="button" className="btn btn-sm btn-outline-danger me-1" onClick={() => setShowModal(false)}>
+                    <button
+                      type="submit"
+                      className="btn btn-sm btn-outline-success me-1"
+                    >
+                      {editingId ? "Update" : "Save"}
+                    </button>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-outline-danger me-1"
+                      onClick={() => setShowModal(false)}
+                    >
                       Cancel
                     </button>
                   </div>
@@ -434,19 +546,39 @@ const SpareParts = () => {
                   <td>{part.supplier || "No supplier"}</td>
                   <td>{part.type}</td>
                   <td>{part.item_name}</td>
-                  <td style={{ color: Number(part.quantity) === 0 ? "red" : "black", fontWeight: Number(part.quantity) === 0 ? "bold" : "normal" }}>
-                    {Number(part.quantity) === 0 ? "Out of Stock" : part.quantity}
+                  <td
+                    style={{
+                      color: Number(part.quantity) === 0 ? "red" : "black",
+                      fontWeight:
+                        Number(part.quantity) === 0 ? "bold" : "normal",
+                    }}
+                  >
+                    {Number(part.quantity) === 0
+                      ? "Out of Stock"
+                      : part.quantity}
                   </td>
                   <td>{Number(part.cost || 0).toFixed(2)}</td>
                   <td>
-                    <button className="btn btn-sm btn-outline-success me-1" onClick={() => handleEdit(part)}>Update</button>
-                    <button className="btn btn-sm btn-outline-danger me-1" onClick={() => handleDelete(part.id)}>Delete</button>
+                    <button
+                      className="btn btn-sm btn-outline-success me-1"
+                      onClick={() => handleEdit(part)}
+                    >
+                      Update
+                    </button>
+                    <button
+                      className="btn btn-sm btn-outline-danger me-1"
+                      onClick={() => handleDelete(part.id)}
+                    >
+                      Delete
+                    </button>
                   </td>
                 </tr>
               ))
             ) : (
               <tr>
-                <td colSpan="8" style={{ textAlign: "center" }}>No parts found</td>
+                <td colSpan="8" style={{ textAlign: "center" }}>
+                  No parts found
+                </td>
               </tr>
             )}
           </tbody>
