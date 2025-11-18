@@ -39,6 +39,7 @@ function Notification() {
       const res = await axios.get(`${process.env.REACT_APP_API_URL}/api/requests/${row.id}`);
       setSelectedRequest(res.data);
       setSelectedParts(res.data.spareParts || []);
+      
     } catch (e) {
       console.error('Fetch single request failed:', e);
       setSelectedRequest(row);
@@ -62,7 +63,7 @@ function Notification() {
       }else{
         alert(`Status update failed:`);
    
-      }
+      } 
       
     }
   };
@@ -71,7 +72,7 @@ function Notification() {
     <div>
       <Header />
       <div className='container'>
-        <h1 className='text-center my-3'>Request Notifications</h1>
+        <h1 className='topic text-center my-3'>Request Notifications</h1>
 
         <input
           type="text"
