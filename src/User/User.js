@@ -136,7 +136,7 @@ import { jwtDecode } from 'jwt-decode'
 
             try{
                 const token = localStorage.getItem('token')
-                await axios.delete(`${process.env.REACT_APP_API_URL}User/${selectedUser.empNum}`,{
+                await axios.delete(`${process.env.REACT_APP_API_URL}/User/${selectedUser.empNum}`,{
                     headers:{
                         Authorization:`Bearer ${token}`
                     }

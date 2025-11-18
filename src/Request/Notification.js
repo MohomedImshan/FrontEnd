@@ -12,6 +12,14 @@ function Notification() {
 
 
   const [stockError,setStockError]=useState(null)
+  const [confirmData, setConfirmData] = useState(null); 
+  const [confirmModal, setConfirmModal] = useState({
+    show: false,
+    action: null,   // 'Approved' or 'Rejected'
+    id: null
+  });
+  
+
 
 
   const searchQuery = useMemo(() => searchTerm.trim(), [searchTerm]);
@@ -67,6 +75,10 @@ function Notification() {
       
     }
   };
+  const confirmAction = (id, status) => {
+    setConfirmData({ id, status });
+  };
+  
 
   return (
     <div>
@@ -119,9 +131,21 @@ function Notification() {
                    {req.status} 
                   </td>
                   <td className="text-nowrap">
-                    <button onClick={() => updateStatus(req.id, 'Approved')} className="btn btn-sm btn-outline-success me-1">Approve</button>
-                    <button onClick={() => updateStatus(req.id, 'Rejected')} className="btn btn-sm btn-outline-danger">Reject</button>
+                    <button
+                      onClick={() => setConfirmModal({ show: true, action: 'Approved', id: req.id })}
+                      className="btn btn-sm btn-outline-success me-1"
+                    >
+                      Approve
+                    </button>
+
+                    <button
+                      onClick={() => setConfirmModal({ show: true, action: 'Rejected', id: req.id })}
+                      className="btn btn-sm btn-outline-danger"
+                    >
+                      Reject
+                    </button>
                   </td>
+
                 </tr>
               ))}
               {requests.length === 0 && (
@@ -206,6 +230,53 @@ function Notification() {
             </div>
           </div>
         )}
+        {confirmModal.show && (
+  <div className="modal show d-block" tabIndex="-1" role="dialog">
+    <div className="modal-dialog">
+      <div className="modal-content p-3">
+        <div className="modal-header">
+          <h5 className="modal-title">
+            {confirmModal.action === "Approved" ? "Confirm Approval" : "Confirm Rejection"}
+          </h5>
+          <button
+            className="btn-close"
+            onClick={() => setConfirmModal({ show: false, action: null, id: null })}
+          ></button>
+        </div>
+
+        <div className="modal-body">
+          <p>
+            Are you sure you want to <strong>{confirmModal.action}</strong> this request?
+          </p>
+        </div>
+
+        <div className="modal-footer">
+          <button
+            className="btn btn-secondary"
+            onClick={() => setConfirmModal({ show: false, action: null, id: null })}
+          >
+            Cancel
+          </button>
+
+          <button
+            className={
+              "btn " + (confirmModal.action === "Approved"
+                ? "btn-success"
+                : "btn-danger")
+            }
+            onClick={() => {
+              updateStatus(confirmModal.id, confirmModal.action);
+              setConfirmModal({ show: false, action: null, id: null });
+            }}
+          >
+            Yes, {confirmModal.action}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
 
 
       </div>

@@ -52,7 +52,7 @@ function OwnRequests() {
     if (!editRequest) return;
     try {
 
-      await axios.put(`${process.env.REACT_APP_API_URL}/requests/${editRequest.id}`, editRequestData);
+      await axios.put(`${process.env.REACT_APP_API_URL}/api/requests/${editRequest.id}`, editRequestData);
 
       setEditRequest(null);
       fetchRequests();
@@ -62,19 +62,17 @@ function OwnRequests() {
     }
   };
 
- const handleDelete = async (id) => {
-  if (!window.confirm("Are you sure you want to delete this request?")) {
-    return; // stop if user cancels
-  }
-  try {
-    await axios.delete(`${process.env.REACT_APP_API_URL}/requests/${id}`);
-    fetchRequests(); // refresh table
-    setDeleteRequest(null); // close modal
-  } catch (e) {
-    console.error('Delete failed', e);
-    alert('Delete failed');
-  }
-};
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`${process.env.REACT_APP_API_URL}/api/requests/${id}`);
+      setDeleteRequest(null);  // close modal
+      fetchRequests();         // refresh table
+    } catch (e) {
+      console.error('Delete failed', e);
+      alert('Delete failed');
+    }
+  };
+  
 
 
   const filteredRequests = requests.filter(req =>
@@ -155,7 +153,9 @@ function OwnRequests() {
                 <td>{req.status}</td>
                 <td className="text-nowrap">
                     <button className="btn btn-sm btn-outline-warning me-2" onClick={() => handleEdit(req)}disabled={req.status==="Approved"}>Edit</button>
-                    <button className="btn btn-sm btn-outline-danger" onClick={() => handleDelete(req.id)}>Delete</button>
+                    <button className="btn btn-sm btn-outline-danger" onClick={() => setDeleteRequest(req)}disabled={req.status==="Approved"}>Delete</button>
+                    
+
                   </td>
 
 
@@ -269,34 +269,34 @@ function OwnRequests() {
           </div>
         )}
 
-        {/* Delete Modal */}
-        {deleteRequest && (
-          <div className="modal show d-block" tabIndex="-1" role="dialog">
-            <div className="modal-dialog">
-              <div className="modal-content p-3">
-                <h5 className="mb-3 text-danger">Confirm Delete</h5>
-                <p>Are you sure you want to delete this request?</p>
-                <p><strong>Request ID:</strong> {deleteRequest.id}</p>
-                <p><strong>Description:</strong> {deleteRequest.description}</p>
+{deleteRequest && (
+  <div className="modal show d-block" tabIndex="-1" role="dialog">
+    <div className="modal-dialog">
+      <div className="modal-content p-3">
+        <h5 className="mb-3 text-danger">Confirm Delete</h5>
+        <p>Are you sure you want to delete this request?</p>
+        <p><strong>Request ID:</strong> {deleteRequest.id}</p>
+        <p><strong>Description:</strong> {deleteRequest.description}</p>
 
-                <div className="text-end">
-                  <button
-                    className="btn btn-danger me-2"
-                    onClick={() => handleDelete(deleteRequest.id)}
-                  >
-                    Delete
-                  </button>
-                  <button
-                    className="btn btn-secondary"
-                    onClick={() => setDeleteRequest(null)}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        <div className="text-end">
+          <button
+            className="btn btn-danger me-2"
+            onClick={() => handleDelete(deleteRequest.id)}
+          >
+            Delete
+          </button>
+          <button
+            className="btn btn-secondary"
+            onClick={() => setDeleteRequest(null)}
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
+
 
         
 

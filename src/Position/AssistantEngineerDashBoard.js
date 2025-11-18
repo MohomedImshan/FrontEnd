@@ -3,6 +3,8 @@ import Header from '../Header/Header';
 import axios from 'axios';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import './dashboard.css'
+
 
 function AssistantEngineerDashBoard({ empNum, onLogout }) {
   const [user, setUser] = useState(null);
