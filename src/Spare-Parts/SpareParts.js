@@ -1,28 +1,22 @@
-// ------------------------------------------------------------
-// SpareParts.jsx
-// ------------------------------------------------------------
 
-import React, { useEffect, useState } from "react"; // React and hooks
-import axios from "axios"; // HTTP requests
-import "bootstrap/dist/css/bootstrap.min.css"; // Bootstrap CSS
-import Header from "../Header/Header"; // Header component
-import jsPDF from "jspdf"; // PDF generation
-import "jspdf-autotable"; // For tables in PDF
-import { Button, Form, Modal } from "react-bootstrap"; // Bootstrap components
 
-// ------------------------------------------------------------
-// Component: SpareParts
-// ------------------------------------------------------------
+import React, { useEffect, useState } from "react"; 
+import axios from "axios"; 
+import "bootstrap/dist/css/bootstrap.min.css"; 
+import Header from "../Header/Header"; 
+import jsPDF from "jspdf"; 
+import "jspdf-autotable"; 
+import { Button, Form, Modal } from "react-bootstrap"; 
+
+
 const SpareParts = () => {
-  // ------------------------------------------------------------
-  // State variables
-  // ------------------------------------------------------------
-  const [spareParts, setSpareParts] = useState([]); // All spare parts from backend
-  const [filteredParts, setFilteredParts] = useState([]); // Filtered parts for search
-  const [searchTerm, setSearchTerm] = useState(""); // Search input
+  
+  const [spareParts, setSpareParts] = useState([]); 
+  const [filteredParts, setFilteredParts] = useState([]); 
+  const [searchTerm, setSearchTerm] = useState(""); 
 
-  const [showModal, setShowModal] = useState(false); // Add/Update modal visibility
-  const [editingId, setEditingId] = useState(null); // ID of part being edited
+  const [showModal, setShowModal] = useState(false); 
+  const [editingId, setEditingId] = useState(null); 
 
   const [formData, setFormData] = useState({
     empNum: localStorage.getItem("empNum") || "",
@@ -30,44 +24,37 @@ const SpareParts = () => {
     supplier: "No supplier",
     type: "",
     item_name: "",
-    quantity: "", // For add or quantity to add
+    quantity: "", 
     cost: "0.00",
   });
 
-  const [errorMessage, setErrorMessage] = useState(""); // Form error messages
-  const [highlightQuantity, setHighlightQuantity] = useState(false); // Highlight quantity field in red
+  const [errorMessage, setErrorMessage] = useState(""); 
+  const [highlightQuantity, setHighlightQuantity] = useState(false); 
 
-  const [showDownloadModal, setShowDownloadModal] = useState(false); // Stock PDF modal
-  const [selectedDepartment, setSelectedDepartment] = useState(""); // Department for stock PDF
-  const [stock, setStock] = useState([]); // Stock data
+  const [showDownloadModal, setShowDownloadModal] = useState(false); 
+  const [selectedDepartment, setSelectedDepartment] = useState(""); 
+  const [stock, setStock] = useState([]); 
 
-  // ------------------------------------------------------------
-  // API base URL
-  // ------------------------------------------------------------
   const API = process.env.REACT_APP_API_URL || "http://localhost:8800";
 
-  // ------------------------------------------------------------
-  // Fetch spare parts from backend
-  // ------------------------------------------------------------
+  
   const fetchSpareParts = async () => {
     try {
       const res = await axios.get(`${API}/api/spareparts`);
-      setSpareParts(res.data); // Full list
-      setFilteredParts(res.data); // Initialize filtered list
+      setSpareParts(res.data); 
+      setFilteredParts(res.data); 
     } catch (err) {
       console.error("Error fetching spare parts:", err);
     }
   };
 
-  // Fetch parts on first render
+  
   useEffect(() => {
     fetchSpareParts();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    
   }, []);
 
-  // ------------------------------------------------------------
-  // Handle search input
-  // ------------------------------------------------------------
+ 
   const handleSearch = (e) => {
     const value = e.target.value.toLowerCase();
     setSearchTerm(value);
@@ -77,7 +64,7 @@ const SpareParts = () => {
         p.department,
         p.type,
         p.item_name,
-        p.supplier, // include supplier in search
+        p.supplier, 
       ]
         .map((v) => (v || "").toString().toLowerCase())
         .some((text) => text.includes(value))
@@ -85,40 +72,32 @@ const SpareParts = () => {
     setFilteredParts(filtered);
   };
 
-  // ------------------------------------------------------------
-  // Handle form input changes
-  // ------------------------------------------------------------
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ------------------------------------------------------------
-  // Prevent forbidden edits when updating
-  // ------------------------------------------------------------
+  
   const handleForbiddenEdit = () => {
     if (editingId) {
       setErrorMessage("Can't change this! Use Add Quantity.");
-      setHighlightQuantity(true); // Highlight quantity input
+      setHighlightQuantity(true); 
     }
   };
 
-  // ------------------------------------------------------------
-  // Add or Update spare part
-  // ------------------------------------------------------------
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       if (editingId) {
-        // -------------------------------
-        // Update existing part
-        // -------------------------------
+        
         const existingPart = spareParts.find((p) => p.id === editingId);
         const addQty = parseInt(formData.quantity, 10) || 0;
         const updatedQuantity =
           (parseInt(existingPart.quantity, 10) || 0) + addQty;
 
-        // Combine old cost + new cost
+        
         const updatedCost =
           (parseFloat(existingPart.cost) || 0) +
           (parseFloat(formData.cost) || 0);
@@ -132,9 +111,7 @@ const SpareParts = () => {
 
         await axios.put(`${API}/api/spareparts/${editingId}`, payload);
       } else {
-        // -------------------------------
-        // Add new part
-        // -------------------------------
+       
         if (!formData.department || !formData.type || !formData.item_name) {
           setErrorMessage("Department, Type and Item Name are required.");
           return;
@@ -150,7 +127,7 @@ const SpareParts = () => {
         await axios.post(`${API}/api/spareparts`, postPayload);
       }
 
-      // Refresh list and reset form
+      
       await fetchSpareParts();
       setFormData({
         empNum: localStorage.getItem("empNum") || "",
@@ -171,9 +148,7 @@ const SpareParts = () => {
     }
   };
 
-  // ------------------------------------------------------------
-  // Delete spare part
-  // ------------------------------------------------------------
+  
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${API}/api/spareparts/${id}`);
@@ -183,9 +158,7 @@ const SpareParts = () => {
     }
   };
 
-  // ------------------------------------------------------------
-  // Edit spare part - open modal
-  // ------------------------------------------------------------
+  
   const handleEdit = (part) => {
     setFormData({
       empNum: localStorage.getItem("empNum") || "",
@@ -193,7 +166,7 @@ const SpareParts = () => {
       supplier: part.supplier || "No supplier",
       type: part.type || "",
       item_name: part.item_name || "",
-      quantity: "", // User inputs quantity to add
+      quantity: "", 
       cost:
         part.cost !== undefined && part.cost !== null
           ? String(Number(part.cost).toFixed(2))
@@ -205,9 +178,7 @@ const SpareParts = () => {
     setHighlightQuantity(false);
   };
 
-  // ------------------------------------------------------------
-  // Download stock PDF handlers
-  // ------------------------------------------------------------
+ 
   const handleshowDownload = () => setShowDownloadModal(true);
   const handleDowloadClose = () => {
     setShowDownloadModal(false);
@@ -272,9 +243,7 @@ const SpareParts = () => {
     }
   };
 
-  // ------------------------------------------------------------
-  // Render JSX
-  // ------------------------------------------------------------
+  
   return (
     <div>
       {/* Header */}
@@ -590,7 +559,5 @@ const SpareParts = () => {
   );
 };
 
-// ------------------------------------------------------------
-// Export component
-// ------------------------------------------------------------
+
 export default SpareParts;

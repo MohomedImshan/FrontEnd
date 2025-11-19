@@ -1,5 +1,3 @@
-// File: src/Request/Notification.js
-
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import Header from '../Header/Header';
@@ -65,8 +63,8 @@ function OwnRequests() {
   const handleDelete = async (id) => {
     try {
       await axios.delete(`${process.env.REACT_APP_API_URL}/api/requests/${id}`);
-      setDeleteRequest(null);  // close modal
-      fetchRequests();         // refresh table
+      setDeleteRequest(null);  
+      fetchRequests();         
     } catch (e) {
       console.error('Delete failed', e);
       alert('Delete failed');
@@ -164,7 +162,7 @@ function OwnRequests() {
           </tbody>
         </table>
 
-        {/* View Modal */}
+        
         {selectedRequest && (
           <div className="modal show d-block" tabIndex="-1" role="dialog">
             <div className="modal-dialog modal-lg">
@@ -231,7 +229,7 @@ function OwnRequests() {
         )}
 
 
-        {/* Edit Modal */}
+        
         {editRequest && (
           <div className="modal show d-block" tabIndex="-1" role="dialog">
             <div className="modal-dialog">

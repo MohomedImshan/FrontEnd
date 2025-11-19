@@ -239,6 +239,7 @@ import { jwtDecode } from 'jwt-decode'
                                                 setEditStatus(user.status ||'' )
                                                 setShowModal(true)
                                                 }}
+                                                disabled={loggedInUser?.position === "Assistant-Engineer"}
                                                 >Edit</button>
                                             <Modal show={showModal} onHide={()=>setShowModal(false)}>
                                                 <Modal.Header closeButton>
@@ -286,7 +287,7 @@ import { jwtDecode } from 'jwt-decode'
                                                                 key={status}
                                                                 type="checkbox"
                                                                 label={status}
-                                                                checked={editStatus === status} // only one can be selected
+                                                                checked={editStatus === status} 
                                                                 onChange={() => setEditStatus(status)}
                                                             />
                                                         ))}
@@ -301,7 +302,7 @@ import { jwtDecode } from 'jwt-decode'
                                                 </Modal.Footer>
 
                                             </Modal>
-                                            {loggedInUser?.empNum !== user.empNum && (
+                                            {loggedInUser?.position !== "Assistant-Engineer" && loggedInUser?.empNum !== user.empNum && (
                                                  <button className='btn btn-sm btn-outline-danger me-1' onClick={()=>handleDeleteClick(user)}>Delete</button>
                                             )}
                                            

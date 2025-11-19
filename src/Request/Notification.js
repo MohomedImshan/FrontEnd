@@ -15,7 +15,7 @@ function Notification() {
   const [confirmData, setConfirmData] = useState(null); 
   const [confirmModal, setConfirmModal] = useState({
     show: false,
-    action: null,   // 'Approved' or 'Rejected'
+    action: null,   
     id: null
   });
   
@@ -173,7 +173,7 @@ function Notification() {
             </div>
             </div>
           )}
-        {/* View Modal */}
+        
         {selectedRequest && (
           <div className="modal show d-block" tabIndex="-1" role="dialog">
             <div className="modal-dialog modal-lg">

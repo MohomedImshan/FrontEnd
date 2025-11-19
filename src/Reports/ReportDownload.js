@@ -67,15 +67,19 @@ function exportPDF(report=[],transaction=[],stockReport=[]){
     const stockTable = [
         "ID",
         "Department Name",
+        "Supplier",
         "Type",
         "Item Name",
+        "Cost",
         "Quantity"
     ]
     const stocktablerow = stockReport.map(r =>[
         r.id,
         r.department,
+        r.supplier,
         r.type,
         r.item_name,
+        r.cost,
         r.quantity,
        
         

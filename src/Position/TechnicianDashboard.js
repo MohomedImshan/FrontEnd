@@ -97,7 +97,7 @@ function TechnicianDashboard({ empNum, onLogout }) {
   };
 
   return (
-    <div className="min-vh-100" style={{ backgroundColor: '#f0f5fa' }}>
+    <div className="min-vh-100" style={{ backgroundImage: `url(${require('./../bg.jpg')})`}}>
       <Header />
 
       <div className="container my-5 px-5">
