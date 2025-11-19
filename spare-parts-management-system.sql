@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 02, 2025 at 08:11 PM
+-- Generation Time: Nov 18, 2025 at 01:57 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -46,7 +46,6 @@ CREATE TABLE `requests` (
 --
 
 INSERT INTO `requests` (`id`, `empNum`, `department`, `machine_code`, `type`, `description`, `userName`, `status`, `created_at`, `approved_date`, `parts`) VALUES
-(7, 1, 'D001', 'Mc001', 'Type001', 'Problem 1', 'Imshan', 'Approved', '2025-08-28 06:19:06', '2025-09-01 14:52:26', '[{\"id\":\"1\",\"item_name\":\"Pipe\",\"quantity\":\"3\"},{\"id\":\"2\",\"item_name\":\"ScrewDriver\",\"quantity\":\"1\"}]'),
 (8, 1, 'Electrical', 'Sds44', 'sda444', 'pasda55', 'Imshan', 'Approved', '2025-09-01 14:49:14', '2025-09-01 15:34:32', '[{\"id\":3,\"item_name\":\"Screwdriver set\",\"quantity\":\"3\"}]'),
 (9, 1, 'Electrical', 'Elec5 ', 'Type 02', 'Sample Testing to reduce spare parts from data base', 'Imshan', 'Approved', '2025-09-01 15:19:55', '2025-09-01 15:30:30', '[{\"id\":2,\"item_name\":\"Pipe\",\"quantity\":\"10\"},{\"id\":3,\"item_name\":\"Screwdriver set\",\"quantity\":\"3\"}]'),
 (10, 1, 'Electrical', 'Elec 8', 'Yus', 'Testing 2', 'Imshan', 'Approved', '2025-09-01 15:36:39', '2025-09-01 15:36:44', '[{\"id\":1,\"item_name\":\"Tap\",\"quantity\":\"10\"},{\"id\":3,\"item_name\":\"Screwdriver set\",\"quantity\":\"5\"}]'),
@@ -63,9 +62,8 @@ INSERT INTO `requests` (`id`, `empNum`, `department`, `machine_code`, `type`, `d
 (21, 1, 'Mechanical', 'mc 001', 'type 2', 'hhshhs', 'Mohomed Imshan', 'Rejected', '2025-10-13 09:33:47', '2025-10-13 09:34:00', '[{\"id\":5,\"item_name\":\"E004151\",\"quantity\":\"5\"},{\"id\":3,\"item_name\":\"Screwdriver set\",\"quantity\":\"2\"},{\"id\":1,\"item_name\":\"Tap\",\"quantity\":\"2\"}]'),
 (22, 16, 'Electrical', '5522', 'ppoo 55', 'jujujss', 'kavishka', 'Approved', '2025-10-13 09:43:50', '2025-10-13 09:45:24', '[{\"id\":7,\"item_name\":\"Elec item\",\"quantity\":\"5\"},{\"id\":5,\"item_name\":\"E004151\",\"quantity\":\"6\"}]'),
 (24, 17, 'Electrical', 'gelatine', 'breakdown', 'repair', 'Ifran01', 'Approved', '2025-10-19 07:08:05', '2025-10-19 07:13:53', '[{\"id\":9,\"item_name\":\"10A 3pole MCB\",\"quantity\":\"2\"},{\"id\":10,\"item_name\":\"20A 3pole MCB\",\"quantity\":\"1\"}]'),
-(25, 1, 'Electrical', 'mchine 1', 'Type 2', 'Changing the bolt', 'Mohomed Imshan', 'pending', '2025-10-26 08:00:50', NULL, '[{\"id\":9,\"item_name\":\"10A 3pole MCB\",\"quantity\":\"4\"}]'),
-(26, 1, 'Mechanical', 'mchn2', 'ppp', 'abcd', 'Mohomed Imshan', 'pending', '2025-10-29 15:21:08', NULL, '[{\"id\":3,\"item_name\":\"Screwdriver set\",\"quantity\":\"2\"}]'),
-(27, 1, 'Electrical', 'ss2', 'ss23', 'sasda', 'Mohomed Imshan', 'pending', '2025-10-29 15:21:55', NULL, '[{\"id\":7,\"item_name\":\"Elec item\",\"quantity\":\"4\"}]');
+(26, 1, 'Mechanical', 'mchn2', 'ppp', 'abcd', 'Mohomed Imshan', 'Approved', '2025-10-29 15:21:08', '2025-11-18 12:22:18', '[{\"id\":3,\"item_name\":\"Screwdriver set\",\"quantity\":\"2\"}]'),
+(28, 1, 'Electrical', 'MC2442', 'Normal', 'Probelm', 'Mohomed Imshan', 'Approved', '2025-11-18 12:23:06', '2025-11-18 12:23:14', '[{\"id\":3,\"item_name\":\"Screwdriver set\",\"quantity\":\"5\"}]');
 
 -- --------------------------------------------------------
 
@@ -76,8 +74,10 @@ INSERT INTO `requests` (`id`, `empNum`, `department`, `machine_code`, `type`, `d
 CREATE TABLE `spare_parts_tbl` (
   `id` int(11) NOT NULL,
   `department` varchar(100) NOT NULL,
+  `supplier` varchar(100) NOT NULL DEFAULT 'No Supplier',
   `type` varchar(50) NOT NULL,
   `item_name` varchar(100) NOT NULL,
+  `cost` decimal(10,2) NOT NULL DEFAULT 0.00,
   `quantity` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -85,16 +85,15 @@ CREATE TABLE `spare_parts_tbl` (
 -- Dumping data for table `spare_parts_tbl`
 --
 
-INSERT INTO `spare_parts_tbl` (`id`, `department`, `type`, `item_name`, `quantity`) VALUES
-(1, 'D001', 'T001', 'Tap', 35),
-(2, 'D001', 'T003', 'Pipe', 33),
-(3, 'D003', 'Type 4', 'Screwdriver set', 55),
-(5, 'D004', 'Type 5', 'E004151', 244),
-(7, 'Electrical', 'Elec556', 'Elec item', 90),
-(9, 'Electrical', 'MCB', '10A 3pole MCB', 1),
-(10, 'Electrical', 'MCB', '20A 3pole MCB', 2),
-(11, 'Electrical', 'RCCB', '10A 3pole RCCB', 2),
-(13, 'General', 'T001', 'Tap', 1111);
+INSERT INTO `spare_parts_tbl` (`id`, `department`, `supplier`, `type`, `item_name`, `cost`, `quantity`) VALUES
+(1, 'D001', 'No Supplier', 'T001', 'Tap', 0.00, 35),
+(2, 'D001', 'No Supplier', 'T003', 'Pipe', 0.00, 33),
+(3, 'D003', 'No Supplier', 'Type 4', 'Screwdriver set', 0.00, 48),
+(5, 'D004', 'No Supplier', 'Type 5', 'E004151', 0.00, 244),
+(9, 'Electrical', 'No Supplier', 'MCB', '10A 3pole MCB', 0.00, 1),
+(10, 'Electrical', 'No Supplier', 'MCB', '20A 3pole MCB', 0.00, 2),
+(11, 'Electrical', 'No Supplier', 'RCCB', '10A 3pole RCCB', 0.00, 2),
+(13, 'General', 'No Supplier', 'T001', 'Tap', 500.00, 1111);
 
 -- --------------------------------------------------------
 
@@ -157,7 +156,10 @@ INSERT INTO `transaction` (`id`, `action`, `item_id`, `item_name`, `quantity`, `
 (39, 'Issued', 9, '10A 3pole MCB', 2, '2025-10-19 07:13:53'),
 (40, 'Issued', 10, '20A 3pole MCB', 1, '2025-10-19 07:13:53'),
 (41, 'Add Spare parts', 12, 'asdad', 3, '2025-10-19 21:15:53'),
-(42, 'Add Spare parts', 13, 'Tap', 1111, '2025-10-19 21:17:12');
+(42, 'Add Spare parts', 13, 'Tap', 1111, '2025-10-19 21:17:12'),
+(43, 'Update Spare parts', 13, 'Tap', 1111, '2025-11-18 12:16:49'),
+(44, 'Issued', 3, 'Screwdriver set', 2, '2025-11-18 12:22:18'),
+(45, 'Issued', 3, 'Screwdriver set', 5, '2025-11-18 12:23:14');
 
 -- --------------------------------------------------------
 
@@ -355,7 +357,28 @@ INSERT INTO `user_logs` (`id`, `empNum`, `action`, `details`, `timestamp`) VALUE
 (141, '1', 'LOGIN', 'User logged IN', '2025-10-26 07:58:23'),
 (142, '1', 'LOGIN', 'User logged IN', '2025-10-29 15:04:34'),
 (143, '1', 'LOGOUT', 'User logged out', '2025-10-29 15:33:37'),
-(144, '1', 'LOGIN', 'User logged IN', '2025-11-02 18:55:46');
+(144, '1', 'LOGIN', 'User logged IN', '2025-11-02 18:55:46'),
+(145, '1', 'LOGIN', 'User logged IN', '2025-11-02 19:24:30'),
+(146, '1', 'LOGOUT', 'User logged out', '2025-11-02 19:30:14'),
+(147, '1', 'LOGIN', 'User logged IN', '2025-11-03 16:38:42'),
+(148, '1', 'LOGIN', 'User logged IN', '2025-11-03 16:50:01'),
+(149, '1', 'LOGIN', 'User logged IN', '2025-11-06 17:19:21'),
+(150, '1', 'LOGOUT', 'User logged out', '2025-11-06 17:20:16'),
+(151, 'mohomedmccimshan@gmail.com', 'LOGIN_FAILED', 'Invalid email', '2025-11-06 17:21:05'),
+(152, '1', 'LOGIN', 'User logged IN', '2025-11-06 17:21:26'),
+(153, '1', 'LOGOUT', 'User logged out', '2025-11-06 17:49:13'),
+(154, '1', 'LOGIN', 'User logged IN', '2025-11-06 17:54:59'),
+(155, '1', 'LOGIN', 'User logged IN', '2025-11-06 19:17:30'),
+(156, '1', 'LOGIN', 'User logged IN', '2025-11-15 06:05:00'),
+(157, '1', 'Register', 'New user Registered', '2025-11-15 06:09:34'),
+(158, '1', 'LOGIN', 'User logged IN', '2025-11-15 10:50:51'),
+(159, '1', 'LOGIN', 'User logged IN', '2025-11-15 12:00:48'),
+(160, '1', 'LOGOUT', 'User logged out', '2025-11-15 12:05:00'),
+(161, '1', 'LOGIN', 'User logged IN', '2025-11-17 06:30:48'),
+(162, '1', 'LOGIN', 'User logged IN', '2025-11-18 10:39:36'),
+(163, '1', 'LOGIN', 'User logged IN', '2025-11-18 12:16:32'),
+(164, '1', 'Updated Stock', 'Quantity of Tap is updated by 1111', '2025-11-18 12:16:49'),
+(165, '1', 'LOGOUT', 'User logged out', '2025-11-18 12:46:03');
 
 --
 -- Indexes for dumped tables
@@ -399,7 +422,7 @@ ALTER TABLE `user_logs`
 -- AUTO_INCREMENT for table `requests`
 --
 ALTER TABLE `requests`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `spare_parts_tbl`
@@ -411,19 +434,19 @@ ALTER TABLE `spare_parts_tbl`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `empNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `empNum` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `user_logs`
 --
 ALTER TABLE `user_logs`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=145;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=166;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
